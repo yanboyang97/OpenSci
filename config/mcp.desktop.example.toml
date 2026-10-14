@@ -1,0 +1,12 @@
+# Keep save and receipt queries under the same protected connection identity.
+# OS sandbox identities may differ; a private single-user connection policy uses connection_id.
+# Merge this single server after replacing every absolute path.
+# Runtime and coordinator are independent directories. Never overwrite the
+# client's complete configuration. Protect the policy and coordinator files.
+[mcp_servers.opensci]
+command = 'C:\REPLACE\Python\python.exe'
+args = ['-E', '-s', '-B', 'E:\REPLACE\OpenSci\scripts\hub_mcp.py', '--coordinator-root', 'E:\REPLACE\OpenSci-Data', '--policy', 'E:\REPLACE\OpenSci-Data\config\mcp.local.json']
+cwd = 'E:\REPLACE\OpenSci'
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+enabled = true

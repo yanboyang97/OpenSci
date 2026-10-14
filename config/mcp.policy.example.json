@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "studies": ["STUDY-001"],
+  "allow_write": false,
+  "allow_remote_checks": false
+}

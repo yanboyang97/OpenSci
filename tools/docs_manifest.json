@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "code_version": "1.0.0",
+  "revision": "2026-10-14",
+  "guides": [
+    "DOCUMENTATION.md",
+    "FEATURES.md",
+    "docs/PLUGINS.md",
+    "docs/INSTALLATION.md",
+    "docs/GETTING_STARTED.md",
+    "docs/MOBILE_RESEARCH.md",
+    "docs/DAILY_USE.md",
+    "docs/STUDY_CONNECTION.md",
+    "docs/LITERATURE.md",
+    "docs/CONFIGURATION.md",
+    "docs/MAINTENANCE.md",
+    "docs/DEVELOPMENT.md",
+    "docs/UPGRADE_GUIDE.md",
+    "docs/TROUBLESHOOTING.md",
+    "docs/GLOSSARY.md"
+  ],
+  "references": [
+    "LITERATURE.md",
+    "AGENTS.md",
+    "ARCHITECTURE.md",
+    "BACKUP_AND_MIGRATION.md",
+    "CLAUDE_LAUNCHER.md",
+    "INTEGRATION.md",
+    "RESEARCH_BRIEF.md",
+    "HISTORY.md",
+    "IMPLEMENTATION.md",
+    "LAUNCHER.md",
+    "RECORDS.md",
+    "SIMULATION_ADAPTERS.md",
+    "START_HERE.md",
+    "UPDATING.md",
+    "assets/README.md",
+    "coordination/packets/DEMO.md",
+    "coordination/templates/HUMAN_DECISION.md",
+    "coordination/templates/MIGRATION_ACCEPTANCE.md",
+    "coordination/templates/PROJECT_BRIEF.md",
+    "coordination/templates/REMOTE_ACCEPTANCE.md",
+    "environments/README.md",
+    "manuscript/README.md",
+    "methodology/experiment_protocol.md",
+    "tools/claude-launcher/README.md",
+    "PRIVACY.md"
+  ],
+  "standalone": ["README.md"],
+  "translations": {
+    "zh-CN": "DOCUMENTATION.zh-CN.md"
+  }
+}

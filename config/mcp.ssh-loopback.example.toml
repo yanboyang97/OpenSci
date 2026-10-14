@@ -1,0 +1,11 @@
+# For a remote Work host reached by an operator-maintained SSH reverse forward.
+# Run study_remote.py server on the ONE coordinator with a fixed policy.
+# Forward the remote 127.0.0.1 port to the coordinator's 127.0.0.1 port over SSH.
+# Keep the random per-connection token in an owner-only file on each endpoint.
+# This client is not an encrypted public network transport; never expose its port.
+[mcp_servers.opensci]
+command = 'python3'
+args = ['-E', '-s', '-B', '/REPLACE/opensci/study_remote.py', 'client', '--port', 'REPLACE_REMOTE_LOOPBACK_PORT', '--token-file', '/REPLACE/protected/session.token']
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+enabled = true

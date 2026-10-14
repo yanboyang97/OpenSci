@@ -1,0 +1,2 @@
+# Optional offline handbook build dependency; not required to read the HTML.
+markdown-it-py==4.0.0

@@ -1,0 +1,8 @@
+# Optional integrations. The core workspace and MCP require only Python 3.10+.
+# Install only what you use; freeze a tested environment before real experiments.
+google-genai>=1.40,<2
+mlflow>=3,<4
+prefect>=3,<4
+# Local PDF text extraction only; scanned pages report needs_ocr_or_visual_reading.
+PyMuPDF>=1.24,<2
+# For DVC, separately choose exactly the relevant backend: dvc[s3] / dvc[oss].

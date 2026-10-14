@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "stale_seconds": 120,
+  "sources": [
+    {
+      "source_id": "CPU-PRIMARY",
+      "study_id": "STUDY-001",
+      "run_id": "EXP-001",
+      "node": "REPLACE_WITH_REGISTERED_HOSTNAME",
+      "run_directory": "/mnt/trusted-readonly-runs/EXP-001"
+    }
+  ]
+}

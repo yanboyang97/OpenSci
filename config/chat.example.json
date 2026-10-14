@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "client": "C:/Tools/tunnel-client/tunnel-client.exe",
+  "client_sha256": "REPLACE_WITH_VERIFIED_DOWNLOAD_SHA256",
+  "profile": "C:/OpenSci-Data/config/chat.local.yaml",
+  "organization_id": "REPLACE_WITH_YOUR_ORGANIZATION_ID",
+  "pid_file": "C:/OpenSci-Data/connection/tunnel.pid",
+  "health_file": "C:/OpenSci-Data/connection/health.local.json",
+  "log_file": "C:/OpenSci-Data/connection/tunnel.log"
+}

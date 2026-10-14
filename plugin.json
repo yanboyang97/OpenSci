@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "opensci-study",
+  "version": "1.0.0",
+  "description": "Read a selected OpenSci Study and save authorized research progress with durable receipts.",
+  "author": {"name": "yanboyang97"},
+  "homepage": "https://github.com/yanboyang97/OpenSci",
+  "repository": "https://github.com/yanboyang97/OpenSci",
+  "license": "MIT",
+  "keywords": ["research", "literature", "study", "mcp"],
+  "extensions": {
+    "com.openai": {
+      "requires_local_executor": true,
+      "interface": {
+        "displayName": "OpenSci Study",
+        "shortDescription": "Continue a research study across conversations",
+        "longDescription": "Connect to your own coordinator. Read a selected Study, preserve evidence references and save explicitly authorized progress. Requires Python 3.10+ and an operator-owned local connection file. No account, key, Study or hosted endpoint is bundled.",
+        "developerName": "yanboyang97",
+        "category": "Productivity",
+        "capabilities": ["Read", "Write"],
+        "websiteURL": "https://github.com/yanboyang97/OpenSci",
+        "privacyPolicyURL": "https://github.com/yanboyang97/OpenSci/blob/main/PRIVACY.md",
+        "defaultPrompt": ["Read my selected OpenSci Study and summarize its open questions."],
+        "composerIcon": "./assets/opensci-icon.png",
+        "logo": "./assets/opensci-icon.png"
+      }
+    }
+  }
+}

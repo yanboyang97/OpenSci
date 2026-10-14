@@ -1,0 +1,43 @@
+# Copy selected entries into C:\Users\<YOU>\.ssh\config; replace every address.
+Host research-control
+    HostName CONTROL_PUBLIC_IP
+    User researcher
+    IdentityFile ~/.ssh/id_ed25519_research_win
+    IdentitiesOnly yes
+    ForwardAgent no
+    ServerAliveInterval 30
+    ServerAliveCountMax 3
+
+# This assumes the control host can reach these PRIVATE addresses.
+Host research-gpu1
+    HostName GPU1_PRIVATE_IP
+    User researcher
+    ProxyJump research-control
+    IdentityFile ~/.ssh/id_ed25519_research_win
+    IdentitiesOnly yes
+    ForwardAgent no
+
+Host research-cpu1
+    HostName CPU1_PRIVATE_IP
+    User researcher
+    ProxyJump research-control
+    IdentityFile ~/.ssh/id_ed25519_research_win
+    IdentitiesOnly yes
+    ForwardAgent no
+
+# For a different cloud/VPC, create its own jump host, then point ProxyJump there.
+# Do not assume that one cloud's private IP is routable from another cloud.
+
+# Optional remote Codex development account. No compute submission keys here.
+# Configure this concrete alias in the desktop Connections settings separately.
+Host research-agent
+    HostName AGENT_HOST_ADDRESS
+    User agent
+    IdentityFile ~/.ssh/id_ed25519_research_agent_win
+    IdentitiesOnly yes
+    ForwardAgent no
+    ServerAliveInterval 30
+    ServerAliveCountMax 3
+
+# hub.local.json account must match the actual SSH User for every selected alias.
+# Co-located compute/control roles need separate OS accounts and workspaces.

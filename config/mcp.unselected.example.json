@@ -1,0 +1,15 @@
+{
+  "schema_version": 2,
+  "studies": [],
+  "allow_write": false,
+  "allow_remote_checks": false,
+  "connection_id": "REPLACE_WITH_UNIQUE_PRIVATE_CONNECTION_ID",
+  "identity_class": "private_single_user",
+  "source_entry": {
+    "project_type": "unknown",
+    "mode": "unknown",
+    "host_id": "unknown",
+    "conversation_ref": null
+  },
+  "native_project": null
+}

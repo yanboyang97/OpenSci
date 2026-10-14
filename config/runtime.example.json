@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "python": "C:\\Tools\\Python\\python.exe",
+  "git": "C:\\Tools\\Git\\cmd\\git.exe",
+  "powershell": "C:\\Tools\\PowerShell\\pwsh.exe"
+}

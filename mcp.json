@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "opensci-study": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-E", "-s", "-B", "${PLUGIN_ROOT}/scripts/plugin_entry.py"]
+    }
+  }
+}

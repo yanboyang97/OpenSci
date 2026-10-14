@@ -1,0 +1,22 @@
+name: opensci
+build: []
+push: []
+pull:
+  - prefect.deployments.steps.set_working_directory:
+      directory: /home/researcher/work/OpenSci
+# Replace directory for your actual Linux worker account on every node.
+deployments:
+  - name: cpu-approved
+    entrypoint: flows/approved_experiment.py:approved_experiment
+    parameters: {}
+    work_pool:
+      name: cpu-pool
+      work_queue_name: default
+      job_variables: {}
+  - name: gpu1-approved
+    entrypoint: flows/approved_experiment.py:approved_experiment
+    parameters: {}
+    work_pool:
+      name: gpu1-pool
+      work_queue_name: default
+      job_variables: {}

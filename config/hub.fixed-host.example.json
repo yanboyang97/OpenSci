@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "default_agent": "fixed-agent",
+  "nodes": {
+    "fixed-agent": {
+      "role": "agent", "enabled": true, "transport": "ssh",
+      "ssh_host": "research-agent", "account": "REPLACE_AGENT",
+      "workspace": "/home/REPLACE_AGENT/work/OpenSci", "python": "python3",
+      "capabilities": {"codex": "unknown", "python": "unknown", "tests": "unknown", "claude": "unknown", "vertex": "unknown"}
+    },
+    "cpu-01": {
+      "role": "compute", "enabled": false, "transport": "ssh",
+      "ssh_host": "research-cpu1", "account": "submitter", "hostname": "cpu-01",
+      "workspace": "/srv/research/OpenSci", "python": "/srv/research/venv/bin/python",
+      "capabilities": {"cpu": "unknown", "gpu": "unavailable"}
+    }
+  }
+}

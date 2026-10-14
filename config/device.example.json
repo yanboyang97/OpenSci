@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "device_id": "FIXED-HOST-001",
+  "resource_locations": {
+    "DATA-001": "REPLACE_WITH_ABSOLUTE_LOCAL_DIRECTORY"
+  }
+}

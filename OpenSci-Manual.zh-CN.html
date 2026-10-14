@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>OpenSci 使用维护与开发手册</title><link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIGRlc2MiPgogIDx0aXRsZSBpZD0idGl0bGUiPk9wZW5TY2k8L3RpdGxlPgogIDxkZXNjIGlkPSJkZXNjIj5BbiBvcGVuIHNjaWVudGlmaWMgaG9yaXpvbjogYW4gTy1zaGFwZWQgcmluZyB3aXRoIGFuIGluZGVwZW5kZW50IHBvaW50IG9mIGRpc2NvdmVyeS48L2Rlc2M+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InRpbGUiIHgxPSI2NCIgeTE9IjMyIiB4Mj0iNDQ4IiB5Mj0iNDgwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMxNDNCNEMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMEEyMDJEIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJyaW5nIiB4MT0iMTMzIiB5MT0iMzc1IiB4Mj0iMzYxIiB5Mj0iMTMxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMzMEJDRDEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNjlFNEJBIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB4PSIxNiIgeT0iMTYiIHdpZHRoPSI0ODAiIGhlaWdodD0iNDgwIiByeD0iMTA4IiBmaWxsPSJ1cmwoI3RpbGUpIi8+CiAgPHBhdGggZD0iTSAzODcuMzcgMjIwLjggQSAxMzYgMTM2IDAgMSAxIDI5MS4yIDEyNC42MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI3JpbmcpIiBzdHJva2Utd2lkdGg9IjQ2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIzNjkiIGN5PSIxNDMiIHI9IjI0IiBmaWxsPSIjQjVGNkQ4Ii8+Cjwvc3ZnPgo="><style>
+:root{color-scheme:light;--ink:#14313c;--muted:#536b74;--line:#d6e4e6;--paper:#fff;--accent:#087e83;--wash:#eef7f7;--nav:#102e3b}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:6rem}body{margin:0;background:#f5f8f8;color:var(--ink);font:16px/1.8 "Segoe UI","Microsoft YaHei",system-ui,sans-serif}
+a{color:#08777d;text-underline-offset:3px}a:hover{color:#064c57}button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #40caba;outline-offset:3px}
+aside{position:fixed;inset:0 auto 0 0;width:278px;background:var(--nav);color:#d5e8e9;overflow:auto;padding:30px 22px;z-index:10}
+.brand{display:flex;gap:12px;align-items:center;color:white;font-size:25px;font-weight:700}.brand img{width:42px;height:42px}.brand-note{font-size:13px;line-height:1.6;color:#acd0d1;margin:12px 0 25px}
+nav a{display:block;color:#dcebed;text-decoration:none;padding:9px 11px;border-radius:8px;font-size:14px;line-height:1.5;margin:3px 0;overflow-wrap:anywhere}nav a:hover,nav a.active{background:#204957;color:#7ee6d0}
+.nav-group{font-size:12px;letter-spacing:.06em;color:#7fb3b6;margin:25px 10px 8px}.nav-group:first-child{margin-top:0}
+.workspace{margin-left:278px}.toolbar{position:sticky;top:0;z-index:5;background:rgba(245,248,248,.97);border-bottom:1px solid var(--line);padding:15px clamp(20px,4vw,56px);display:flex;align-items:center;gap:12px}
+.search-wrap{flex:1;display:flex;align-items:center;border:1px solid #aec9ca;border-radius:10px;background:white;overflow:hidden;max-width:800px}.search-wrap label{padding:0 12px;font-size:13px;color:var(--muted);white-space:nowrap}.search-wrap input{min-width:0;width:100%;border:0;background:transparent;padding:9px 4px;color:var(--ink);outline:none}.search-wrap button{border:0;background:transparent;color:var(--muted);padding:7px 13px;white-space:nowrap}
+.print-button,.menu-button{border:1px solid #b8ced0;border-radius:9px;background:white;padding:8px 12px;color:var(--ink);white-space:nowrap}.menu-button{display:none}
+main{max-width:1240px;padding:30px clamp(20px,4vw,56px) 70px;margin:auto}.hero{background:linear-gradient(115deg,#dcefea,#eff7f9);border:1px solid #c6e0dc;border-radius:17px;padding:28px 32px;margin-bottom:28px}.eyebrow{font-size:13px;font-weight:600;color:#26766e}.hero h1{font-size:30px;line-height:1.45;margin:8px 0}.hero p{margin:8px 0;color:#385d65}.meta{font-size:13px;color:var(--muted)}
+article{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:28px clamp(20px,3vw,40px);margin:24px 0;overflow-wrap:anywhere;scroll-margin-top:6rem}article>header{border-bottom:1px solid var(--line);padding-bottom:17px;margin-bottom:20px}.chapter-tag{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:.05em}.source-link{display:inline-block;font-size:13px;color:var(--muted);margin:5px 0}.source-link a{color:inherit}
+h1,h2,h3,h4{line-height:1.5;color:#163d47}article h1{font-size:27px;margin:8px 0}article h2{font-size:22px;margin:30px 0 14px;padding-top:4px}article h3{font-size:18px;margin:24px 0 12px}p{margin:14px 0}li{margin:6px 0}blockquote{border-left:4px solid #60c7b4;background:var(--wash);margin:20px 0;padding:8px 18px}blockquote p{margin:6px 0}
+pre{background:#122e3b;color:#e4f3f3;border-radius:10px;padding:18px 20px;overflow:auto;font-size:13px;line-height:1.75;white-space:pre;tab-size:4}code{font-family:Consolas,"Cascadia Code",monospace;font-size:.89em}p code,li code,td code{background:#edf3f3;color:#254d58;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre code{font-size:inherit;background:none;color:inherit;padding:0}
+.table-wrap{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:9px}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.7}th,td{padding:12px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);min-width:120px}th{background:#eaf3f3;font-weight:650}tr:last-child td{border-bottom:0}tr:nth-child(even) td{background:#fbfdfd}img{max-width:100%;height:auto}hr{border:0;border-top:1px solid var(--line);margin:26px 0}
+.article-contents{font-size:14px;margin:16px 0;padding:12px 16px;background:#f5f9f9;border-radius:9px}.article-contents a{display:inline-block;margin-right:17px;margin-bottom:3px}.section{scroll-margin-top:6rem}.search-results{border:1px solid #bcded7;background:#f2fbf8;border-radius:12px;padding:18px 22px;margin:20px 0}.search-results h2{font-size:18px;margin:0 0 8px}.search-results a{display:block;margin:8px 0}.search-results small{display:block;color:var(--muted);line-height:1.6}.search-status{font-size:13px;margin:10px 2px;color:var(--muted)}[hidden]{display:none!important}.back-top{font-size:13px;display:block;text-align:right;margin-top:20px}.footer{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+@media(max-width:1050px){aside{width:232px;padding:24px 15px}.workspace{margin-left:232px}main{padding-left:24px;padding-right:24px}.toolbar{padding:13px 24px}.hero{padding:24px}}
+@media(max-width:760px){aside{position:static;width:auto;max-height:42vh;display:none}body.nav-open aside{display:block}.workspace{margin-left:0}.menu-button{display:block}.toolbar{padding:10px 12px;gap:8px}.search-wrap label{display:none}.search-wrap input{padding:8px 10px}.print-button{display:none}main{padding:18px 12px 40px}.hero{padding:20px}.hero h1{font-size:25px}article{padding:20px 17px}article h1{font-size:24px}article h2{font-size:20px}pre{padding:14px;font-size:12px}th,td{padding:10px;min-width:150px}}
+@media print{aside,.toolbar,.hero,.search-results,.search-status,.article-contents,.back-top{display:none!important}.workspace{margin:0}main{max-width:none;padding:0}body{font-size:10pt;background:white}article{display:block!important;border:0;padding:0;margin:0;page-break-before:always}article:first-of-type{page-break-before:auto}article h1{font-size:20pt}article h2{font-size:15pt}pre{color:black;background:#f4f4f4;white-space:pre-wrap;overflow-wrap:anywhere}.table-wrap{overflow:visible}table{font-size:8pt}th,td{min-width:0}a{color:inherit;text-decoration:none}h1,h2,h3{break-after:avoid}tr{break-inside:avoid}.source-link{font-size:9pt}}
+</style></head><body id="top"><aside aria-label="文档导航"><div class="brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIGRlc2MiPgogIDx0aXRsZSBpZD0idGl0bGUiPk9wZW5TY2k8L3RpdGxlPgogIDxkZXNjIGlkPSJkZXNjIj5BbiBvcGVuIHNjaWVudGlmaWMgaG9yaXpvbjogYW4gTy1zaGFwZWQgcmluZyB3aXRoIGFuIGluZGVwZW5kZW50IHBvaW50IG9mIGRpc2NvdmVyeS48L2Rlc2M+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InRpbGUiIHgxPSI2NCIgeTE9IjMyIiB4Mj0iNDQ4IiB5Mj0iNDgwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMxNDNCNEMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMEEyMDJEIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJyaW5nIiB4MT0iMTMzIiB5MT0iMzc1IiB4Mj0iMzYxIiB5Mj0iMTMxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMzMEJDRDEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNjlFNEJBIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB4PSIxNiIgeT0iMTYiIHdpZHRoPSI0ODAiIGhlaWdodD0iNDgwIiByeD0iMTA4IiBmaWxsPSJ1cmwoI3RpbGUpIi8+CiAgPHBhdGggZD0iTSAzODcuMzcgMjIwLjggQSAxMzYgMTM2IDAgMSAxIDI5MS4yIDEyNC42MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI3JpbmcpIiBzdHJva2Utd2lkdGg9IjQ2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIzNjkiIGN5PSIxNDMiIHI9IjI0IiBmaWxsPSIjQjVGNkQ4Ii8+Cjwvc3ZnPgo=" alt="OpenSci 图标">OpenSci</div><p class="brand-note">使用 · 维护 · 扩展 · 升级<br>v1.0.0 · 2026-10-14</p><nav><div class="nav-group">完整手册</div><a href="#doc-DOCUMENTATION-zh-CN-md">OpenSci 用户与维护手册</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-2">零基础开始：建立课题并保存一次进展</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-10">出差在外：通过手机 ChatGPT 连接电脑</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-14">软件安装与最低要求</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-16">安装 OpenSci Study 插件与课题 MCP 服务</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-21">进阶：工作区与命令</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-25">日常课题工作</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-29">文献工作台</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-35">证据评审与实验流程</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-36">助手接入与运行监测</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-37">配置与本机工具</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-38">备份、迁移与恢复</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-43">功能与模块名称</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-44">当前能力与使用边界</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-45">模拟验证与开发维护</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-46">故障处理与术语</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-47">普通 Chat 与 Work 接续同一课题</a></nav></aside><div class="workspace"><div class="toolbar"><button id="menu" class="menu-button" aria-expanded="false">目录</button><div class="search-wrap"><label for="search">搜索</label><input id="search" type="search" placeholder="关键词 · Ctrl K" autocomplete="off"><button id="clear-search" title="清空">清空</button></div><button id="print" class="print-button">打印</button></div><main><div class="hero"><div class="eyebrow">离线中文手册</div><h1>OpenSci 使用维护与开发手册</h1><p>从第一次使用到日常维护、扩展开发和版本升级。</p><div class="meta">代码 1.0.0 · 文档 2026-10-14 · 1 份维护源文档</div></div><div id="search-status" class="search-status" role="status" aria-live="polite"></div><section id="search-results" class="search-results" hidden><h2>搜索结果</h2><div id="result-list"></div></section><article id="doc-DOCUMENTATION-zh-CN-md" data-title="OpenSci 用户与维护手册" data-source="DOCUMENTATION.zh-CN.md"><header><div class="chapter-tag">完整手册</div><div class="source-link">维护源文档: <a href="DOCUMENTATION.zh-CN.md">DOCUMENTATION.zh-CN.md</a></div><div class="article-contents" aria-label="章节目录"><a href="#doc-DOCUMENTATION-zh-CN-md-section-2">零基础开始：建立课题并保存一次进展</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-10">出差在外：通过手机 ChatGPT 连接电脑</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-14">软件安装与最低要求</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-16">安装 OpenSci Study 插件与课题 MCP 服务</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-21">进阶：工作区与命令</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-25">日常课题工作</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-29">文献工作台</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-35">证据评审与实验流程</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-36">助手接入与运行监测</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-37">配置与本机工具</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-38">备份、迁移与恢复</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-43">功能与模块名称</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-44">当前能力与使用边界</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-45">模拟验证与开发维护</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-46">故障处理与术语</a><a href="#doc-DOCUMENTATION-zh-CN-md-section-47">普通 Chat 与 Work 接续同一课题</a></div></header><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-1" data-title="OpenSci 用户与维护手册"><h1>OpenSci 用户与维护手册</h1>
+<p>适用版本：<strong>OpenSci 1.0.0</strong>。文档日期：<strong>2026-10-14</strong>。</p>
+<p>这本手册从第一次安装开始，说明在哪里操作、需要填写什么、完成后会看到什么。先做完下面的入门流程，再选择需要的文献、助手或手机功能。项目的整体介绍见 <a href="README.md#chinese">README</a>。打开 <code>OpenSci-Manual.zh-CN.html</code> 可离线阅读和搜索，英文版为 <code>OpenSci-Manual.html</code>。</p>
+<p><a id="doc-DOCUMENTATION-zh-CN-md--beginner-start"></a></p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-2" data-title="零基础开始：建立课题并保存一次进展"><h2>零基础开始：建立课题并保存一次进展</h2>
+<p>第一次只完成一件事：<strong>建立一个课题，保存一条进展，再把它读出来。</strong> 此时只需一台 Windows 电脑、Python 和 OpenSci 文件。模型账户、Git、Zotero 和服务器可以以后按需添加。若已经有人替你配置好，确认记录保存位置后，从第 4 步开始。</p>
+<p>“课题（Study）”就是一个研究问题的记录本，用来保存目标、证据、决定和下一步。OpenSci 菜单负责保存记录；需要自然语言对话时，再接入 ChatGPT、Codex 等助手。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-3" data-title="第 1 步：分开存放软件和研究记录"><h3>第 1 步：分开存放软件和研究记录</h3>
+<p>把完整 OpenSci 软件包解压到一个新文件夹。本手册用 <code>C:\OpenSci</code> 举例；打开后应能看到 <code>Start-OpenSci.cmd</code>、<code>config</code> 和 <code>scripts</code>。如果它们还在下一层文件夹内，以那一层作为安装目录。</p>
+<p>另建 <code>C:\OpenSci-Data</code> 保存研究记录，再在其中新建 <code>config</code> 文件夹。没有 C 盘写入权限时，可以选其他可写位置，并把后文的路径一致替换。已有课题目录应继续保留，不要覆盖。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>示例文件夹</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>C:\OpenSci</code></td>
+<td>软件、配置样例和手册</td>
+</tr>
+<tr>
+<td><code>C:\OpenSci-Data</code></td>
+<td>你自己的正式课题记录和本地设置</td>
+</tr>
+</tbody>
+</table></div>
+<p>负责保存正式记录的电脑称为“协调端”。第一次使用时，它就是当前这台电脑。同一课题只使用一份正式记录目录。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-4" data-title="第 2 步：安装或找到 Python"><h3>第 2 步：安装或找到 Python</h3>
+<p>Python 是运行 OpenSci 的程序。若未安装，从 <a href="https://www.python.org/downloads/windows/">Python 官方网站</a>安装 <strong>3.10 或更新版本</strong>；安装器提供“添加到 PATH”选项时将其勾选，这样命令窗口可以找到 Python。</p>
+<p>点击 Windows 开始菜单，搜索并打开 <strong>PowerShell</strong>。它是输入命令的窗口。分别粘贴下面两行，每行按一次 Enter：</p>
+<pre><code class="language-powershell">python --version
+python -c &quot;import sys; print(sys.executable)&quot;
+</code></pre>
+<p>第一行应显示 Python 3.10 或更高版本。第二行会显示 <code>python.exe</code> 的完整位置，复制这个位置，下一步要用。如果打开了商店或提示找不到命令，把 <code>python</code> 换成 <code>py -3</code> 再执行；两个命令都找不到时，先完成安装并重新打开 PowerShell。</p>
+<p>在添加本地设置之前，核对刚解压的软件包：</p>
+<pre><code class="language-powershell">Set-Location -LiteralPath 'C:\OpenSci'
+python -B verify_delivery.py
+</code></pre>
+<p>如果前面使用的是 <code>py -3</code>，这里改用 <code>py -3 -B verify_delivery.py</code>。成功时显示 <code>Verified exact delivery file set</code>。Git 工作副本加上 <code>--installed</code>，允许存在 Git 自身的文件。若文件不匹配，先重新取得完整包或核对差异，不要删除自己的数据来消除报错。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-5" data-title="第 3 步：准备三个设置文件"><h3>第 3 步：准备三个设置文件</h3>
+<p>在文件资源管理器中打开“显示文件扩展名”，避免把 <code>.json</code> 误存为 <code>.json.txt</code>。复制后用记事本编辑，保存为 UTF-8。JSON 是一种文本设置格式，请保留示例中的括号、逗号和英文双引号。</p>
+<p><strong>记录设置。</strong> 把 <code>C:\OpenSci\config\hub.study.example.json</code> 复制到 <code>C:\OpenSci-Data\config\hub.local.json</code>，内容不变。这份样例支持从空白讨论课题开始。</p>
+<p><strong>记录位置。</strong> 把 <code>C:\OpenSci\config\studies.example.json</code> 复制为同目录的 <code>studies.local.json</code>，内容改为：</p>
+<pre><code class="language-json">{
+  &quot;schema_version&quot;: 1,
+  &quot;coordinator_root&quot;: &quot;C:/OpenSci-Data&quot;
+}
+</code></pre>
+<p><strong>Python 位置。</strong> 把 <code>C:\OpenSci\config\runtime.example.json</code> 复制为同目录的 <code>runtime.local.json</code>。使用下面的内容，把 <code>python</code> 的值换成第 2 步显示的真实位置。这里用正斜杠 <code>/</code>，不必处理反斜杠转义。</p>
+<pre><code class="language-json">{
+  &quot;schema_version&quot;: 1,
+  &quot;python&quot;: &quot;C:/Tools/Python/python.exe&quot;,
+  &quot;git&quot;: &quot;&quot;,
+  &quot;powershell&quot;: &quot;&quot;
+}
+</code></pre>
+<p><code>C:/Tools/Python/python.exe</code> 只是示例，必须替换成自己电脑上的实际位置。第一次使用时，后两项保持空字符串即可。<code>.local.json</code> 文件属于本机配置，里面的个人路径和凭据不要提交到公开仓库。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-6" data-title="第 4 步：新建自己的课题"><h3>第 4 步：新建自己的课题</h3>
+<p>双击 <code>C:\OpenSci\Start-OpenSci.cmd</code>。菜单使用英文名称，输入数字后按 Enter。</p>
+<ol>
+<li>输入 <code>1</code>（Browse Studies，浏览课题）。新安装时没有课题是正常的。</li>
+<li>输入 <code>2</code>（Create Study，新建课题）。</li>
+<li>出现 <code>Study ID</code> 时，输入一个新编号，例如 <code>STUDY-001</code>。编号为 3–48 个大写字母、数字或连字符，并以字母开头。</li>
+<li>出现 <code>Research goal</code> 时，写下自己的研究问题，例如“梳理可重复使用包装的研究证据”。</li>
+</ol>
+<p>成功后会显示课题编号、目标和包含 <code>committed: true</code> 的保存回执。回执中的 <code>request_id</code> 是这次操作的编号，请保留。若课题编号已存在，打开原课题继续使用，不要重复创建。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-7" data-title="第 5 步：保存第一条进展"><h3>第 5 步：保存第一条进展</h3>
+<p>输入 <code>11</code>（Save Discussion Progress，保存讨论进展），再输入同一个课题编号。按提示填写：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>屏幕提示</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Saved summary</td>
+<td>这次完成或了解到什么，必填</td>
+<td>已确定第一阶段的研究问题</td>
+</tr>
+<tr>
+<td>Decisions</td>
+<td>已经做出的决定</td>
+<td>先做文献整理</td>
+</tr>
+<tr>
+<td>Hypotheses</td>
+<td>尚需证据支持的假设</td>
+<td>没有则直接按 Enter</td>
+</tr>
+<tr>
+<td>Evidence refs</td>
+<td>真实来源或文献条目的引用</td>
+<td>没有则直接按 Enter</td>
+</tr>
+<tr>
+<td>Open questions</td>
+<td>还没有解决的问题</td>
+<td>应选择什么比较方法？</td>
+</tr>
+<tr>
+<td>Next steps</td>
+<td>下一步做什么</td>
+<td>选出第一批阅读文献</td>
+</tr>
+</tbody>
+</table></div>
+<p>看到保存回执后，输入 <code>10</code>（Study Overview，课题概览）和课题编号。概览中出现刚才保存的内容，就完成了基础使用。输入 <code>0</code> 退出菜单，记录会继续保存在数据目录中。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-8" data-title="第 6 步：只添加现在需要的功能"><h3>第 6 步：只添加现在需要的功能</h3>
+<p>先选择一个备份位置，再把课题用于持续研究。想用 AI 对话，接着看<a href="#doc-DOCUMENTATION-zh-CN-md--assistant-setup">助手接入</a>；想使用自己的论文，看<a href="#doc-DOCUMENTATION-zh-CN-md--literature-workspace">文献工作台</a>；想出门后继续工作，看<a href="#doc-DOCUMENTATION-zh-CN-md--mobile-research">手机科研</a>。全部软件要求集中在<a href="#doc-DOCUMENTATION-zh-CN-md--requirements">依赖说明</a>，可以按需安装。</p>
+<p>如果以后需要把实验与源码版本关联，请按进阶配置创建一个登记研究源码位置的新课题。现有讨论课题仍可继续使用；当前没有把它直接转换为源码课题的操作入口，不要手动改写记录。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-9" data-title="第一次打开遇到问题"><h3>第一次打开遇到问题</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>现象</th>
+<th>处理方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>窗口一闪而过</td>
+<td>在 PowerShell 先输入 <code>Set-Location -LiteralPath 'C:\OpenSci'</code>，再输入 <code>.\Start-OpenSci.cmd</code>，保留窗口中的错误信息</td>
+</tr>
+<tr>
+<td>提示需要 Python 3.10+</td>
+<td>重做第 2 步，核对 <code>runtime.local.json</code> 中的完整解释器位置</td>
+</tr>
+<tr>
+<td>提示记录目录不存在</td>
+<td>核对 <code>studies.local.json</code> 与实际创建的 <code>C:\OpenSci-Data</code> 是否一致</td>
+</tr>
+<tr>
+<td>提示缺少工作区配置</td>
+<td>核对文件是否确实叫 <code>C:\OpenSci-Data\config\hub.local.json</code></td>
+</tr>
+<tr>
+<td>提示 JSON 无法读取</td>
+<td>核对英文双引号、逗号、UTF-8 编码，以及文件没有多出 <code>.txt</code> 后缀</td>
+</tr>
+<tr>
+<td>提示 Git 文件不存在</td>
+<td>初次讨论课题可以将 <code>git</code> 保持为空，不要保留不存在的示例路径</td>
+</tr>
+<tr>
+<td>不确定是否保存成功</td>
+<td>保留原 <code>request_id</code>，先查询该操作的回执，再决定是否重试</td>
+</tr>
+</tbody>
+</table></div>
+<p>Linux 用户使用 Python 3.10+，在自己的可写数据目录建立 <code>config/hub.local.json</code>，内容来自同一份 <code>hub.study.example.json</code>。在软件目录运行 <code>python3 -B scripts/hub.py --coordinator-root /home/researcher/OpenSci-Data menu</code>，把示例账户和目录替换为实际值，再使用相同菜单。Linux 不使用 Windows 的 <code>runtime.local.json</code>。</p>
+<p><a id="doc-DOCUMENTATION-zh-CN-md--mobile-research"></a></p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-10" data-title="出差在外：通过手机 ChatGPT 连接电脑"><h2>出差在外：通过手机 ChatGPT 连接电脑</h2>
+<p>手机负责发出要求、查看进展和处理必要确认；连接的电脑负责运行任务、读取已有材料并使用 OpenSci。可以接续既有任务、整理文献、处理获准的研究工作，再把成果保存到同一个课题。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-11" data-title="在电脑上完成一次连接设置"><h3>在电脑上完成一次连接设置</h3>
+<p>先在电脑上完成前面的基础设置，建立自己的课题，并按<a href="#doc-DOCUMENTATION-zh-CN-md--assistant-setup">助手接入</a>配置 OpenSci Study，或让电脑上的任务使用已经配置好的 OpenSci 命令入口。所需的 Zotero、模型或研究软件也在电脑上配置。</p>
+<p>在桌面应用设置中打开 <strong>Connections → Control this Mac or PC</strong>，选择 <strong>Set up</strong> 或 <strong>Add</strong>，按提示用手机扫码并确认设备连接。手机与电脑使用同一个 ChatGPT 账户和工作区。随后在手机 ChatGPT 的 <strong>Codex</strong> 入口中选择电脑和对应项目；若应用仍显示 <strong>Remote</strong>，使用该入口。保持电脑开机、联网且不休眠。平台当前文档以 iOS 为例，客户端范围以 <a href="https://learn.chatgpt.com/docs/mobile">OpenAI 手机使用指南</a>及<a href="https://learn.chatgpt.com/docs/remote-connections">远程连接说明</a>为准。</p>
+<p>这项设备连接由宿主应用提供，OpenSci 负责课题记录和科研工具。OpenSci 本发行物的入门操作以 Windows 为例；宿主支持连接 Mac 不等于 OpenSci 已完成 macOS 适配。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-12" data-title="日常使用：打开任务，然后说清楚要做什么"><h3>日常使用：打开任务，然后说清楚要做什么</h3>
+<p>在手机上打开电脑中的已有任务，或在对应项目中开始任务。例如：</p>
+<blockquote>
+<p>继续 OpenSci 中的 STUDY-001 课题。先读取最新目标和进展，整理还没解决的问题，并建议下一步。</p>
+</blockquote>
+<p>已经配置文献库后，可以继续说：</p>
+<blockquote>
+<p>比较这个课题已关联 Zotero 集合中我选定论文的摘要，列出一致和分歧之处，附上条目引用。没有读到的材料明确标注。</p>
+</blockquote>
+<p>需要保留成果时，说：</p>
+<blockquote>
+<p>把刚才的结论、未解决的问题和下一步保存到这个 OpenSci 课题，返回保存回执和更新后的修订号。</p>
+</blockquote>
+<p>把 <code>STUDY-001</code> 替换成自己的编号。完整聊天仍保存在 ChatGPT；正式科研进展保存在 OpenSci，之后在其他已授权会话里也能继续。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-13" data-title="自动化工作的范围"><h3>自动化工作的范围</h3>
+<p>助手可以在已有权限与配置范围内处理任务，你在手机上安排工作和查看结果。长任务保留原任务或作业编号，断线后继续查看同一个任务。手机断网不表示电脑任务已经停止，聊天中出现文字也不等于课题已经保存。</p>
+<p>手机连接不会自动创建计划任务或批准实验。OpenSci 的实验仍需要独立人工批准；内置执行器目前提供公开估计量比较示例，使用一个 CPU 线程，不使用 GPU。专业科学软件需要相应适配与资源设置。</p>
+<p>若只想在普通 Chat 中调用课题工具，可以配置<a href="#doc-DOCUMENTATION-zh-CN-md--assistant-setup">私有 MCP 连接</a>。这条连接提供有范围限制的课题操作，不会单独赋予整个电脑的文件、桌面或命令访问权；它与手机接续电脑任务分别设置。</p>
+<p><a id="doc-DOCUMENTATION-zh-CN-md--requirements"></a></p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-14" data-title="软件安装与最低要求"><h2>软件安装与最低要求</h2>
+<p>基础课题讨论、概览、进展保存和 MCP 只需要 <strong>Python 3.10+</strong> 及其标准库 SQLite，不要求 GPU、Node.js、Docker、模型账户或数据库服务。Windows 菜单要求 Windows PowerShell <strong>5.1+</strong>；Claude 开发启动器另需 PowerShell <strong>7.0+</strong>。Windows 10 或提供 Python 3.10 的受维护 Linux 可运行基础功能；Ubuntu 22.04 是 Linux 基线。实验提交使用 Linux 或 WSL 2，macOS 未纳入本发行物的验收范围。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>软件或依赖</th>
+<th>本发行物要求的最低版本或能力</th>
+<th>使用范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git</td>
+<td><strong>2.28</strong>，支持文档中的 <code>git init -b</code></td>
+<td>研究源码依据、仓库安装、源码备份；普通讨论不要求</td>
+</tr>
+<tr>
+<td>OpenSSH</td>
+<td>支持固定命令、主机密钥校验、<code>ExitOnForwardFailure</code>；未确立数字最低版本</td>
+<td>远程工作区或 MCP，按实际环境验证</td>
+</tr>
+<tr>
+<td>WSL</td>
+<td><strong>WSL 2</strong></td>
+<td>需要在 Windows 上使用 Linux 时选装</td>
+</tr>
+<tr>
+<td>Zotero</td>
+<td><strong>10.0</strong>，Local API <strong>3</strong> 和 <code>Zotero-Server-ID</code></td>
+<td>文献库读取、写入和实例绑定</td>
+</tr>
+<tr>
+<td>Edge / Chrome、Zotero Connector</td>
+<td>浏览器当前 Stable 或 Extended Stable，匹配的当前 Connector</td>
+<td>浏览器辅助采集；厂商采用更新渠道要求</td>
+</tr>
+<tr>
+<td>Word 桌面版、Zotero Word 插件</td>
+<td>Windows Word <strong>2010+</strong>，不含 Starter，兼容的原生插件</td>
+<td>此为 Zotero 的兼容下限；还需可观察的本机编辑会话，不能用 Word 网页版代替</td>
+</tr>
+<tr>
+<td>PyMuPDF</td>
+<td><strong>1.24 ≤ 版本 &lt; 2</strong></td>
+<td>PDF 文本提取，不包含 OCR</td>
+</tr>
+<tr>
+<td>MLflow</td>
+<td><strong>3.0 ≤ 版本 &lt; 4</strong></td>
+<td>实验追踪，可选</td>
+</tr>
+<tr>
+<td>Prefect</td>
+<td><strong>3.0 ≤ 版本 &lt; 4</strong></td>
+<td>工作流调度，可选</td>
+</tr>
+<tr>
+<td>Google Gen AI SDK</td>
+<td><strong>1.40 ≤ 版本 &lt; 2</strong></td>
+<td>Gemini 评审，使用 Client 上下文管理接口</td>
+</tr>
+<tr>
+<td>Codex CLI</td>
+<td><strong>0.162.1</strong> 为本发行物支持基线，支持 <code>exec</code>、<code>--ephemeral</code>、<code>--ignore-user-config</code>、JSON 事件和 <code>--output-last-message</code>；更早版本未纳入本发行物支持范围</td>
+<td>可选证据评审</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td>原生 CLI，支持 <code>--bare</code>、工具限制、会话持久化开关、轮数/预算限制及 JSON 输出；未确立数字最低版本</td>
+<td>可选开发和评审</td>
+</tr>
+<tr>
+<td>Secure MCP Tunnel 客户端</td>
+<td><strong>0.0.16</strong> 启动器兼容基线，或兼容的新版本</td>
+<td>普通 Chat 访问私有协调端，另需账户资格与权限</td>
+</tr>
+<tr>
+<td>ChatGPT 手机与桌面应用</td>
+<td>提供远程电脑访问的受支持版本，未确立数字最低版本</td>
+<td>手机连接电脑接续任务，见<a href="#doc-DOCUMENTATION-zh-CN-md--mobile-research">手机科研</a></td>
+</tr>
+<tr>
+<td>ChatGPT / Codex 宿主</td>
+<td>本机 stdio MCP；普通 Chat 需自定义私有连接与隧道能力；未确立数字最低版本</td>
+<td>助手接入</td>
+</tr>
+<tr>
+<td>LaTeX / Quarto</td>
+<td>可编译目标文稿的 LaTeX 引擎与 BibTeX，或 Quarto；未确立数字最低版本</td>
+<td>仅编译导出文稿需要；书目导出本身不需要</td>
+</tr>
+<tr>
+<td>markdown-it-py</td>
+<td>固定 <strong>4.0.0</strong></td>
+<td>重建离线手册；阅读 HTML 不需要安装</td>
+</tr>
+</tbody>
+</table></div>
+<p>这些数值是本发行物的依赖下限，不表示所有组合均已实测；客户端没有明确最低版本时，按必需能力核对 <code>--help</code>，不要猜版本号。完整官方下载入口和依据见 <a href="docs/INSTALLATION.md">Installation and Requirements</a>。Python 从 python.org 或系统包管理器安装；可选包在独立虚拟环境中按 <code>requirements-optional.txt</code> 选择安装。文档构建依赖单独列在 <code>requirements-docs.txt</code>。DVC 仅由使用它的研究项目自行选择，并非 OpenSci 运行依赖。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-15" data-title="按使用范围继续配置"><h3>按使用范围继续配置</h3>
+<p>基础设置见<a href="#doc-DOCUMENTATION-zh-CN-md--beginner-start">零基础开始</a>。接入助手、文献、模型和远程设备时，分别完成相应章节的账户、权限、预算与备份设置。安装某个软件不会自动批准费用或实验。</p>
+<p><a id="doc-DOCUMENTATION-zh-CN-md--assistant-setup"></a></p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-16" data-title="安装 OpenSci Study 插件与课题 MCP 服务"><h2>安装 OpenSci Study 插件与课题 MCP 服务</h2>
+<p>插件把 OpenSci 的工具交给 AI 助手使用；MCP 是它们之间的连接方式。先完成前面的入门流程，记下自己的课题编号。以下用 <code>STUDY-001</code> 举例；不要照抄不存在的编号。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-17" data-title="第 1 步：指定助手可以访问的课题"><h3>第 1 步：指定助手可以访问的课题</h3>
+<p>在文件资源管理器中，将 <code>C:\OpenSci\config\mcp.unselected.example.json</code> 复制到 <code>C:\OpenSci-Data\config</code>，改名为 <code>mcp.policy.local.json</code>。用记事本打开，把 <code>connection_id</code> 的占位文字改成你选定的连接名称，例如 <code>opensci-desktop-01</code>。它用于识别这条连接，不是密码；每条连接使用不同名称，日后恢复请求时保持原名称。</p>
+<p>首次配置时尚未启动连接。如果之前已经接入，请先在助手中停用对应连接；普通 Chat 隧道还需停止它的启动窗口。然后打开 PowerShell，输入以下命令。软件和记录目录不同则替换路径；最后一个编号换成自己的课题编号。</p>
+<pre><code class="language-powershell">Set-Location -LiteralPath 'C:\OpenSci'
+$OpenSciPython = (Get-Content -LiteralPath '.\config\runtime.local.json' -Raw -Encoding UTF8 | ConvertFrom-Json).python
+&amp; $OpenSciPython -E -s -B scripts/select_study_connection.py --coordinator-root C:/OpenSci-Data --policy C:/OpenSci-Data/config/mcp.policy.local.json --study-id STUDY-001 --connection-stopped
+</code></pre>
+<p>看到 <code>Study selected.</code> 表示选择已保存。此操作允许助手对该课题进行受限制的写入；只想读取时，在启动连接前把策略文件中的 <code>allow_write</code> 改成 <code>false</code>。每次改动策略都要重启连接才能生效。撤销选择时，在连接停止后将命令中的 <code>--study-id STUDY-001</code> 换成 <code>--clear</code>；此时不再允许访问任何课题。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-18" data-title="第 2 步：告诉插件去哪里找记录"><h3>第 2 步：告诉插件去哪里找记录</h3>
+<p>按 Windows 键加 R，输入 <code>%LOCALAPPDATA%</code> 并回车，在打开的位置新建 <code>OpenSci</code> 文件夹。把 <code>C:\OpenSci\config\plugin.connection.example.json</code> 复制进去，改名为 <code>connection.json</code>。用记事本打开，核对两个路径指向自己的记录目录和上一步的策略文件：</p>
+<pre><code class="language-json">{
+  &quot;schema_version&quot;: 1,
+  &quot;coordinator_root&quot;: &quot;C:/OpenSci-Data&quot;,
+  &quot;policy&quot;: &quot;C:/OpenSci-Data/config/mcp.policy.local.json&quot;
+}
+</code></pre>
+<p>保存为 UTF-8，确认文件没有多出 <code>.txt</code> 后缀。此文件不保存密钥，不放在插件缓存中；缺少或无效时插件拒绝启动。Linux 的对应位置是 <code>~/.config/opensci/connection.json</code>；有特殊存放需要时，可在宿主进程用 <code>OPENSCI_CONNECTION_FILE</code> 指定绝对路径。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-19" data-title="第 3 步：在助手中安装并使用"><h3>第 3 步：在助手中安装并使用</h3>
+<p>公开仓库根目录就是插件根目录，包含 <code>plugin.json</code>、<code>mcp.json</code>、服务器源码和图标。支持插件市场的客户端可执行 <code>codex plugin marketplace add yanboyang97/OpenSci</code>，再在桌面插件目录安装 <strong>OpenSci Study</strong>。Python 必须能在宿主环境中以 <code>python</code> 启动；若你只能使用 Python 的完整路径，按 <a href="docs/PLUGINS.md#direct-mcp-installation">直接 MCP 配置</a>接入。该页面提供可填写路径的完整配置样例。</p>
+<p>安装后开始一个新对话，请助手“读取已选 OpenSci 课题的概览”。随后可请它讨论研究问题，并明确要求保存结论。保存成功会返回回执与课题修订号；只有聊天回答而没有保存回执时，不要假定记录已经更新。出现 <code>selection_required</code> 表示还未选课题，返回第 1 步处理。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-20" data-title="可选：从普通 Chat 访问课题"><h3>可选：从普通 Chat 访问课题</h3>
+<p>普通 Chat 用户自行配置官方 Secure MCP Tunnel 和私有 MCP 连接。从官方发行页下载客户端，生成本机 stdio profile；以 <code>config/chat.example.json</code> 建立自己的 <code>chat.local.json</code>，填写经过核验的客户端摘要、profile、组织标识及私有 PID/健康/日志位置，创建必要目录。双击 <code>Start-Study-Chat.cmd</code>，在隐藏本机输入中填写仅有 Tunnels Read＋Use 权限的密钥，保持电脑和窗口运行。不同用户使用自己的组织、隧道和凭据。</p>
+<p>GitHub 发布提供可下载、自部署的运行包、插件包和 MCP 包，不等于已上架 OpenAI 公共插件目录。该目录对本地 MCP 发布另有平台资格和审核要求。当前实现用于私有单用户，不把个人隧道公开为多用户服务。完整步骤见 <a href="docs/PLUGINS.md">Plugins and MCP</a>，数据去向见 <a href="PRIVACY.md">Privacy</a>。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-21" data-title="进阶：工作区与命令"><h2>进阶：工作区与命令</h2>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-22" data-title="了解部署角色"><h3>了解部署角色</h3>
+<p><strong>协调端</strong>（Coordinator）是正式课题记录的唯一写入者。<strong>开发工作区</strong>（Development Workspace）保存用于开发和检查的源码；配置字段 <code>active_agent</code> 指向它。<strong>执行节点</strong>（Execution Node）由独立人工提交者运行经批准的实验。三个角色可以位于同一硬件，但账户、路径、权限和凭据应分别核验。选择开发工作区不会改变执行节点或移动运行中的实验。</p>
+<p>文档使用 <code>C:\OpenSci</code> 和 <code>/home/researcher/OpenSci</code> 作为示例路径。真实账号、SSH 别名和工具路径以忽略的本地配置为准。不要把开发副本启用为同一课题的第二个协调端。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-23" data-title="建立源码基线"><h3>建立源码基线</h3>
+<p>如果尚未建立 Git 基线，由操作者确认真实提交姓名、邮箱和仓库来源，在项目范围配置身份，审查待提交内容，再创建首个提交。不要提交本机配置、凭据、正式记录和实验产物，也不要擅自假定操作者身份。</p>
+<p>涉及源码的工作流要求两份源码来自<strong>同一 Git 历史的同一干净提交</strong>。采用独立记录目录后，软件安装目录与协调端不再充当研究源码；源码依据单独记录在课题中。在两端各自提交相同文件不满足这个条件。通过已授权的仓库、克隆或 Git bundle 传递同一提交；已有目录先核对，不能盲目覆盖。如果配置了 <code>origin</code>，两端 URL 拼写必须一致，因为系统比较其摘要。</p>
+<p><a id="doc-DOCUMENTATION-zh-CN-md--command-context"></a></p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-24" data-title="命令示例的运行环境"><h3>命令示例的运行环境</h3>
+<p>日常使用优先选择菜单。需要执行后面的命令时，Windows 用户先把以下完整内容粘贴到同一个 PowerShell 窗口。它使用本副本配置的 Python 和 Git，在每次调用后恢复当前目录与 PATH，不修改个人 Profile。路径不同则先修改 <code>$OpenSciRoot</code>。</p>
+<pre><code class="language-powershell">function Invoke-OpenSci {
+    param([Parameter(Mandatory=$true)][string[]]$Arguments)
+    $OpenSciRoot = 'C:\OpenSci'
+    $OpenSciRuntime = Get-Content -LiteralPath &quot;$OpenSciRoot\config\runtime.local.json&quot; -Raw -Encoding UTF8 | ConvertFrom-Json
+    $OpenSciPreviousPath = $env:PATH
+    $OpenSciPreviousLocation = Get-Location
+    try {
+        if ($OpenSciRuntime.git) { $env:PATH = (Split-Path -Parent $OpenSciRuntime.git) + [IO.Path]::PathSeparator + $OpenSciPreviousPath }
+        Set-Location -LiteralPath $OpenSciRoot
+        &amp; $OpenSciRuntime.python -B -X utf8 @Arguments
+        if ($LASTEXITCODE -ne 0) { throw &quot;OpenSci exited with code $LASTEXITCODE&quot; }
+    } finally {
+        $env:PATH = $OpenSciPreviousPath
+        Set-Location -LiteralPath $OpenSciPreviousLocation.Path
+    }
+}
+Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Data', 'list')
+</code></pre>
+<p>例如，读取已有课题使用 <code>Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Data', 'show', '--study', 'STUDY-001')</code>。后文的 <code>python -B scripts/...</code> 是通用命令形式：Windows 将脚本路径与后续参数逐项放入该函数的参数数组；Linux 在实际项目目录使用配置的解释器，例如 <code>/usr/bin/python3 -B</code>。<code>STUDY-001</code> 是示例，必须替换为已经创建的课题编号。读取列表或查看手册不会创建这个示例课题。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-25" data-title="日常课题工作"><h2>日常课题工作</h2>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-26" data-title="菜单与正式功能"><h3>菜单与正式功能</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>菜单</th>
+<th>中文含义</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Browse Studies</td>
+<td>浏览课题</td>
+<td>读取本地课题记录</td>
+</tr>
+<tr>
+<td>2 Create Study</td>
+<td>新建课题</td>
+<td>经操作服务创建并返回可恢复的回执</td>
+</tr>
+<tr>
+<td>3 Resume Study</td>
+<td>继续课题</td>
+<td>核对开发工作区与已记录源码</td>
+</tr>
+<tr>
+<td>4 Choose Development Workspace</td>
+<td>选择开发工作区</td>
+<td>检查并切换研究开发所用工作区</td>
+</tr>
+<tr>
+<td>5 Choose Execution Node</td>
+<td>选择执行节点</td>
+<td>指定后续任务的执行节点</td>
+</tr>
+<tr>
+<td>6 Check Development Environment</td>
+<td>检查开发环境</td>
+<td>检查所选课题的开发工作区，不是首次安装向导</td>
+</tr>
+<tr>
+<td>7 Preview Evidence Review</td>
+<td>预览证据评审</td>
+<td>展示输入、模型、限制和计划摘要</td>
+</tr>
+<tr>
+<td>8 Record Progress</td>
+<td>记录进展</td>
+<td>经源码核对后登记阶段和笔记</td>
+</tr>
+<tr>
+<td>9 Literature Workspace</td>
+<td>文献工作台</td>
+<td>输入 <code>capabilities</code> 检查能力，或执行已准备的请求文件</td>
+</tr>
+<tr>
+<td>10 Study Overview</td>
+<td>课题概览</td>
+<td>有界读取目标、进展、证据与下一步</td>
+</tr>
+<tr>
+<td>11 Save Discussion Progress</td>
+<td>保存讨论进展</td>
+<td>无需 Git，保存结论、假设和待办</td>
+</tr>
+<tr>
+<td>0 Exit</td>
+<td>退出</td>
+<td>关闭菜单</td>
+</tr>
+</tbody>
+</table></div>
+<p>课题编号由 3–48 个大写字母、数字或连字符组成，并以大写字母开头。新建时输入目标；新建、切换和记录进展前保存菜单显示的请求编号。工作区、节点和阶段会列出可选项，输入序号或对应编号，留空取消。新课题自动使用操作服务，无需选择记录模式。菜单 2 可建立不关联源码的讨论课题；命令行 <code>hub.py init</code> 用于关联研究源码的课题，需要先完成源码设置。当前课题的切换、进展和材料登记命令也通过操作服务更新。可用 <code>--request-id</code> 指定固定编号，未指定时会在写入前输出生成的编号；保留它与原参数用于恢复。</p>
+<p>研究阶段依次表达证据整理、方案评审、实现、等待批准、实验进行中、分析、归档；对应字段值为 <code>evidence</code>、<code>plan_review</code>、<code>implementation</code>、<code>awaiting_approval</code>、<code>experiment_running</code>、<code>analysis</code>、<code>archived</code>。它们是人工规划标签，软件会校验阶段转换条件，但标签本身不能证明实验完成。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-27" data-title="接续与记录进展"><h3>接续与记录进展</h3>
+<p>开始时核对目标、修订号、最近笔记、开发工作区、源码提交、缺失材料及全部运行编号。<code>show</code>、<code>history</code> 和 <code>brief</code> 读取协调端记录；无源码课题的 <code>resume</code> 只恢复讨论上下文；有源码课题会探测配置的开发工作区。菜单在连接前询问，明确调用远程检查命令则代表请求进行该检查。</p>
+<pre><code class="language-text">python -B scripts/hub.py --coordinator-root C:/OpenSci-Data show --study STUDY-001
+python -B scripts/hub.py --coordinator-root C:/OpenSci-Data history --study STUDY-001 --limit 20
+python -B scripts/hub.py --coordinator-root C:/OpenSci-Data brief --study STUDY-001
+</code></pre>
+<p>涉及源码的检查点先审查、验证、提交并核对同一来源。普通讨论或文献研究可直接用菜单 11 或 <code>save_progress</code> 保存，不以 Git 为前提。普通文字笔记可通过操作服务的 <code>note</code> 写入，不探测开发工作区；<code>checkpoint</code> 校验涉及源码的阶段变更。结束前记录完成事项、未决问题、下一步及原运行状态，生成研究简报用于交接。简报有时间戳，命令输出 JSON，不会自动保存文件、发送内容或查询节点的实时状态；需要文件时由操作者明确保存输出。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-28" data-title="自动化请求与回执"><h3>自动化请求与回执</h3>
+<p>操作服务要求唯一请求编号和最新课题修订号。新建请求的期望修订号为 0。将实际请求保存为 <code>config/command.local.json</code>，不要在菜单创建同一课题后重复执行这个示例。</p>
+<pre><code class="language-json">{
+  &quot;schema_version&quot;: 1,
+  &quot;request_id&quot;: &quot;STUDY-001-INIT-001&quot;,
+  &quot;study_id&quot;: &quot;STUDY-001&quot;,
+  &quot;expected_revision&quot;: 0,
+  &quot;operation&quot;: &quot;create_study&quot;,
+  &quot;arguments&quot;: {&quot;goal&quot;: &quot;Define the question and acceptance criteria&quot;, &quot;research_workspace&quot;: null, &quot;binding&quot;: null}
+}
+</code></pre>
+<pre><code class="language-text">python -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data execute --request config/command.local.json
+python -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data receipt --study STUDY-001 --request-id STUDY-001-INIT-001
+</code></pre>
+<p>请求上限为 64,000 个 UTF-8 字节，编号和内容不得擅自复用。身份和角色由受信入口提供，不能由请求自报。写入请求的 <code>committed=true</code> 表示操作已经登记；<code>false</code> 表示明确未提交；<code>null</code> 表示结果未知。只读响应同时出现 <code>read_only=true</code>、<code>committed=false</code> 属于正常情况，表示没有请求更新课题；是否连接成功应查看各项能力状态。结果未知时保留原编号、内容、身份和角色，查询原回执，再用完全相同的请求恢复。不能换新编号猜测重试。</p>
+<p>操作服务提供 <code>init</code>、<code>note</code>、<code>checkpoint</code>、<code>select_agent</code>、<code>select_compute</code>、<code>attach</code> 等操作；内部 <code>observe</code> 只供运行监测使用。完整字段契约见 <a href="INTEGRATION.md">INTEGRATION.md</a>。附加材料先放在 <code>coordination/imports/</code>，用可信的原始 SHA-256 关联；任务先于其批准与运行登记。</p>
+<p><a id="doc-DOCUMENTATION-zh-CN-md--literature-workspace"></a></p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-29" data-title="文献工作台"><h2>文献工作台</h2>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-30" data-title="设置与权限"><h3>设置与权限</h3>
+<p>保留 Zotero 自身数据和附件备份。在 <code>config/literature.local.json</code> 中配置个人文献库实例、检索方向、来源、授权范围、有限预算及执行节点。先执行连接检查，再在明确授权的试用集合中核验操作。不要直接修改 Zotero 数据库或存储布局；原笔记和批注必须保留。</p>
+<p>Zotero Local API 仅使用回环地址。凭据通过环境引用或经同意的 Windows 凭据引用提供，不放进 JSON、文档和聊天。网页机构权限、API 权限和全文权益分别判断。当前全局授权与限制持续生效，课题固定设置不能保留已撤销权限或扩大预算。</p>
+<p>菜单接收 <code>capabilities</code> 或已审阅的结构化请求文件路径；自然语言理解由获授权的聊天助手完成，菜单本身没有内置自然语言模型或可视化设置编辑器。将请求保存为如 <code>config/command.local.json</code> 后，在菜单 <strong>9</strong> 输入该路径；相对路径始终从 OpenSci 根目录解析。此入口只接受 <code>literature.*</code> 操作，其他请求使用操作服务。文献请求沿用操作服务封装，<code>arguments</code> 只包含 <code>payload</code>。设置通过受保护的本地配置文件或操作者的 <code>literature.config_update</code> 请求修改。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-31" data-title="全部文献功能"><h3>全部文献功能</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>功能正式名称</th>
+<th>操作</th>
+<th>用法与边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>连接检查</td>
+<td><code>literature.capabilities</code></td>
+<td>检查已连接能力，未测试项目保持未验证</td>
+</tr>
+<tr>
+<td>文献记录查询</td>
+<td><code>literature.get</code></td>
+<td>读取课题关联、条目、操作或原生写作任务</td>
+</tr>
+<tr>
+<td>文献库检索</td>
+<td><code>literature.search_library</code></td>
+<td>检索本地库或派生索引，说明索引时间</td>
+</tr>
+<tr>
+<td>文献检索</td>
+<td><code>literature.search</code></td>
+<td>按来源保留查询、窗口与覆盖；<code>resume_run</code> 接续原检索</td>
+</tr>
+<tr>
+<td>引文导入</td>
+<td><code>literature.search_import</code></td>
+<td>读取原生 RIS/BibTeX 导出，生成候选记录</td>
+</tr>
+<tr>
+<td>文献收集</td>
+<td><code>literature.collect</code></td>
+<td>将明确选择的候选收集到指定集合，逐项报告结果</td>
+</tr>
+<tr>
+<td>全文获取</td>
+<td><code>literature.fetch_fulltext</code></td>
+<td>针对一个条目尝试已授权公开 URL 或 PMC 路径</td>
+</tr>
+<tr>
+<td>文献整理</td>
+<td><code>literature.organize</code></td>
+<td>管理明确选择的集合、标签、笔记和批注</td>
+</tr>
+<tr>
+<td>课题文献关联</td>
+<td><code>literature.bind_study</code></td>
+<td>绑定集合、条目与筛选理由，不改动其他课题的筛选</td>
+</tr>
+<tr>
+<td>证据快照</td>
+<td><code>literature.read</code></td>
+<td>按发现、常规或深入层级冻结材料与提取覆盖</td>
+</tr>
+<tr>
+<td>文献分析</td>
+<td><code>literature.analyze</code></td>
+<td>为证据矩阵或模型分析准备有界任务</td>
+</tr>
+<tr>
+<td>分析任务派发</td>
+<td><code>literature.job_dispatch</code></td>
+<td>经明确远程授权向固定执行端派发</td>
+</tr>
+<tr>
+<td>分析结果导入</td>
+<td><code>literature.job_import</code></td>
+<td>核对原任务及材料绑定后导入结果</td>
+</tr>
+<tr>
+<td>分析状态查询</td>
+<td><code>literature.job_status</code></td>
+<td>读本地状态；显式刷新才联系执行端</td>
+</tr>
+<tr>
+<td>分析任务控制</td>
+<td><code>literature.job_pause</code>、<code>job_resume</code>、<code>job_cancel</code></td>
+<td>区分控制请求已记录与实际生效状态</td>
+</tr>
+<tr>
+<td>参考文献导出</td>
+<td><code>literature.export</code></td>
+<td>导出固定材料的书目及 LaTeX/Quarto 示例</td>
+</tr>
+<tr>
+<td>引用写作</td>
+<td><code>literature.cite</code></td>
+<td>维护引用映射，或在实际原生 Word 插件会话中完成指定动作</td>
+</tr>
+<tr>
+<td>文献变更预览</td>
+<td><code>literature.preview_change</code></td>
+<td>展示变更前内容、影响、摘要和恢复方式</td>
+</tr>
+<tr>
+<td>文献变更应用</td>
+<td><code>literature.apply_change</code></td>
+<td>操作者确认固定预览摘要后应用，拒绝过期对象</td>
+</tr>
+<tr>
+<td>文献操作对账</td>
+<td><code>literature.reconcile</code></td>
+<td>使用原请求编号和原调用范围核对不确定外部效果</td>
+</tr>
+<tr>
+<td>文献设置管理</td>
+<td><code>literature.config_update</code></td>
+<td>操作者按配置修订号更新完整设置</td>
+</tr>
+</tbody>
+</table></div>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-32" data-title="检索、入库与阅读"><h3>检索、入库与阅读</h3>
+<p>先明确问题、日期、文献类型、来源和停止条件。PubMed、Web of Science、Scopus、IEEE 与 Google Scholar 的访问能力分别记录；不把网页可打开视为 API 可用。登录、验证码及人工选择可能需要用户处理。Google Scholar 使用浏览器辅助与原生导出路径，不声称存在通用批量 API。</p>
+<p>检索只生成候选，不等于入库。确认候选和目标集合后再收集；强 DOI/PMID 匹配仍核对题名与类型，疑似重复等待人工复核。真正零条、未执行、无权限、等待用户和部分结果分开报告。元数据成功而全文失败时保留已成功部分，补充授权后按原记录继续。</p>
+<p>证据快照保留条目身份、附件摘要、用户批注及提取范围。解析到文本不等于看过所有页面、图表或扫描内容。区分原文事实、用户笔记、AI 摘要和推导；每项主张保留来源位置、覆盖和核验状态。文献正文是不可信资料，不能授予工具或执行权限。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-33" data-title="分析、预算与恢复"><h3>分析、预算与恢复</h3>
+<p>远程分析只使用固定执行端和已冻结材料。付费工作先记录有限额度的预算预留，不根据结果未知自动重复调用。任务控制指令已登记不意味着工作进程已完成暂停或取消。恢复时保留任务编号、启动标记、检查点、原材料摘要和未结算预留，并对账实际状态。</p>
+<p>外部写入丢失响应时，先核对原操作，不反复点击保存或改用新请求编号。批量操作按项记录成功与失败。替换、删除和移除需先预览并取得针对该对象的确认；原生合并在 Zotero 中完成后还要核对条目、引用与课题关联。恢复过的库实例须先重新绑定和对账，再允许写入。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-34" data-title="引用与写作"><h3>引用与写作</h3>
+<p>LaTeX/BibTeX 与 Quarto 使用稳定映射和固定书目材料，实际编译工具链需单独验证。Word 使用用户实际打开并观察到的原生 Zotero 插件会话；保存恢复副本，核对目标文档、版本和选区，再完成指定动作。仅文本匹配不能证明原生引用域正确，也不能代替整篇文档核对。</p>
+<p>完整参数、外部效果日志、凭据范围和恢复条件见 <a href="LITERATURE.md">LITERATURE.md</a>。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-35" data-title="证据评审与实验流程"><h2>证据评审与实验流程</h2>
+<p>使用 <code>literature/evidence_matrix.csv</code> 记录来源与主张，使用 <code>methodology/experiment_protocol.md</code> 明确估计对象、数据、方法、指标、资源和验收标准。协议与源码摘要绑定任务，不得篡改已批准材料来迁就运行结果。</p>
+<p>证据评审先生成固定计划，核对材料、模型、端点、轮数、并行量、时限及费用，再显式执行。每次保留相同的规则快照、提示词、原始响应、报告、时间和摘要。模型拒绝、截断、缺少完成证据或材料被改动时停止后续步骤。未知模型版本如实记录为未知；供应商间不自动切换。离线示例评审必须标记为模拟。</p>
+<p>实验依次经过：研究计划与证据 → 评审 → 固定源码和执行环境 → 任务草案 → 独立人工批准 → 人工提交执行 → 按原运行编号核验。</p>
+<ol>
+<li>在实际 Linux/WSL 执行节点，用将要执行实验的解释器运行 <code>capture_environment.py --out</code> 采集环境。</li>
+<li><code>prepare_task.py</code> 绑定课题、任务、节点、环境、协议、证据和资源限制，只生成任务与 DRAFT 批准模板。</li>
+<li>人工在受保护目录制作单独批准文件，填写真实批准人、时区明确的批准和到期时间、理由及 APPROVED 状态，不改变绑定字段。</li>
+<li>独立提交账户使用 <code>run_task.py</code> 指定任务、批准原文摘要和实际解释器执行。开发助手不能控制批准原文或自行提交。</li>
+<li>使用 <code>inspect_run.py --run</code> 核对状态、日志、六项必要产物和指标。心跳过期不能单独证明进程已经结束。</li>
+</ol>
+<p>源码、规则、解释器、依赖或节点变化后，重新准备适当的任务与批准。新尝试使用新的运行编号，保留逻辑任务与尝试关系；原运行目录不得覆盖。运行器负责超时、信号与子进程组清理；记录失败或清理失败须明确保留，不假报完成。完整可执行参数见 <a href="IMPLEMENTATION.md">IMPLEMENTATION.md</a>，字段和验证规则见 <a href="RECORDS.md">RECORDS.md</a>。</p>
+<p>实验追踪只上传通过校验的完成产物，使用明确 MLflow 地址和可信状态摘要，指定一个上传者并保留回执。成功上传集合不能代表所有尝试的成功率。工作流调度需要配置明确的 Prefect 工作池、源码快照、任务、批准和 <code>OPENSCI_EXPERIMENT_PYTHON</code>；其默认不自动重试，工作池名称也不会扩大执行能力。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-36" data-title="助手接入与运行监测"><h2>助手接入与运行监测</h2>
+<p>助手接入使用 MCP 标准输入输出接口，提供课题、回执、事件和文献读取；受保护策略明确允许时才提供写入工具。默认只读，固定助手角色和允许课题范围。读当前记录 → 提交已授权请求 → 核对回执 → 读取事件，是一致的操作顺序。聊天内容不会自动变成正式记录，聊天赞同不构成人工实验批准。</p>
+<p>运行监测读取 <code>config/observer.local.json</code> 中固定的本地或只读挂载来源，不自行建立 SSH。它核对原任务、批准、节点、时间、序号和产物，保留已有终态，在冲突时要求对账。新鲜度过期显示 stale，来源缺失显示 unavailable，结构或绑定错误显示 invalid，启动或清理异常需要 reconciliation；这些状态都不能授权重跑。</p>
+<pre><code class="language-text">python -B scripts/observe_runs.py --workspace . --sources config/observer.local.json
+python -B scripts/observe_runs.py --workspace . --sources config/observer.local.json --watch --interval 30
+</code></pre>
+<p>第二条命令在前台持续运行。需要常驻时，由明确配置的服务管理器托管；安装包不会自动启用服务。关闭桌面后的持续运行依赖实际服务部署和验收。助手接入不读取聊天数据库，也不自动向关闭的聊天推送消息。</p>
+<p>接口角色不能阻止同一账户绕过接口直接修改文件。应保护正式状态、批准原文、服务源码、解释器导入路径和启动策略。远程受限 MCP 账户需要服务器实际强制固定命令和访问范围，示例配置本身不建立账户隔离。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-37" data-title="配置与本机工具"><h2>配置与本机工具</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config/runtime.local.json</code></td>
+<td>Windows 已安装 Python、Git、PowerShell 的绝对路径</td>
+</tr>
+<tr>
+<td><code>config/hub.local.json</code></td>
+<td>协调端节点目录与默认开发工作区</td>
+</tr>
+<tr>
+<td><code>config/providers.local.json</code></td>
+<td>执行节点的模型供应商配置，使用时明确传入</td>
+</tr>
+<tr>
+<td><code>config/literature.local.json</code></td>
+<td>个人库绑定、来源、授权、方向和费用限制</td>
+</tr>
+<tr>
+<td><code>config/command.local.json</code></td>
+<td>准备执行的单次请求，不是服务开关</td>
+</tr>
+<tr>
+<td><code>config/mcp.policy.local.json</code></td>
+<td>助手接入允许的课题与操作</td>
+</tr>
+<tr>
+<td><code>config/observer.local.json</code></td>
+<td>运行监测允许读取的运行来源</td>
+</tr>
+<tr>
+<td><code>config/device.local.json</code></td>
+<td>资源编号在本设备的绝对路径</td>
+</tr>
+<tr>
+<td><code>coordination/resources.json</code></td>
+<td>稳定资源身份、版本和文件摘要</td>
+</tr>
+<tr>
+<td><code>environments/*.local.json</code></td>
+<td>在实际执行环境采集的记录</td>
+</tr>
+<tr>
+<td><code>tools/claude-launcher/machine.local.psd1</code></td>
+<td>本副本 Claude 可执行文件和凭据引用</td>
+</tr>
+</tbody>
+</table></div>
+<p>示例文件定义格式，不代表服务已开通。所有路径按实际设备填写，不能将 <code>~</code> 或占位符当作绝对路径。节点配置中的能力值是声明，不是实时监测。现有课题会保留工作区配置快照；修改账号、目录、解释器等绑定时使用明确维护流程，不覆盖历史记录。</p>
+<p>Windows 选择 Python 的顺序是显式 <code>-Python</code>、本地运行配置、PATH 查找。启动器只在进程内临时加入配置的 Git 路径，并在结束时恢复；命令包装器的执行策略设置仅作用于子进程，不修改全局策略。直接运行 Python 示例时，使用实际配置的解释器并确保当前终端可找到 Git。</p>
+<p>Claude Code 开发启动器需要 Windows、PowerShell 7 与原生 <code>claude.exe</code>。打开项目根目录的 <code>Start-ClaudeCode.cmd</code>，在开发启动器菜单选择 Setup 创建本副本映射；已有文件不会覆盖。<code>-ClaudeProvider deepseek</code> 或 <code>kimi</code> 明确选择供应商。检查与凭据管理只作用于相应本地配置，不改变个人 Profile、其他安装副本或研究执行授权。模型名称和端点以配置文件为准，配置声明不代表服务已验证。Windows 交互开发与自动证据评审的供应商配置各自独立。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-38" data-title="备份、迁移与恢复"><h2>备份、迁移与恢复</h2>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-39" data-title="保存完整状态"><h3>保存完整状态</h3>
+<p>变更前停止所有记录写入者和自动保存，包括已启用的助手接入与运行监测；核对原运行编号。实验可能仍在独立节点运行，但备份期间不应更新本地正式记录。</p>
+<p>尚无 Git 基线时，先保留发行包、本地配置和快捷方式重建信息。这只能保存基础部署，不能声称完整课题备份。源码与记录合并备份需要 Git 根目录及干净提交。独立协调端可用 <code>backup_project.py backup --state-only</code> 备份课题状态，无需 Git；运行软件和外部研究文件另行保存。</p>
+<pre><code class="language-text">python -B scripts/backup_project.py backup --workspace . --output C:/OpenSci-Backups/OpenSci-backup-001.zip --quiesced
+python -B scripts/backup_project.py verify --archive C:/OpenSci-Backups/OpenSci-backup-001.zip --expected-sha256 TRUSTED_SHA256
+</code></pre>
+<p>先创建受控的外部输出目录，使用新文件名，将工具输出摘要另存到可信位置。<code>--quiesced</code> 是操作者对停写的声明，不会代为停止服务。备份工具不自动加密，也不能清除已经混入历史的秘密。</p>
+<p>备份包含可达源码历史、指定正式记录与不可变快照、列入范围的本地配置、文献状态和稿件。未提交源码、Git 配置、外部批准与运行产物、数据模型、LFS 对象、凭据、软件环境、ACL、服务及本机运行映射等按具体收集范围单独保存。派生的文献 SQLite 索引可重建；Zotero 原库与附件仍需独立管理。准确范围以 <a href="BACKUP_AND_MIGRATION.md">BACKUP_AND_MIGRATION.md</a> 和备份工具清单为准。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-40" data-title="恢复到新目录"><h3>恢复到新目录</h3>
+<pre><code class="language-text">python -B scripts/backup_project.py restore --archive C:/OpenSci-Backups/OpenSci-backup-001.zip --expected-sha256 TRUSTED_SHA256 --destination C:/OpenSci-Recovery-001
+</code></pre>
+<p>目标必须尚不存在，恢复的项目位于目标下的 <code>workspace</code>。保持原写入者停止，核对记录与引用、Git 来源、身份、运行路径、环境、资源、服务账户和权限，再明确交接唯一写入权。分别评价材料完整性、历史完整性、原运行可追溯性和科学可复现性；恢复文件不等于恢复进程。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-41" data-title="维护计划"><h3>维护计划</h3>
+<p>正常新建课题已经可以使用操作服务。导入或恢复的记录若提示需要准备，按诊断先执行 <code>lifecycle.py</code> 的 <code>upgrade</code> 预检和应用，再在需要时执行 <code>enable-commands</code>。这是维护动作，不是用户必须选择的记录模式。不要手改格式标记。</p>
+<p>源码绑定更新使用 <code>upgrade</code>；源码不变而工作区迁移使用 <code>relocate</code>；恢复计划字段使用 <code>rollback --to-revision</code>。先生成外部预检计划，核对课题、修订号、摘要、源码、目标配置和原运行，再以可信计划摘要应用。计划一小时失效；材料或配置变化后重新预检。<code>--quiesced --backup-saved --runs-reconciled</code> 是实际完成这些工作的声明，不是工具自动执行的动作。</p>
+<p>涉及远程探测时，授权后在预检与应用子命令都明确加入 <code>--allow-remote-check</code>。具体模板见 <a href="docs/UPGRADE_GUIDE.md">docs/UPGRADE_GUIDE.md</a>。计划恢复生成更高修订号并保留后来的证据、批准、引用和运行；不会删除事实，也不会撤销 Zotero 写入或 Word 编辑。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-42" data-title="容量与持续维护"><h3>容量与持续维护</h3>
+<p>当前课题记录上限为 4,000,000 个 UTF-8 字节，接近 80% 时提示 near_capacity。历史快照另行保存，不自动删除。备份未压缩载荷上限为 4 GiB。运行监测频繁变更会积累完整快照，应关注磁盘、扫描延迟和备份时间。超过限制时保留原状态并停止，不删历史强行继续。</p>
+<p><a id="doc-DOCUMENTATION-zh-CN-md--feature-catalog"></a></p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-43" data-title="功能与模块名称"><h2>功能与模块名称</h2>
+<p>以下名称统一用于产品说明；括号中的英文是对应的正式英文名称。文件名、命令和 JSON 字段是稳定的技术接口，不代表另一套产品或模块。用户不需要选择记录格式，格式标记由软件维护。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>用途与主要入口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>课题工作台（Research Workspace）</td>
+<td>浏览、新建、继续课题，选择开发工作区与执行节点，记录进展；主菜单</td>
+</tr>
+<tr>
+<td>研究计划（Research Plans）</td>
+<td>编写研究问题、假设、方法、验收标准与人工决策；<code>methodology/</code> 和 <code>coordination/templates/</code></td>
+</tr>
+<tr>
+<td>文献工作台（Literature Workspace）</td>
+<td>检索、收集、阅读、分析、组织与引用文献；菜单选项 9</td>
+</tr>
+<tr>
+<td>证据评审（Evidence Review）</td>
+<td>预览评审计划，冻结所提供的材料与规则，执行经授权的模型评审并保留分歧；菜单选项 7</td>
+</tr>
+<tr>
+<td>任务准备（Task Preparation）</td>
+<td>将源码、证据、环境、执行节点和资源限制绑定为任务草案；<code>scripts/prepare_task.py</code></td>
+</tr>
+<tr>
+<td>人工批准（Human Approval）</td>
+<td>独立人工核对固定任务，填写受保护的批准文件及有效期；任务准备生成的批准模板</td>
+</tr>
+<tr>
+<td>实验执行（Experiment Execution）</td>
+<td>执行一次已批准任务，记录心跳、日志和产物；<code>scripts/run_task.py</code></td>
+</tr>
+<tr>
+<td>结果核验（Results Verification）</td>
+<td>按原运行编号检查状态、环境、产物及指标；<code>scripts/inspect_run.py</code></td>
+</tr>
+<tr>
+<td>研究简报（Research Brief）</td>
+<td>生成带记录时间的只读课题摘要，供接续和交接；<code>hub.py brief</code></td>
+</tr>
+<tr>
+<td>操作服务（Operation Service）</td>
+<td>校验结构化请求、角色和记录修订号，保存操作回执并恢复不确定结果；<code>scripts/hub_command.py</code></td>
+</tr>
+<tr>
+<td>助手接入（Assistant Access）</td>
+<td>通过模型上下文协议 MCP 提供受限的课题与文献工具；<code>scripts/hub_mcp.py</code></td>
+</tr>
+<tr>
+<td>手机科研（Mobile Research Access）</td>
+<td>通过 ChatGPT 手机应用接续电脑中的任务，并将成果保存到同一课题；使用宿主的远程电脑连接</td>
+</tr>
+<tr>
+<td>运行监测（Run Monitor）</td>
+<td>读取指定运行来源，验证状态、产物、新鲜度与冲突；<code>scripts/observe_runs.py</code></td>
+</tr>
+<tr>
+<td>历史与恢复（History and Recovery）</td>
+<td>保存不可变课题历史，通过明确的维护计划更新来源、迁移工作区或恢复计划字段；<code>scripts/lifecycle.py</code></td>
+</tr>
+<tr>
+<td>备份与迁移（Backup and Transfer）</td>
+<td>备份源码和记录，校验归档，恢复到新目录；<code>scripts/backup_project.py</code></td>
+</tr>
+<tr>
+<td>资源目录（Resource Catalog）</td>
+<td>将稳定的资源编号与设备路径分开，核对清单中的文件；<code>scripts/verify_resources.py</code></td>
+</tr>
+<tr>
+<td>环境检查（Environment Check）</td>
+<td>检查工具条件，采集实际执行解释器和环境；<code>doctor.py</code>、<code>capture_environment.py</code></td>
+</tr>
+<tr>
+<td>模拟验证（Simulation Lab）</td>
+<td>用求和计算与二次式计算验证软件接口、取消及恢复流程；<code>scripts/simulation.py</code></td>
+</tr>
+<tr>
+<td>Claude Code 开发启动器（Claude Development Launcher）</td>
+<td>在 Windows 中明确选择供应商，使用本副本的本机配置启动开发会话</td>
+</tr>
+<tr>
+<td>实验追踪（Experiment Tracking）</td>
+<td>将核验后的已完成运行产物上传至明确配置的 MLflow 服务</td>
+</tr>
+<tr>
+<td>工作流调度（Workflow Scheduling）</td>
+<td>经明确配置的 Prefect 工作进程调用固定实验流程</td>
+</tr>
+<tr>
+<td>分发包校验（Package Verification）</td>
+<td>核对发行文件与摘要；<code>verify_delivery.py</code></td>
+</tr>
+<tr>
+<td>文档生成（Documentation Builder）</td>
+<td>生成和检查相互独立的中英文离线手册；<code>tools/build_docs.py</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>完整英文命名索引见 <a href="FEATURES.md">FEATURES.md</a>。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-44" data-title="当前能力与使用边界"><h2>当前能力与使用边界</h2>
+<p>内置实验执行器仅支持<strong>合成估计量示例</strong>（Estimator Comparison）：公开合成数据、一个 CPU 线程、零 GPU。它比较指定分布下均值与中位数对既定位置参数的估计表现，不能据此推断真实科研领域的结论。专业科学软件、GPU 执行和自主研究服务不在内置执行器范围内。</p>
+<p>安装文件不会自动创建 Git 身份与提交、开通模型或文献权限、启动常驻服务或批准实验。每项外部接入需要在实际环境中配置和核验。课题阶段、模型一致意见和离线测试通过都不等于科学验收。</p>
+<p>文献来源、浏览器采集、原生引用编辑和扫描材料解析，取决于实际安装的软件与访问权限。每次操作应检查覆盖范围与返回状态。OpenSci 备份不包含外部 Zotero 数据库和原始附件存储，需要另外安排备份与恢复。</p>
+<p>遇到部分完成、来源无权访问、全文缺失或结果未知，应保留原记录并显示原因。不要把“未执行”“等待用户”或“无法判断”改写成成功。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-45" data-title="模拟验证与开发维护"><h2>模拟验证与开发维护</h2>
+<p>模拟验证提供<strong>求和计算</strong>（Sum Calculation，接口编号 <code>sum-v1</code>）和<strong>二次式计算</strong>（Quadratic Calculation，接口编号 <code>quadratic-v1</code>）。编号用于选择固定适配器，不是产品版本名称。依次执行 preflight、prepare、submit、query、advance、collect、validate；queued 状态需要显式 advance，不会在终端关闭后自动执行。取消只对支持的状态生效，重启按原模拟编号读取，不自动重跑。</p>
+<p>模拟验证使用独立存储和 <code>simulation_only</code> 标记，不进入正式实验批准或执行路径。它证明软件接口行为，不证明科学结论。扩展时注册固定模块、限制输入、独立核验结果并测试失败路径；不从请求加载任意模块或 shell 命令。</p>
+<p>开发前核对适用规则、分支或原始文件状态。源码、接口、配置、文档和测试一起更新。保留既有数据、历史包和冻结证据；一次性报告、验证日志、缓存台账和打包过程材料放在发行包外。技术内容与文件名使用英文，中英文总手册分开维护。</p>
+<p>正式公开仓库和安装包不包含回归套件、测试夹具或验证结果，这些材料保存在独立开发归档中。根目录 <code>AGENTS.md</code> 是共用规则来源，<code>rules.snapshot.md</code> 仅作为评审冻结证据。</p>
+<pre><code class="language-text">python -B tools/build_docs.py
+python -B tools/build_docs.py --check
+python -B verify_delivery.py
+</code></pre>
+<p>文档生成会核对源清单、链接、锚点和版本，并分别生成两种语言的 HTML。完成行为验证后再生成发行文件摘要，解压到新目录核验最终分发包；部署与打包分别记录结果。每次交付列出所有实际修改主机上的完整文件清单，以及验证配置、缓存、临时目录的保留或清理情况。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-46" data-title="故障处理与术语"><h2>故障处理与术语</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>现象</th>
+<th>先检查什么</th>
+<th>正确处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源码操作提示缺少基线</td>
+<td>是否配置研究源码及干净 Git 提交</td>
+<td>讨论和文献可继续；仅为需要源码的步骤建立已核对来源</td>
+</tr>
+<tr>
+<td>运行路径失效</td>
+<td>本地配置与实际工具位置</td>
+<td>更新本副本绑定后复核入口，不盲改全局 PATH</td>
+</tr>
+<tr>
+<td>修订号冲突</td>
+<td>当前课题修订号与请求</td>
+<td>重新读记录；已执行结果先查原回执</td>
+</tr>
+<tr>
+<td>操作结果未知</td>
+<td>原请求编号、内容与角色</td>
+<td>查询回执并用相同请求恢复，不换编号重试</td>
+</tr>
+<tr>
+<td>工作区不匹配</td>
+<td>账号、目录、源码提交及 origin</td>
+<td>核对实际差异，必要时制定维护计划</td>
+</tr>
+<tr>
+<td>心跳过期或状态缺失</td>
+<td>原节点、进程、日志与运行编号</td>
+<td>保留最后事实并对账，不推断已停止或自动重跑</td>
+</tr>
+<tr>
+<td>文献部分成功</td>
+<td>每来源或每条目的实际状态</td>
+<td>保留成功项，只在恢复条件明确后继续</td>
+</tr>
+<tr>
+<td>文献库实例变化</td>
+<td>恢复或合并操作、原绑定</td>
+<td>重新绑定并对账外部效果和引用</td>
+</tr>
+<tr>
+<td>模型或全文不可用</td>
+<td>当前服务、访问权限和预算</td>
+<td>如实报告，等待明确授权，不自动换供应商</td>
+</tr>
+<tr>
+<td>记录或历史损坏</td>
+<td>原始字节、可信摘要与备份</td>
+<td>保留现场，明确人工恢复，不能重算摘要掩盖损坏</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>课题</strong>是持续研究目标的记录容器；<strong>任务</strong>是固定输入和限制的工作定义；<strong>运行</strong>是一次实际尝试。<strong>修订号</strong>标识课题记录更新；<strong>源码提交</strong>标识代码；<strong>格式标记</strong>供验证器读取；它们不能互相替代。</p>
+<p><strong>回执</strong>证明操作登记结果，<strong>摘要</strong>用于对照可信原文核验字节，<strong>人工批准</strong>赋予固定任务在规定条件内的执行权限。三者含义不同，也都不能单独证明科学结论。<strong>对账</strong>是把原编号和已记录效果与实际系统核对；<strong>覆盖</strong>说明真正检查了哪些材料及遗漏范围。</p>
+<p>提交问题时提供模块名、操作编号、修订号、实际环境、可复现步骤和脱敏日志。注明哪些结果已经验证、哪些仍未知，不提供凭据值。节点配置与课题记录中的 <code>agent</code> / <code>active_agent</code> 表示开发工作区，<code>compute</code> / <code>compute_target</code> 表示执行节点，<code>checkpoint</code> 对应记录进展，<code>anchor</code> 表示绑定的源码提交。这些是稳定字段或操作编号，不是额外功能或产品版本；助手接入的 <code>agent</code> 角色则表示受限助手。具体英文参考见 <a href="DOCUMENTATION.md">DOCUMENTATION.md</a> 和 <a href="FEATURES.md">FEATURES.md</a>。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-47" data-title="普通 Chat 与 Work 接续同一课题"><h2>普通 Chat 与 Work 接续同一课题</h2>
+<p>本机和远程文件夹中的 Work 都可以独立开展阅读、讨论、分析、写作和开发；普通 Chat 是可选入口，不要求先经过 Chat。进展保存本身不启动 Work、不新建对话、不调用额外模型、不提交实验，也不自动购买额度。无法可靠归因的用量保持未知，不承诺固定节省比例。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-48" data-title="当前可用范围"><h3>当前可用范围</h3>
+<p>当前可在创建课题时登记研究目录，尚未提供为已有课题追加或替换研究目录的受支持操作。无源码依据的课题可继续讨论和文献工作，依赖源码的检查点及实验准备继续阻止；不得手工修改记录中的目录或提交摘要。</p>
+<p>OpenSci Study 插件与课题 MCP 服务可在选定课题中读取和保存结构化进展。普通 Chat 使用账户自己的私有隧道，本机和远程 Work 使用各自配置的 MCP 传输。只有可信宿主提供的原生项目身份才能用于关联；否则明确选择一个课题，并把来源信息记为未知。当前不提供多用户托管服务。</p>
+<p>当前连接明确选择一个课题。没有可信宿主信息时，项目类型、Chat/Work 模式、主机与对话引用记为未知，不从标题、路径或模型自报推断。私有连接使用受保护的连接身份，不把本机 SID/UID 当成云端用户。共享原生项目不自动授予 OpenSci 权限。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-49" data-title="初次使用和日常保存"><h3>初次使用和日常保存</h3>
+<p>软件目录 <code>runtime_root</code>、唯一记录目录 <code>coordinator_root</code>、每课题的可选 <code>research_workspace</code> 分别管理。比如安装在 <code>C:/OpenSci</code>，记录保存在 <code>C:/OpenSci-Data</code>。在 <code>config/studies.local.json</code> 配置记录目录，或向启动器传入 <code>-CoordinatorRoot</code>。先用菜单 2 建立课题，再用菜单 10 读取、菜单 11 保存。没有 Git 或执行节点也可开展讨论和文献工作；需要源码依据的检查点和实验会明确阻止。多份仓库的实验来源验证尚未实现，不能以单仓库验证代替。</p>
+<p><code>save_progress</code> 使用原操作服务的请求编号与期望修订号，参数为 <code>arguments.progress</code>。内容必须有 <code>summary</code>、<code>decisions</code>、<code>hypotheses</code>、<code>evidence_refs</code>、<code>open_questions</code>、<code>next_steps</code> 六项；后五项为文本列表。摘要上限 16000 UTF-8 字节，每列表最多 64 项、每项最多 4000 字节，整个进展对象最多 48000 字节，请求最多 64000 字节。来源由受保护入口填写，模型不能自行补身份。证据引用不表示已读取文件。较早进展保留在不可变历史中，完整聊天仍保留在原生应用。</p>
+<p>普通 Chat 选择 <strong>OpenSci Study</strong> 后，可以说：“保持普通 Chat，读取当前课题概览，区分事实与假设，只加载有关细节，不启动 Work。”保存时说：“把这些结论和下一步保存到同一课题，先读最新修订号，返回已提交回执；超时保留原编号和内容。”本机或远程 Work 重新读取同一课题即可接续；它不会自动获得完整聊天、本机文件权限、云端附件或运行中的进程。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-50" data-title="连接和工具"><h3>连接和工具</h3>
+<p>通过账户支持的私有 Secure MCP Tunnel 与自定义 MCP 应用连接普通 Chat。本地仍是有界 stdio 服务，没有任意命令、文件代理或公共 HTTP 入口。Windows 双击 <code>Start-Study-Chat.cmd</code> 可运行 <code>Start-Study-Chat.ps1</code>，它检查官方客户端摘要和已有进程，并在本机隐藏输入中接收仅有 Tunnels Read＋Use 权限的密钥。密钥仅保留在进程及子进程环境中，正常退出时清除，不写入文件或聊天。启动器不安装服务、计划任务、自动启动或秘密持久化。保持电脑及连接窗口开启；根据自己选择的有效期及时更新受限密钥。离线时快照仍可阅读，但草稿不能宣称已实时保存。</p>
+<p>连接健康状态只表示传输就绪，不代表模型活动、订阅使用或计费用量。无法可靠归因的用量保持未知。</p>
+<p>只读工具包括 <code>opensci_get_capabilities</code>、<code>opensci_resolve_study_link</code>、<code>opensci_get_study_brief</code>、<code>opensci_get_study_detail</code>。概览确定性生成，上限 8192 UTF-8 字节；超出部分用 <code>has_more</code> 与绑定修订号的细节引用标明。细节返回 JSON 文本片段，需要按顺序拼接后解析，不会读取引用文件。还提供课题详情、回执、事件和文献工具；MCP 输入输出帧均受 256000 字节限制。</p>
+<p>项目绑定通过受保护的操作者管理入口执行 <code>create_study</code>、<code>bind_project</code>、<code>unbind_project</code>；普通 Agent 无此权限。身份包含 provider、namespace、原生 project_id、project_type 和 host_id，名称只是显示值。一个原生项目当前对应一个课题，一个课题可关联多个原生项目。改名不改身份，暂时不可见不等于删除，新工作树或复制目录不继承授权。跨课题重绑先解除、再绑定，产生两份回执；不会伪称原子跨文件事务。连接授权与课题绑定分开验收。</p>
+<p>本机 MCP 配置参见 <code>config/mcp.desktop.example.toml</code>。远程 Work 必须通过另行配置的受限固定命令传输访问同一协调端，参见 <code>config/mcp.remote.example.toml</code>；示例不会自动创建 SSH 账户、密钥或 Windows SSH 服务。没有原生项目管理接口时，在宿主界面完成项目建立与明确关联，保留已有项目指令。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-51" data-title="选择或取消连接的课题"><h3>选择或取消连接的课题</h3>
+<p>先停止相关连接，再执行 <code>python -E -s -B scripts/select_study_connection.py --coordinator-root C:/OpenSci-Data --policy C:/OpenSci-Data/config/mcp.chat.local.json --clear --connection-stopped</code>，清除当前课题授权。连接策略允许空课题列表，但必须只读、无原生项目身份；能力检查仍可用，关联返回 <code>selection_required</code>，所有课题读写均拒绝。未选择课题是合法的初始状态，不会自动建立假课题。</p>
+<p>以后通过菜单建立真实课题，把上述 <code>--clear</code> 替换为 <code>--study-id YOUR-STUDY</code>，再重启连接。命令核验课题确实存在，只选择该课题，清除推测的原生身份并保留连接身份；项目绑定仍由另一个有回执的管理操作完成。运行进程会保留启动时载入的策略，仅修改文件不能撤销活跃进程权限。</p>
+<p>保存和查回执必须使用同一受保护身份。<code>local_process</code> 取决于操作系统调用者，沙箱内外可能不同；私有单用户连接则使用固定连接身份。不能修改身份来冒领回执，也不能在提交结果未知时换编号重做。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-52" data-title="本机协调端与远端 Work"><h3>本机协调端与远端 Work</h3>
+<p>当远端不能直接执行协调端固定命令时，可由操作者建立 SSH 反向转发，并使用 <code>scripts/study_remote.py</code>。服务端只监听 <code>127.0.0.1</code>，先验证独立的随机连接令牌，再开放固定协调端与策略的 MCP；最多八个会话，沿用帧大小和操作权限限制。令牌与 OpenAI 密钥分开，只存于两端仅所有者可读的受保护文件，不写入命令、项目内容或日志。</p>
+<p>在协调端以 <code>study_remote.py server --port COORDINATOR_PORT --token-file PROTECTED_TOKEN --coordinator-root STATE_ROOT --policy PROTECTED_POLICY --ready-file NEW_READY_FILE</code> 启动；端口 0 可由系统分配。使用校验主机密钥、带 <code>ExitOnForwardFailure=yes</code> 的 SSH 连接，把远端回环端口转发到本机回环端口，避免影响已有转发。仅通过已认证通道传送客户端脚本和短期令牌，不传课题记录或 OpenAI 密钥。远端 MCP 采用 <code>config/mcp.ssh-loopback.example.toml</code>；固定命令入口也可调用同一客户端。先检查能力及关联，再读取和保存。</p>
+<p>断线后重新建立相同权限范围并查询原回执，不能另建可写副本。停用时关闭网关和 SSH 转发，清除两端临时令牌；确认进程已停止后清理就绪标记。回环协议本身不是公共加密服务，依赖 SSH 提供传输加密与主机认证，不适用于公开或多用户部署。同一账户的文件访问也不是隔离边界。软件不自动创建服务或自启动项。</p>
+</section><section class="section" id="doc-DOCUMENTATION-zh-CN-md-section-53" data-title="升级与恢复"><h3>升级与恢复</h3>
+<p>新课题可以直接保存结构化进展。导入记录提示需要准备时，按诊断给出的维护操作执行预检和应用。先停止写入者、核对备份和原运行编号，保留原始字节与历史；不得手工修改格式标记。超时通过同一身份和角色查询原回执，私有连接身份不能用本机 <code>--agent</code> 身份冒充。版本冲突后先读差异，离线草稿恢复后再协调保存。</p>
+<p>无 Git 协调端用 <code>backup_project.py backup --workspace PATH --output NEW_ARCHIVE --quiesced --state-only</code>；恢复必须到新目录，保留当前较新记录，不自动启动第二个写入者。状态备份不包含运行软件、外部研究文件、秘密和进程。规划回退新增修订并保留后续证据、运行与回执。英文细节与示例见 <a href="docs/STUDY_CONNECTION.md">Study connections</a>。</p>
+</section><a class="back-top" href="#top">返回顶部 ↑</a></article><footer class="footer">由 Markdown 生成，更新时请编辑维护源文档。<br>构建源摘要 SHA-256: 50593881d84bfe61900bf86f27585d2fc8b848684babd5b565e523ffdc9eb0e0</footer></main></div><script>const labels={"guides": "\u5b8c\u6574\u624b\u518c", "references": "\u6280\u672f\u53c2\u8003", "source": "\u7ef4\u62a4\u6e90\u6587\u6863", "contents": "\u7ae0\u8282\u76ee\u5f55", "back": "\u8fd4\u56de\u9876\u90e8", "title": "OpenSci \u4f7f\u7528\u7ef4\u62a4\u4e0e\u5f00\u53d1\u624b\u518c", "navigation": "\u6587\u6863\u5bfc\u822a", "icon": "OpenSci \u56fe\u6807", "brand": "\u4f7f\u7528 \u00b7 \u7ef4\u62a4 \u00b7 \u6269\u5c55 \u00b7 \u5347\u7ea7", "menu": "\u76ee\u5f55", "search": "\u641c\u7d22", "placeholder": "\u5173\u952e\u8bcd \u00b7 Ctrl K", "clear": "\u6e05\u7a7a", "print": "\u6253\u5370", "hero": "\u79bb\u7ebf\u4e2d\u6587\u624b\u518c", "description": "\u4ece\u7b2c\u4e00\u6b21\u4f7f\u7528\u5230\u65e5\u5e38\u7ef4\u62a4\u3001\u6269\u5c55\u5f00\u53d1\u548c\u7248\u672c\u5347\u7ea7\u3002", "code": "\u4ee3\u7801", "docs": "\u6587\u6863", "sources": "\u4efd\u7ef4\u62a4\u6e90\u6587\u6863", "results": "\u641c\u7d22\u7ed3\u679c", "footer": "\u7531 Markdown \u751f\u6210\uff0c\u66f4\u65b0\u65f6\u8bf7\u7f16\u8f91\u7ef4\u62a4\u6e90\u6587\u6863\u3002", "fingerprint": "\u6784\u5efa\u6e90\u6458\u8981 SHA-256", "all": "\u5168\u90e8 {count} \u4efd\u6587\u6863", "matches": "\u5339\u914d {hits} \u4e2a\u5c0f\u8282\uff0c\u6765\u81ea {count} \u4efd\u6587\u6863", "no_matches": "\u6ca1\u6709\u627e\u5230\u5339\u914d\u9879\uff0c\u8bf7\u5c1d\u8bd5\u66f4\u77ed\u7684\u8bcd\u6216\u6587\u4ef6\u540d\u3002", "limit": "\u663e\u793a\u524d 80 \u4e2a\u7ed3\u679c\uff0c\u8bf7\u589e\u52a0\u5173\u952e\u8bcd\u7f29\u5c0f\u8303\u56f4\u3002"};
+
+const input=document.querySelector('#search');
+const status=document.querySelector('#search-status');
+const results=document.querySelector('#search-results');
+const resultList=document.querySelector('#result-list');
+const articles=[...document.querySelectorAll('article')];
+const sections=[...document.querySelectorAll('.section')].map(el=>({el,article:el.closest('article'),text:el.textContent.toLocaleLowerCase(),title:el.dataset.title}));
+let timer;
+function search(){
+ const query=input.value.trim().toLocaleLowerCase();
+ const terms=query.split(/\s+/).filter(Boolean);
+ resultList.replaceChildren();
+ if(!terms.length){articles.forEach(a=>a.hidden=false);results.hidden=true;status.textContent=labels.all.replace('{count}',articles.length);return;}
+ const hits=sections.filter(s=>terms.every(t=>s.text.includes(t)||(s.article.dataset.title+' '+s.article.dataset.source).toLocaleLowerCase().includes(t)));
+ const visible=new Set(hits.map(h=>h.article));articles.forEach(a=>a.hidden=!visible.has(a));
+ status.textContent=labels.matches.replace('{hits}',hits.length).replace('{count}',visible.size);
+ results.hidden=false;
+ hits.slice(0,80).forEach(h=>{
+  const link=document.createElement('a');link.href='#'+h.el.id;link.textContent=h.article.dataset.title+' · '+h.title;
+  const snippet=document.createElement('small');const raw=h.el.textContent.replace(/\s+/g,' ').trim();
+  const pos=raw.toLocaleLowerCase().indexOf(terms[0]);const start=Math.max(0,pos-45);snippet.textContent=(start?'… ':'')+raw.slice(start,start+180)+(raw.length>start+180?' …':'');
+  link.append(snippet);resultList.append(link);
+ });
+ if(!hits.length){const p=document.createElement('p');p.textContent=labels.no_matches;resultList.append(p);}
+ if(hits.length>80){const p=document.createElement('p');p.textContent=labels.limit;resultList.append(p);}
+}
+function revealHash(){
+ const id=decodeURIComponent(location.hash.slice(1));const target=document.getElementById(id);if(!target)return;
+ const article=target.closest('article');if(article&&article.hidden){input.value='';search();}
+ document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',article&&a.hash==='#'+article.id));
+}
+input.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(search,130)});
+document.querySelector('#clear-search').addEventListener('click',()=>{input.value='';search();input.focus()});
+document.querySelector('#print').addEventListener('click',()=>window.print());
+document.querySelector('#menu').addEventListener('click',()=>{const open=document.body.classList.toggle('nav-open');document.querySelector('#menu').setAttribute('aria-expanded',String(open))});
+document.addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){event.preventDefault();input.focus()}if(event.key==='Escape'){input.value='';search()}});
+document.querySelector('nav').addEventListener('click',event=>{if(event.target.closest('a')){input.value='';search();document.body.classList.remove('nav-open');document.querySelector('#menu').setAttribute('aria-expanded','false')}});
+document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(!link)return;const target=document.getElementById(decodeURIComponent(link.hash.slice(1)));if(target&&target.closest('article')?.hidden){input.value='';search()}});
+window.addEventListener('hashchange',revealHash);search();revealHash();
+</script></body></html>

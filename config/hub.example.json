@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "default_agent": "local-wsl",
+  "nodes": {
+    "local-wsl": {
+      "role": "agent", "enabled": true, "transport": "wsl",
+      "distribution": "Ubuntu", "account": "REPLACE_USER",
+      "workspace": "/home/REPLACE_USER/work/OpenSci", "python": "python3",
+      "capabilities": {"codex": "unknown", "python": "unknown", "tests": "unknown", "claude": "unknown", "vertex": "unknown"}
+    },
+    "remote-agent": {
+      "role": "agent", "enabled": false, "transport": "ssh",
+      "ssh_host": "research-agent", "account": "agent",
+      "workspace": "/home/agent/work/OpenSci", "python": "python3",
+      "capabilities": {"codex": "unknown", "python": "unknown", "tests": "unknown", "claude": "unknown", "vertex": "unknown"}
+    },
+    "cpu-01": {
+      "role": "compute", "enabled": false, "transport": "ssh",
+      "ssh_host": "research-cpu1", "account": "submitter", "hostname": "cpu-01",
+      "workspace": "/srv/research/OpenSci", "python": "/srv/research/venv/bin/python",
+      "capabilities": {"cpu": "unknown", "gpu": "unavailable"}
+    },
+    "gpu-01": {
+      "role": "compute", "enabled": false, "transport": "ssh",
+      "ssh_host": "research-gpu1", "account": "submitter", "hostname": "gpu-01",
+      "workspace": "/srv/research/OpenSci", "python": "/srv/research/venv/bin/python",
+      "capabilities": {"cpu": "unknown", "gpu": "unknown"}
+    },
+    "control-01": {
+      "role": "control", "enabled": false, "transport": "ssh",
+      "ssh_host": "research-control", "account": "services",
+      "workspace": "/srv/research/services", "python": "python3",
+      "capabilities": {"git": "unknown", "mlflow": "unknown", "prefect": "unknown"}
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "study_id": "STUDY-001",
+  "resources": [
+    {
+      "resource_id": "DATA-001",
+      "kind": "dataset",
+      "version": "REPLACE_WITH_FROZEN_DATA_VERSION",
+      "files": [
+        {"path": "measurements.csv", "sha256": "REPLACE_WITH_TRUSTED_FILE_SHA256"}
+      ]
+    }
+  ]
+}

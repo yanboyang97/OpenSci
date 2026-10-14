@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "request_id": "SAVE-EXAMPLE-STUDY-001",
+  "study_id": "EXAMPLE-STUDY",
+  "expected_revision": 1,
+  "operation": "save_progress",
+  "arguments": {"progress": {
+    "summary": "Defined the research question; evidence collection is next.",
+    "decisions": ["Compare competing explanations before selecting an experiment."],
+    "hypotheses": ["A mechanism may explain the observation; this remains unverified."],
+    "evidence_refs": [], "open_questions": ["Which original sources test this explanation?"],
+    "next_steps": ["Read and cite the relevant original sources."]
+  }}
+}

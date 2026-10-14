@@ -1,0 +1,41 @@
+{
+  "note": "All live providers default to disabled. Eligibility is not established by setting this flag. Never place keys here.",
+  "codex": {
+    "enabled": false,
+    "kind": "codex",
+    "model": "",
+    "role": "Experimental design, implementation and reproducibility review"
+  },
+  "claude_sonnet": {
+    "enabled": false,
+    "kind": "claude",
+    "model": "claude-sonnet-5-5",
+    "role": "Independent methodology and statistical review",
+    "max_budget_usd": 2.0
+  },
+  "claude_opus": {
+    "enabled": false,
+    "kind": "claude",
+    "model": "claude-opus-5-5",
+    "role": "Counterexamples, assumption challenges and critical-claim review",
+    "max_budget_usd": 3.0
+  },
+  "gemini": {
+    "enabled": false,
+    "kind": "gemini",
+    "model": "gemini-3.1-pro-preview",
+    "role": "Cross-literature synthesis and alternative explanations",
+    "project": "YOUR_GCP_PROJECT_ID",
+    "location": "global",
+    "max_output_tokens": 4096
+  },
+  "domestic": {
+    "enabled": false,
+    "kind": "openai_compatible",
+    "model": "deepseek-flash",
+    "role": "Evidence completeness and logic review",
+    "base_url": "https://api.deepseek.com",
+    "api_key_env": "DEEPSEEK_API_KEY",
+    "max_output_tokens": 4096
+  }
+}

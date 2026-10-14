@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "revision": 0,
+  "research": {
+    "directions": [],
+    "sources": [
+      {
+        "id": "web_of_science",
+        "name": "Web of Science",
+        "enabled": true,
+        "adapter": "web_of_science",
+        "access_mode": "api",
+        "credential_ref": null,
+        "rate_limit": 1.0,
+        "capabilities": []
+      },
+      {
+        "id": "scopus",
+        "name": "Scopus",
+        "enabled": true,
+        "adapter": "scopus",
+        "access_mode": "api",
+        "credential_ref": null,
+        "rate_limit": 1.0,
+        "capabilities": []
+      },
+      {
+        "id": "pubmed",
+        "name": "PubMed",
+        "enabled": true,
+        "adapter": "pubmed",
+        "access_mode": "api",
+        "credential_ref": null,
+        "rate_limit": 1.0,
+        "capabilities": []
+      },
+      {
+        "id": "ieee",
+        "name": "IEEE Xplore",
+        "enabled": true,
+        "adapter": "ieee",
+        "access_mode": "api",
+        "credential_ref": null,
+        "rate_limit": 1.0,
+        "capabilities": []
+      },
+      {
+        "id": "google_scholar",
+        "name": "Google Scholar",
+        "enabled": true,
+        "adapter": "google_scholar",
+        "access_mode": "browser",
+        "credential_ref": null,
+        "rate_limit": 1.0,
+        "capabilities": []
+      }
+    ]
+  },
+  "browser": {
+    "preferred": "edge"
+  },
+  "zotero": {
+    "base_url": "http://127.0.0.1:23119",
+    "binding_id": null,
+    "instance_id": null,
+    "user_id": null,
+    "credential_ref": null,
+    "allow_authorization_prompt": false,
+    "allowed_operations": []
+  },
+  "execution": {
+    "node_ref": null,
+    "timeout_seconds": 300,
+    "max_retries": 0
+  },
+  "models": {
+    "provider_ref": null
+  },
+  "limits": {
+    "max_requests": null,
+    "max_tokens": null,
+    "max_cost_usd": null,
+    "concurrency": null,
+    "node_concurrency": null,
+    "model_concurrency": null,
+    "study_concurrency": null
+  },
+  "accounting": {
+    "period_id": null,
+    "max_requests": null,
+    "max_tokens": null,
+    "max_cost_usd": null
+  },
+  "grants": {},
+  "retention": {
+    "unreferenced_cache_days": 30
+  }
+}

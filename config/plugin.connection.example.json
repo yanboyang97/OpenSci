@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "coordinator_root": "C:/OpenSci-Data",
+  "policy": "C:/OpenSci-Data/config/mcp.policy.local.json"
+}

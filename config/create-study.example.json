@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "request_id": "CREATE-EXAMPLE-STUDY-001",
+  "study_id": "EXAMPLE-STUDY",
+  "expected_revision": 0,
+  "operation": "create_study",
+  "arguments": {"goal": "Organize a research question, evidence, hypotheses and next steps.", "research_workspace": null, "binding": null}
+}

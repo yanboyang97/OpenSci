@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "request_id": "REPLACE-WITH-UNIQUE-REQUEST-ID",
+  "study_id": "STUDY-001",
+  "expected_revision": 1,
+  "operation": "note",
+  "arguments": {"note": "Record a confirmed research conclusion; conversational suggestions do not grant approval."}
+}

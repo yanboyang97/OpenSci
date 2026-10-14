@@ -1,0 +1,17 @@
+[Unit]
+Description=OpenSci read-only execution observer
+After=local-fs.target
+
+[Service]
+Type=simple
+User=opensci-coordinator
+WorkingDirectory=/opt/opensci
+ExecStart=/usr/bin/python3 -E -s -B /opt/opensci/scripts/observe_runs.py --workspace /opt/opensci --sources /opt/opensci/config/observer.local.json --watch --interval 30
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

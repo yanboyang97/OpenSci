@@ -1,0 +1,30 @@
+# Copy selected entries into ~/.ssh/config INSIDE WSL.
+# Use a DIFFERENT private key from the Windows key, not an unprotected copy.
+Host research-control
+    HostName CONTROL_PUBLIC_IP
+    User researcher
+    IdentityFile ~/.ssh/id_ed25519_research_wsl
+    IdentitiesOnly yes
+    ForwardAgent no
+    ServerAliveInterval 30
+    ServerAliveCountMax 3
+
+Host research-gpu1
+    HostName GPU1_PRIVATE_IP
+    User researcher
+    ProxyJump research-control
+    IdentityFile ~/.ssh/id_ed25519_research_wsl
+    IdentitiesOnly yes
+    ForwardAgent no
+
+Host research-cpu1
+    HostName CPU1_PRIVATE_IP
+    User researcher
+    ProxyJump research-control
+    IdentityFile ~/.ssh/id_ed25519_research_wsl
+    IdentitiesOnly yes
+    ForwardAgent no
+
+# The optional desktop remote Agent uses the Windows SSH configuration.
+# This WSL file remains independent; do not copy Windows private keys here.
+# Match compute account/hostname in hub.local.json to the actual target node.

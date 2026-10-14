@@ -1,0 +1,14 @@
+# Requires an operator-provisioned SSH alias/key with a fixed, protected server
+# command. It must not allow an interactive shell, forwarding, SFTP or a caller-
+# selected command. The forced command starts hub_mcp.py on the ONE coordinator.
+# Example fixed server command (paths must be provisioned by the operator):
+# /opt/opensci/python/bin/python -E -s -B /opt/opensci/scripts/hub_mcp.py
+#   --coordinator-root /srv/opensci-data --policy /srv/opensci-data/config/mcp.local.json
+# All clients must use that SAME coordinator; do not sync independent writable copies.
+# No SSH authorization or key provisioning is performed by OpenSci.
+[mcp_servers.opensci]
+command = 'ssh'
+args = ['-T', '-o', 'BatchMode=yes', '-o', 'StrictHostKeyChecking=yes', 'opensci-mcp']
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+enabled = true

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">OpenSci</title>
+  <desc id="desc">An open scientific horizon: an O-shaped ring with an independent point of discovery.</desc>
+  <defs>
+    <linearGradient id="tile" x1="64" y1="32" x2="448" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#143B4C"/>
+      <stop offset="1" stop-color="#0A202D"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="133" y1="375" x2="361" y2="131" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#30BCD1"/>
+      <stop offset="1" stop-color="#69E4BA"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#tile)"/>
+  <path d="M 387.37 220.8 A 136 136 0 1 1 291.2 124.63" fill="none" stroke="url(#ring)" stroke-width="46" stroke-linecap="round"/>
+  <circle cx="369" cy="143" r="24" fill="#B5F6D8"/>
+</svg>
