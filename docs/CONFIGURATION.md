@@ -6,21 +6,26 @@ Configuration consists of source-controlled examples and machine-specific settin
 
 ## Configuration map
 
-| File | Purpose |
-| --- | --- |
-| `config/runtime.local.json` | Windows wrapper runtime binding |
-| `config/hub.local.json` | Coordinator node catalog |
-| `config/providers.local.json` | Operator-provided review/literature providers on the executing node |
-| `config/literature.local.json` | Optional protected library binding, directions, sources, grants, limits and accounting period |
-| `tools/claude-launcher/machine.local.psd1` | Windows interactive development mapping |
-| `config/command.local.json` | Operator-prepared request, not a persistent service switch |
-| `config/mcp.policy.local.json` | Assistant Access study and operation policy |
-| `config/observer.local.json` | Run Monitor run/source bindings |
-| `coordination/resources.json` | Optional stable resource manifest |
-| `config/device.local.json` | Optional machine-specific resource paths |
-| `environments/*.local.json` | Environment snapshots captured for actual tasks |
+Paths below are relative to the indicated location. **Software** means `C:\OpenSci`; **Records** means `C:\OpenSci-Data` in the beginner setup. Examples are shipped in the software folder; copy each local setting to the location its component reads.
+
+| File | Location / how it is selected | Purpose |
+| --- | --- | --- |
+| `config/runtime.local.json` | Software | Windows wrapper runtime binding |
+| `config/studies.local.json` | Software | Launcher selection of the records folder |
+| `config/hub.local.json` | Records; otherwise an explicit `--config` path | Coordinator node catalog |
+| `config/providers.local.json` | Executing node; review uses an explicit `--config` path, literature workers use their selected workspace | Operator-provided review/literature providers |
+| `config/literature.local.json` | Records | Optional protected library binding, directions, sources, grants, limits and accounting period |
+| `tools/claude-launcher/machine.local.psd1` | Software | Windows interactive development mapping |
+| `config/command.local.json` | Explicit `--request` path; CLI examples use Software | Operator-prepared request, not a persistent service switch |
+| `config/mcp.policy.local.json` | Records in these examples; passed explicitly with `--policy` | Assistant Access study and operation policy |
+| `config/observer.local.json` | Records in these examples; passed explicitly with `--sources` | Run Monitor run/source bindings |
+| `coordination/resources.json` | Selected file passed with `verify_resources.py --manifest` | Optional stable resource manifest |
+| `config/device.local.json` | On the machine being checked; passed with `--device` | Optional machine-specific resource paths |
+| `environments/*.local.json` | Actual capture destination selected with `capture_environment.py --out` | Environment snapshots captured for actual tasks |
 
 Each component has its own loading rules; not every script reads runtime configuration or automatically prefers `.local.json`. In particular, `review_round.py` defaults to `config/providers.example.json`. Pass `--config config/providers.local.json` explicitly to use a local provider configuration.
+
+Run scripts from the software folder using the [command helper](GETTING_STARTED.md#command-context). For separate records, explicitly pass `--workspace C:/OpenSci-Data` to backup, Run Monitor and maintenance-plan commands; they do not follow the launcher's `studies.local.json`. For Run Monitor, also pass `--sources C:/OpenSci-Data/config/observer.local.json`. A relative `.` here selects the software folder, not your records.
 
 ## Windows runtime selection
 

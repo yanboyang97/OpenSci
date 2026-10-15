@@ -23,16 +23,16 @@ Stop formal writers, including enabled Assistant Access and Run Monitor processe
 
 Use this procedure only if a restored or imported study reports that preparation is required. Read the diagnostic first. When it requests `upgrade`, prepare and apply that operation before `enable-commands`. Never change `schema_version` by hand. Normal study creation does not need this procedure.
 
-The output parent must exist and the plan filename must be new. Add `--allow-remote-check` to both commands only after authorizing a configured SSH/WSL workspace check. Omit it for a local-only operation.
+The output parent must exist and the plan filename must be new. `--workspace` selects the records folder, `C:/OpenSci-Data` in the beginner setup; for recovery use the new restored `workspace` directory instead. It does not follow `studies.local.json`. Add `--allow-remote-check` to both commands only after authorizing a configured SSH/WSL workspace check. Omit it for a local-only operation.
 
 ```powershell
-Invoke-OpenSci -Arguments @('scripts/lifecycle.py', '--workspace', '.', 'preflight', '--study', 'STUDY-001', '--operation', 'enable-commands', '--reason', 'Prepare the restored study for the Operation Service', '--output', 'C:/OpenSci-Backups/study-preparation-001.json', '--allow-remote-check')
+Invoke-OpenSci -Arguments @('scripts/lifecycle.py', '--workspace', 'C:/OpenSci-Data', 'preflight', '--study', 'STUDY-001', '--operation', 'enable-commands', '--reason', 'Prepare the restored study for the Operation Service', '--output', 'C:/OpenSci-Backups/study-preparation-001.json')
 ```
 
 Review the study ID, current revision and digest, source, target configuration and original runs. Keep the printed plan SHA-256 separately. After actually stopping writers, saving the backup and reconciling runs, apply the reviewed plan:
 
 ```powershell
-Invoke-OpenSci -Arguments @('scripts/lifecycle.py', '--workspace', '.', 'apply', '--plan', 'C:/OpenSci-Backups/study-preparation-001.json', '--expected-sha256', 'REPLACE_WITH_PRINTED_PLAN_SHA256', '--quiesced', '--backup-saved', '--runs-reconciled', '--allow-remote-check')
+Invoke-OpenSci -Arguments @('scripts/lifecycle.py', '--workspace', 'C:/OpenSci-Data', 'apply', '--plan', 'C:/OpenSci-Backups/study-preparation-001.json', '--expected-sha256', 'REPLACE_WITH_PRINTED_PLAN_SHA256', '--quiesced', '--backup-saved', '--runs-reconciled')
 ```
 
 Plans expire after one hour. Changed source, configuration or records require a new preflight. Confirmation flags are assertions, not automatic backup or reconciliation. After success, read the study and history, verify the new revision and use the Operation Service for daily writes.

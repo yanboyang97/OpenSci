@@ -9,7 +9,7 @@ The steps below use Windows. Linux users can use the short section near the end 
 <a id="deployment"></a>
 ## 1. Put the software and records in separate folders
 
-Extract the OpenSci runtime archive into a new folder. This guide uses `C:\OpenSci`; the folder should contain `Start-OpenSci.cmd`, `config`, `scripts` and this handbook. If those files are inside a second nested folder, that inner folder is the installation folder.
+Open the [OpenSci downloads page](https://github.com/yanboyang97/OpenSci/releases), expand **Assets** for version 1.0.1, and download **OpenSci-1.0.1.zip**, the runtime package. The Plugin and MCP packages are for assistant integration later. Extract the runtime archive into a new folder. This guide uses `C:\OpenSci`; the folder should contain `Start-OpenSci.cmd`, `config`, `scripts` and this handbook. If those files are inside a second nested folder, that inner folder is the installation folder.
 
 Use a separate folder, `C:\OpenSci-Data`, for your research records. In File Explorer, create a `config` folder inside it. You can choose different writable locations; replace both example paths consistently throughout setup. Keep any existing records in place rather than overwriting them.
 
@@ -44,7 +44,7 @@ Use `py -3 -B` if that is the working Python command on your computer. A success
 
 ## 3. Create three settings files
 
-In File Explorer, enable **file name extensions** so that a file named `.json` does not accidentally become `.json.txt`. Open copied files with Notepad, replace their contents as described, and save as UTF-8. JSON is a small text settings format: keep the braces, commas and straight quotation marks as shown.
+In File Explorer on Windows 11, select **View → Show → File name extensions**; on Windows 10, select **View** and check **File name extensions**. Confirm that a copied settings file ends in `.json`, not `.json.txt`. See [Microsoft's file extension guide](https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/common-file-name-extensions-in-windows) if the controls differ. Open copied files with Notepad, replace their contents as described, and save as UTF-8. JSON is a small text settings format: keep the braces, commas and straight quotation marks as shown.
 
 **Records settings.** Copy `C:\OpenSci\config\hub.study.example.json` to `C:\OpenSci-Data\config\hub.local.json`. Leave its contents unchanged. It is the supplied empty setup for a discussion Study.
 
@@ -85,9 +85,11 @@ The result should show your Study ID and goal, with a save receipt containing `c
 
 Enter `11` (**Save Discussion Progress**) and the same Study ID. Fill the prompts below. The summary is required; you can press Enter to leave each remaining prompt empty.
 
+Each save **replaces the whole current progress summary and all five lists**. Before a later save, read **10 Study Overview** and include any earlier content you still need. Leaving a list prompt empty clears that list in the current overview; it does not mean “keep the old value”. Earlier versions remain in history; see [reading progress and history](DAILY_USE.md#saved-progress).
+
 | Prompt | What to enter | Example |
 | --- | --- | --- |
-| Saved summary | What you learned or completed | `Defined the first research question` |
+| Saved summary | The current summary, including earlier points to keep | `Defined the first research question` |
 | Decisions | A decision you made | `Start with a literature review` |
 | Hypotheses | An idea still needing evidence | Leave empty if none |
 | Evidence refs | A real source or item reference | Leave empty if none |
@@ -110,7 +112,7 @@ The menu is a local record tool. To have a natural-language conversation, connec
 
 Choose a backup destination before relying on the records for ongoing research. The detailed [requirements table](INSTALLATION.md) separates necessary and optional software. You do not need to configure all integrations to use one of them.
 
-If later work needs experiments tied to source versions, create a Study that registers its research workspace at creation. Your discussion Study remains available; there is currently no supported command to convert it into a source-backed Study by attaching a workspace afterwards.
+If later work needs experiments tied to source versions, follow [Create a Study with research source](DAILY_USE.md#source-study). Your discussion Study remains available; there is currently no supported command to convert it into a source-backed Study by attaching a workspace afterwards.
 
 ## If something does not work
 
@@ -122,7 +124,7 @@ If later work needs experiments tied to source versions, create a Study that reg
 | Missing workspace configuration | Check the exact name and location `C:\OpenSci-Data\config\hub.local.json` |
 | JSON cannot be read | Check straight quotes, commas, UTF-8 and that the filename does not end in `.txt` |
 | Configured Git executable is missing | For this discussion-only setup, leave `git` empty instead of keeping the example path |
-| A save's outcome is unknown | Keep its `request_id`; retrieve the original receipt before repeating the operation |
+| A save's outcome is unknown | Keep its `request_id` and follow [Recover a save](TROUBLESHOOTING.md#save-recovery) before repeating the operation |
 
 See [Troubleshooting](TROUBLESHOOTING.md) for later workflows. Share the error text when asking for help, with keys and private details removed.
 
@@ -172,7 +174,7 @@ When the research workspace needs Git provenance, confirm the commit name, email
 
 For source-dependent work, both source workspaces need the same clean commit from one Git history; the separated runtime and coordinator directories are not research source repositories. Independently initializing and committing identical files on both hosts does not establish a shared source baseline. Transfer one commit through an approved remote, clone or Git bundle. If a destination already contains files, inspect them and prepare a matching copy in a new directory. If `origin` is configured, use the same URL on both hosts because its digest is compared. Matching commits are still required if both origins are absent.
 
-For a Git-backed Study, after both source copies are ready, create it using [daily use](DAILY_USE.md#first-study). Do not invent identity, choose an unconfirmed origin or edit recorded source hashes merely to bypass a readiness check.
+For a Git-backed Study, after both source copies are ready, use the [source-backed creation example](DAILY_USE.md#source-study). Do not invent identity, choose an unconfirmed origin or edit recorded source hashes merely to bypass a readiness check.
 
 ## Adding Zotero
 

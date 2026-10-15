@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "opensci-study",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Read a selected OpenSci Study and save authorized research progress with durable receipts.",
   "author": {"name": "yanboyang97"},
   "homepage": "https://github.com/yanboyang97/OpenSci",

@@ -2,7 +2,7 @@
 
 For your first session, follow [Getting Started](docs/GETTING_STARTED.md) from installing Python through saving your first Study note. Use [Installation and Requirements](docs/INSTALLATION.md) to add optional tools later. The [Chinese handbook](DOCUMENTATION.zh-CN.md#beginner-start) provides the same beginner route in Chinese.
 
-OpenSci **1.0.0** provides Research Workspace, Literature Workspace and supporting review, execution and maintenance modules. Start with the [Feature Catalog](FEATURES.md), then open the [English handbook](OpenSci-Manual.html) or [Chinese handbook](OpenSci-Manual.zh-CN.html).
+OpenSci **1.0.1** provides Research Workspace, Literature Workspace and supporting review, execution and maintenance modules. Start with the [Feature Catalog](FEATURES.md), then open the [English handbook](OpenSci-Manual.html) or [Chinese handbook](OpenSci-Manual.zh-CN.html).
 
 1. Complete the three settings files in [Getting Started](docs/GETTING_STARTED.md), then open `Start-OpenSci.cmd` on Windows. Select **1 Browse Studies** for read-only use; **0 Exit** closes the menu.
 2. Keep software and Study records in their separate folders. Create a discussion Study first; Git and execution-node setup can wait until you need them.

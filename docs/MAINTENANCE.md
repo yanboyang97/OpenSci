@@ -25,16 +25,18 @@ Invoke-OpenSci -Arguments @('scripts/doctor.py', '--profile', 'offline')
 If no Git source baseline exists, stop editing and preserve the source release, actual local configuration and shortcut reconstruction details in controlled storage. This preserves the basic deployment; it is not a complete study backup or evidence that experiments can resume. A source release excludes future studies, external data and credentials.
 
 <a id="backup"></a>
-## Project backup after Git setup
+## Back up your Study records
 
-After establishing Git history, verify that the workspace is the Git repository root, review and commit source changes, and ensure a clean working tree. Preserve any still-uncommitted work separately. Choose an existing controlled output directory outside the workspace, for example `C:\OpenSci-Backups`. This is an example and has not been created automatically. Use a new archive name. Stop all record writers and autosave, then reconcile actual run IDs. `--quiesced` declares that those prerequisites are satisfied; it does not stop services for you.
+For the beginner setup, the records are in `C:\OpenSci-Data`, separately from the software in `C:\OpenSci`. Back up that records folder with `--state-only`; it does not need Git. The backup tool does not read `studies.local.json` to find the records for you. Create `C:\OpenSci-Backups` in File Explorer, outside both folders, and choose an unused archive name. Stop all record writers and autosave, including enabled assistant connections and Run Monitor, then reconcile actual run IDs. `--quiesced` declares that those prerequisites are satisfied; it does not stop services for you.
 
 ```powershell
-Invoke-OpenSci -Arguments @('scripts/backup_project.py', 'backup', '--workspace', '.', '--output', 'C:/OpenSci-Backups/OpenSci-backup-001.zip', '--quiesced')
+Invoke-OpenSci -Arguments @('scripts/backup_project.py', 'backup', '--workspace', 'C:/OpenSci-Data', '--output', 'C:/OpenSci-Backups/OpenSci-backup-001.zip', '--quiesced', '--state-only')
 Invoke-OpenSci -Arguments @('scripts/backup_project.py', 'verify', '--archive', 'C:/OpenSci-Backups/OpenSci-backup-001.zip', '--expected-sha256', 'REPLACE_WITH_TRUSTED_SHA256')
 ```
 
-Save the first command's SHA-256 in a separate trusted record and use it for verification. Recomputing a digest from an untrusted archive does not authenticate its origin. The backup tool neither encrypts the archive nor detects secrets previously placed in history or configuration.
+The first result should name your archive and report `scope: coordinator_state`. Save its `sha256` value in a separate trusted record and replace `REPLACE_WITH_TRUSTED_SHA256` with that value in the verification command. Verification succeeds with `verified: true`. If either command fails, preserve the error and existing backup; do not treat a ZIP's existence as success. Recomputing a digest from an untrusted archive does not authenticate its origin. The backup tool neither encrypts the archive nor detects secrets previously placed in history or configuration.
+
+The state backup includes the listed records, history, local settings, literature state and manuscripts **inside the selected records folder**. Preserve the runtime release, runtime settings and external research repositories separately. If source and state really share one clean Git repository root, the combined backup is available: replace `--workspace` with that root and omit `--state-only`, after reviewing and committing source changes and preserving uncommitted work separately. It does not include a separate `C:\OpenSci-Data` automatically. The following table describes that combined backup's collection limits.
 
 | Automatically collected | Separately managed |
 | --- | --- |
@@ -53,7 +55,14 @@ The destination must not exist, for example `C:\OpenSci-Recovery-001`, rather th
 Invoke-OpenSci -Arguments @('scripts/backup_project.py', 'restore', '--archive', 'C:/OpenSci-Backups/OpenSci-backup-001.zip', '--expected-sha256', 'REPLACE_WITH_TRUSTED_SHA256', '--destination', 'C:/OpenSci-Recovery-001')
 ```
 
-Restore retains records and Git refs with a detached HEAD; the operator chooses the subsequent working branch. Reconcile origin, identity, runtime, node configuration, external resources, service accounts and permissions. Assess material completeness, history completeness, run traceability and reproducibility separately before claiming the corresponding recovery capability.
+Success reports `restored: true`, the new `workspace` path and `writable_coordinator_activated: false`. Read the recovered records without activating a writer:
+
+```powershell
+Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Recovery-001/workspace', 'list')
+Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Recovery-001/workspace', 'history', '--study', 'STUDY-001', '--limit', '20')
+```
+
+Replace the Study ID with your own and compare its goal, latest progress, revision and history with the expected backup state. A state-only restore has no Git source; a combined restore retains Git refs with a detached HEAD, and the operator chooses the subsequent working branch. Reconcile origin where applicable, identity, runtime, node configuration, external resources, service accounts and permissions before handing over the sole writer. Assess material completeness, history completeness, run traceability and reproducibility separately before claiming the corresponding recovery capability.
 
 ## Capacity, records and handover
 
@@ -65,4 +74,4 @@ A handover should identify the entry point, sole coordinator, commit/origin reco
 
 Retain operation IDs, before-images, immutable snapshots, Word recovery copies, launch markers and unsettled reservations. A lost response must be reconciled before another write/call. [Literature Workspace](../LITERATURE.md) defines the original-caller reconciliation operation. Backups include literature state, untracked manuscripts and literature local settings, excluding the derived SQLite cache. Zotero data and attachments, Windows grants, browser sessions and tools need independent recovery. Restore into isolated destinations before activating a single coordinator. Never prune unresolved writes or the only evidence behind a result.
 
-An independent coordinator without Git supports explicit `backup_project.py backup --state-only`. This saves authoritative Study state, not runtime software or external research folders. See [Study recovery](STUDY_CONNECTION.md#upgrade-and-recovery); the Git-based procedure above remains for source-and-state archives.
+See [Study recovery](STUDY_CONNECTION.md#upgrade-and-recovery) for independent coordinator recovery and record preparation after restoration.

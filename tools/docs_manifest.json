@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "code_version": "1.0.0",
-  "revision": "2026-10-14",
+  "code_version": "1.0.1",
+  "revision": "2026-10-15",
   "guides": [
     "DOCUMENTATION.md",
     "FEATURES.md",

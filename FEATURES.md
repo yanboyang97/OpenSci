@@ -1,6 +1,6 @@
 # OpenSci Feature Catalog
 
-OpenSci **1.0.0** organizes research work around a study: its question, evidence, decisions, source code and recorded results. The names below are the official names used in menus and documentation. File paths and API identifiers are stable technical interfaces; they are not additional product names.
+OpenSci **1.0.1** organizes research work around a study: its question, evidence, decisions, source code and recorded results. The names below are the official names used in menus and documentation. File paths and API identifiers are stable technical interfaces; they are not additional product names.
 
 ## Research workflow
 

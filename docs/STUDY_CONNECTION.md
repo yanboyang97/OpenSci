@@ -85,6 +85,8 @@ Keep one stable protected identity for saving and recovering receipts. A `local_
 
 `save_progress` takes exactly `arguments: {"progress": {...}}`. Progress has `summary` plus five string arrays: `decisions`, `hypotheses`, `evidence_refs`, `open_questions`, `next_steps`. The summary permits 16000 UTF-8 bytes; each array permits 64 items of at most 4000 bytes; the whole progress object is limited to 48000 bytes and the command to 64000 bytes. Evidence strings are references, not assertions that files were read. The service attaches only protected source context. Original conversations stay in the native app.
 
+Each save replaces the entire current progress object; it does not append to the previous summary or retain lists sent as empty arrays. Read the latest progress, including omitted detail, and carry forward content that should remain current. Earlier versions stay in history; follow [progress and history](DAILY_USE.md#saved-progress) to read them.
+
 Overviews remove whole fields when needed and return `has_more` and revision-pinned detail references; they never truncate JSON silently. Record heads remain limited to 4 MB. Input and output MCP frames are limited to 256000 bytes. Capacity rejection preserves the old head. Saving calls no model and does not poll transcripts.
 
 ## Native project links and Work

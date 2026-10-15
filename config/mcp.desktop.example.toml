@@ -5,7 +5,7 @@
 # client's complete configuration. Protect the policy and coordinator files.
 [mcp_servers.opensci]
 command = 'C:\REPLACE\Python\python.exe'
-args = ['-E', '-s', '-B', 'E:\REPLACE\OpenSci\scripts\hub_mcp.py', '--coordinator-root', 'E:\REPLACE\OpenSci-Data', '--policy', 'E:\REPLACE\OpenSci-Data\config\mcp.local.json']
+args = ['-E', '-s', '-B', 'E:\REPLACE\OpenSci\scripts\hub_mcp.py', '--coordinator-root', 'E:\REPLACE\OpenSci-Data', '--policy', 'E:\REPLACE\OpenSci-Data\config\mcp.policy.local.json']
 cwd = 'E:\REPLACE\OpenSci'
 startup_timeout_sec = 20
 tool_timeout_sec = 60

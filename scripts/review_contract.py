@@ -21,7 +21,7 @@ def timestamp(value):
 def validate_plan(plan, historical=False):
     if not isinstance(plan, dict) or set(plan) != PLAN_KEYS or type(plan["schema_version"]) is not int or plan["schema_version"] != 2:
         raise ValueError("Unsupported Evidence Review plan; generate a new review plan")
-    if historical and plan['pipeline_version'] not in ('1.2.0', '1.3.0', '1.4.0', '1.5.0', '1.6.0', '1.7.0-rc.1', '1.0.0'):
+    if historical and plan['pipeline_version'] not in ('1.2.0', '1.3.0', '1.4.0', '1.5.0', '1.6.0', '1.7.0-rc.1', '1.0.0', '1.0.1'):
         raise ValueError('Unsupported historical review pipeline')
     if not historical and plan["pipeline_version"] != VERSION:
         raise ValueError("Regenerate the plan with this review pipeline version")
@@ -82,7 +82,7 @@ def validate_manifest(manifest, directory=None, packet_sha256=None, subject=None
     if not isinstance(manifest["results"], list) or len(manifest["results"]) != len(expected_pairs):
         raise ValueError("Missing review results")
     artifacts = {"config.snapshot.json", "packet.md"}
-    if plan['pipeline_version'] in ('1.5.0', '1.6.0', '1.7.0-rc.1', '1.0.0'):
+    if plan['pipeline_version'] in ('1.5.0', '1.6.0', '1.7.0-rc.1', '1.0.0', '1.0.1'):
         artifacts.add('rules.snapshot.md')
     seen = set()
     for result in manifest["results"]:
@@ -131,7 +131,7 @@ def validate_manifest(manifest, directory=None, packet_sha256=None, subject=None
                 raise ValueError("Review artifact missing, unsafe or modified: "+name)
     if checksums["config.snapshot.json"] != manifest["config_sha256"] or checksums["packet.md"] != manifest["packet_sha256"]:
         raise ValueError("Frozen packet/config artifact mismatch")
-    if plan['pipeline_version'] in ('1.5.0', '1.6.0', '1.7.0-rc.1', '1.0.0') and checksums['rules.snapshot.md'] != plan['prompt_template_sha256']:
+    if plan['pipeline_version'] in ('1.5.0', '1.6.0', '1.7.0-rc.1', '1.0.0', '1.0.1') and checksums['rules.snapshot.md'] != plan['prompt_template_sha256']:
         raise ValueError('Shared rules snapshot differs from the frozen plan')
     for result in manifest["results"]:
         prompt_name = f"round{result['round']}-{result['provider']}.prompt.txt"

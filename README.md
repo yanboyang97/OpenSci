@@ -18,9 +18,9 @@ OpenSci 以 Python 为基础，通过 MCP（让 AI 助手调用外部工具的�
 | ChatGPT、Codex 与支持 MCP 的助手 | 读取课题概览、讨论研究问题、保存结论，让下一次对话接着工作 |
 | Zotero 与文献检索来源 | 查找和筛选论文，整理阅读笔记，把证据关联到研究问题 |
 | Codex、Claude、Gemini 与兼容接口的模型服务 | 在各自完成配置后，辅助开发，或对同一组材料开展证据评审并保留分歧 |
-| Word、LaTeX / BibTeX、Quarto | 将已选文献用于引用和参考文献；Word 使用本机 Zotero 插件 |
-| Git、本地电脑和远程工作区 | 记录代码版本与研究进展之间的关系，接续已有开发工作 |
-| MLflow、Prefect | 在已配置的服务中追踪实验产物、调用已批准的固定工作流 |
+| Word，以及 LaTeX / BibTeX、Quarto 等论文写作工具 | 整理论文引用和参考文献，让读者找到依据；Word 使用本机 Zotero 插件 |
+| Git（代码修改记录工具）、本地电脑和远程工作区 | 保存代码修改记录，知道每一步研究用了哪个版本，方便继续或回查 |
+| MLflow（实验记录工具）、Prefect（任务安排工具） | 在完成配置后集中查看实验结果，按预先设定并获批准的步骤执行任务 |
 
 ### 从一个问题开始，逐步形成可追溯的成果
 
@@ -69,9 +69,9 @@ OpenSci runs on Python and uses MCP—the Model Context Protocol—to let assist
 | ChatGPT, Codex and MCP-compatible assistants | Read a Study Overview, discuss questions and save conclusions for the next conversation |
 | Zotero and literature sources | Find and screen papers, organize reading notes and connect evidence to a research question |
 | Codex, Claude, Gemini and compatible model services | Support development or review the same supplied evidence, retaining disagreements; each service needs its own setup |
-| Word, LaTeX / BibTeX and Quarto | Use selected literature in citations and bibliographies; Word uses the local Zotero plugin |
-| Git, local computers and remote workspaces | Connect research progress to code versions and continue existing development work |
-| MLflow and Prefect | Track experiment artifacts and invoke approved fixed workflows through configured services |
+| Word and paper-writing tools such as LaTeX / BibTeX and Quarto | Organize citations and reference lists so readers can find the evidence; Word uses the local Zotero plugin |
+| Git (code change history), local computers and remote workspaces | Save code changes and connect each research step to the version used, making work easier to resume or check |
+| MLflow (experiment records) and Prefect (task scheduling) | Once configured, view experiment results in one place and carry out steps that were set up and approved in advance |
 
 ### Turn a question into a traceable body of work
 

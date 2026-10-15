@@ -31,7 +31,7 @@
 
 # OpenSci 用户与维护手册
 
-适用版本：**OpenSci 1.0.0**。文档日期：**2026-10-14**。
+适用版本：**OpenSci 1.0.1**。文档日期：**2026-10-15**。
 
 这本手册从第一次安装开始，说明在哪里操作、需要填写什么、完成后会看到什么。先做完下面的入门流程，再选择需要的文献、助手或手机功能。项目的整体介绍见 [README](README.md#chinese)。打开 `OpenSci-Manual.zh-CN.html` 可离线阅读和搜索，英文版为 `OpenSci-Manual.html`。
 
@@ -44,7 +44,7 @@
 
 ### 第 1 步：分开存放软件和研究记录
 
-把完整 OpenSci 软件包解压到一个新文件夹。本手册用 `C:\OpenSci` 举例；打开后应能看到 `Start-OpenSci.cmd`、`config` 和 `scripts`。如果它们还在下一层文件夹内，以那一层作为安装目录。
+打开 [OpenSci 下载页](https://github.com/yanboyang97/OpenSci/releases)，展开 1.0.1 版本下的 **Assets（下载文件）**，选择完整运行包 **OpenSci-1.0.1.zip**。带 Plugin 或 MCP 名称的包用于后续助手接入。把运行包解压到一个新文件夹。本手册用 `C:\OpenSci` 举例；打开后应能看到 `Start-OpenSci.cmd`、`config` 和 `scripts`。如果它们还在下一层文件夹内，以那一层作为安装目录。
 
 另建 `C:\OpenSci-Data` 保存研究记录，再在其中新建 `config` 文件夹。没有 C 盘写入权限时，可以选其他可写位置，并把后文的路径一致替换。已有课题目录应继续保留，不要覆盖。
 
@@ -79,7 +79,7 @@ python -B verify_delivery.py
 
 ### 第 3 步：准备三个设置文件
 
-在文件资源管理器中打开“显示文件扩展名”，避免把 `.json` 误存为 `.json.txt`。复制后用记事本编辑，保存为 UTF-8。JSON 是一种文本设置格式，请保留示例中的括号、逗号和英文双引号。
+在 Windows 11 的文件资源管理器中，依次点击 **查看 → 显示 → 文件扩展名**；Windows 10 则在 **查看** 选项卡勾选 **文件扩展名**。确认复制后的设置文件以 `.json` 结尾，没有多出的 `.txt`；界面不同时可参照 [微软扩展名说明](https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/common-file-name-extensions-in-windows)。复制后用记事本编辑，保存为 UTF-8。JSON 是一种文本设置格式，请保留示例中的括号、逗号和英文双引号。
 
 **记录设置。** 把 `C:\OpenSci\config\hub.study.example.json` 复制到 `C:\OpenSci-Data\config\hub.local.json`，内容不变。这份样例支持从空白讨论课题开始。
 
@@ -120,9 +120,11 @@ python -B verify_delivery.py
 
 输入 `11`（Save Discussion Progress，保存讨论进展），再输入同一个课题编号。按提示填写：
 
+每次保存都会**替换当前进展摘要和全部五个列表**。以后再次保存前，先用菜单 `10` 读取现有进展，把仍需保留的内容一并写入。列表留空表示清空当前列表，不是保留旧值。较早版本仍在历史中，读取方法见[进展与历史](#saved-progress)。
+
 | 屏幕提示 | 含义 | 示例 |
 | --- | --- | --- |
-| Saved summary | 这次完成或了解到什么，必填 | 已确定第一阶段的研究问题 |
+| Saved summary | 当前进展概括，包括仍需保留的早期要点，必填 | 已确定第一阶段的研究问题 |
 | Decisions | 已经做出的决定 | 先做文献整理 |
 | Hypotheses | 尚需证据支持的假设 | 没有则直接按 Enter |
 | Evidence refs | 真实来源或文献条目的引用 | 没有则直接按 Enter |
@@ -135,7 +137,7 @@ python -B verify_delivery.py
 
 先选择一个备份位置，再把课题用于持续研究。想用 AI 对话，接着看[助手接入](#assistant-setup)；想使用自己的论文，看[文献工作台](#literature-workspace)；想出门后继续工作，看[手机科研](#mobile-research)。全部软件要求集中在[依赖说明](#requirements)，可以按需安装。
 
-如果以后需要把实验与源码版本关联，请按进阶配置创建一个登记研究源码位置的新课题。现有讨论课题仍可继续使用；当前没有把它直接转换为源码课题的操作入口，不要手动改写记录。
+如果以后需要把实验与源码版本关联，请按[登记研究源码的新课题示例](#source-study)操作。现有讨论课题仍可继续使用；当前没有把它直接转换为源码课题的操作入口，不要手动改写记录。
 
 ### 第一次打开遇到问题
 
@@ -147,7 +149,7 @@ python -B verify_delivery.py
 | 提示缺少工作区配置 | 核对文件是否确实叫 `C:\OpenSci-Data\config\hub.local.json` |
 | 提示 JSON 无法读取 | 核对英文双引号、逗号、UTF-8 编码，以及文件没有多出 `.txt` 后缀 |
 | 提示 Git 文件不存在 | 初次讨论课题可以将 `git` 保持为空，不要保留不存在的示例路径 |
-| 不确定是否保存成功 | 保留原 `request_id`，先查询该操作的回执，再决定是否重试 |
+| 不确定是否保存成功 | 保留原 `request_id`，按[保存失败后的恢复步骤](#save-recovery)查询原回执后再决定是否重试 |
 
 Linux 用户使用 Python 3.10+，在自己的可写数据目录建立 `config/hub.local.json`，内容来自同一份 `hub.study.example.json`。在软件目录运行 `python3 -B scripts/hub.py --coordinator-root /home/researcher/OpenSci-Data menu`，把示例账户和目录替换为实际值，再使用相同菜单。Linux 不使用 Windows 的 `runtime.local.json`。
 
@@ -220,15 +222,38 @@ Linux 用户使用 Python 3.10+，在自己的可写数据目录建立 `config/h
 基础设置见[零基础开始](#beginner-start)。接入助手、文献、模型和远程设备时，分别完成相应章节的账户、权限、预算与备份设置。安装某个软件不会自动批准费用或实验。
 
 <a id="assistant-setup"></a>
-## 安装 OpenSci Study 插件与课题 MCP 服务
+## 助手接入：ChatGPT、Codex 与 Claude 系列
 
-插件把 OpenSci 的工具交给 AI 助手使用；MCP 是它们之间的连接方式。先完成前面的入门流程，记下自己的课题编号。以下用 `STUDY-001` 举例；不要照抄不存在的编号。
+本章帮助你让助手读取课题概览，并在你要求时保存进展。覆盖 **ChatGPT、Codex、Claude Desktop 和 Claude Code**。MCP 是让助手连接工具的协议；OpenSci 的本机服务是 `scripts/hub_mcp.py`，**OpenSci Study** 插件为兼容的插件客户端打包了这个服务。安装连接不等于建立课题，也不提供账号、隧道或凭据。
 
-### 第 1 步：指定助手可以访问的课题
+### 选择适合自己的入口
 
-在文件资源管理器中，将 `C:\OpenSci\config\mcp.unselected.example.json` 复制到 `C:\OpenSci-Data\config`，改名为 `mcp.policy.local.json`。用记事本打开，把 `connection_id` 的占位文字改成你选定的连接名称，例如 `opensci-desktop-01`。它用于识别这条连接，不是密码；每条连接使用不同名称，日后恢复请求时保持原名称。
+| 使用位置 | Windows | macOS / Linux |
+| --- | --- | --- |
+| 浏览器中的 ChatGPT | 私有 Secure MCP Tunnel，使用随包的 Windows 启动器 | 在 OpenSci 所在电脑运行官方隧道客户端 |
+| 电脑上的 Codex | 直接配置本机 MCP，或使用兼容的 OpenSci 插件 | 相同 MCP 配置，换成本机 Python 和路径 |
+| Claude Desktop | 本机 MCP 配置 | macOS 本机 MCP；Linux 桌面当前为 beta，有 Developer 设置时按该入口配置 |
+| Claude Code | 从 Windows 终端注册本机 stdio MCP | 相同命令，换成本机 Python 和路径 |
 
-首次配置时尚未启动连接。如果之前已经接入，请先在助手中停用对应连接；普通 Chat 隧道还需停止它的启动窗口。然后打开 PowerShell，输入以下命令。软件和记录目录不同则替换路径；最后一个编号换成自己的课题编号。
+这是可采用的接入路线，不表示每个操作系统上的完整科研流程都已实测通过。Claude 当前桌面支持范围见[官方安装说明](https://support.claude.com/en/articles/10065433-install-claude-desktop)。连接必须运行在实际能访问记录的电脑/进程中；Windows 路径不能直接用在 WSL 或云端容器。Zotero 留在协调器所在电脑，不转发其本机端口。手机接续电脑任务另见[手机科研](#mobile-research)。
+
+<a id="connection-prerequisites"></a>
+### 第 1 步：准备并选择一个课题
+
+先完成[零基础开始](#beginner-start)，建立课题并在本机确认能读到概览。准备 Python 3.10+ 和完整 OpenSci 软件目录；直接 MCP 不需要额外的 MCP SDK 或 Python 包。记下以下四个值：
+
+| 要填写的值 | Windows 入门示例 | 去哪里取得自己的值 |
+| --- | --- | --- |
+| Python 程序 | `C:/Tools/Python/python.exe` | 软件 `config/runtime.local.json` 中的 `python`；macOS/Linux 用 `command -v python3` 查找并核对版本 |
+| 软件目录 | `C:/OpenSci` | 包含 `scripts/hub_mcp.py` 的目录 |
+| 记录目录 | `C:/OpenSci-Data` | 你选择的、包含 `config/hub.local.json` 和已保存课题的目录 |
+| 课题编号 | `STUDY-001` | 创建或列出课题时显示的编号 |
+
+macOS 可使用自己的 `/Users/yourname/OpenSci`、`/Users/yourname/OpenSci-Data`，Linux 可使用 `/home/yourname/OpenSci`、`/home/yourname/OpenSci-Data`。必须换掉 `yourname` 和所有示例路径，填写真实绝对路径。JSON/TOML 参数中不要使用 `~` 或命令行变量，它们不会自动展开。
+
+把软件中的 `config/mcp.unselected.example.json` 复制到记录目录的 `config/mcp.policy.local.json`，用文本编辑器打开，将 `connection_id` 换成唯一名称，如 `opensci-codex-01`，暂时保留其他字段。它是连接身份名称，不是密码。接入第二个客户端时，使用**另一份策略和另一个连接名称**，如 `mcp.claude.local.json` / `opensci-claude-01`，后续命令也改用那个策略路径。各客户端指向同一份权威记录，不分别复制课题。
+
+选择课题前先停止对应连接；第一次配置时尚未运行，可以直接操作。在 PowerShell 中执行：
 
 ```powershell
 Set-Location -LiteralPath 'C:\OpenSci'
@@ -236,33 +261,188 @@ $OpenSciPython = (Get-Content -LiteralPath '.\config\runtime.local.json' -Raw -E
 & $OpenSciPython -E -s -B scripts/select_study_connection.py --coordinator-root C:/OpenSci-Data --policy C:/OpenSci-Data/config/mcp.policy.local.json --study-id STUDY-001 --connection-stopped
 ```
 
-看到 `Study selected.` 表示选择已保存。此操作允许助手对该课题进行受限制的写入；只想读取时，在启动连接前把策略文件中的 `allow_write` 改成 `false`。每次改动策略都要重启连接才能生效。撤销选择时，在连接停止后将命令中的 `--study-id STUDY-001` 换成 `--clear`；此时不再允许访问任何课题。
+macOS/Linux 从软件目录执行，替换成本机实际路径：
 
-### 第 2 步：告诉插件去哪里找记录
+```bash
+/usr/bin/python3 -E -s -B scripts/select_study_connection.py --coordinator-root /home/yourname/OpenSci-Data --policy /home/yourname/OpenSci-Data/config/mcp.policy.local.json --study-id STUDY-001 --connection-stopped
+```
 
-按 Windows 键加 R，输入 `%LOCALAPPDATA%` 并回车，在打开的位置新建 `OpenSci` 文件夹。把 `C:\OpenSci\config\plugin.connection.example.json` 复制进去，改名为 `connection.json`。用记事本打开，核对两个路径指向自己的记录目录和上一步的策略文件：
+出现 `Study selected.` 表示选择已保存。这同时启用该连接获准的助手写入；只想阅读时，在启动前把策略中的 `allow_write` 改回 `false`。首次读取保持 `allow_remote_checks: false`。没有可信宿主绑定时，身份/项目上下文保持 unknown，不能用模型名称推断项目身份。
+
+<a id="direct-mcp-installation"></a>
+### 第 2A 步：Codex 直接连接本机服务
+
+同一客户端在直接连接和下方插件方式中选择一种，避免重复工具使用不同连接身份。
+
+Codex 默认在 `~/.codex/config.toml` 保存 MCP 设置，Windows 对应 `%USERPROFILE%\.codex\config.toml`；自定义过 Codex 主目录时使用实际生效文件。先备份，只合并下面这一段并保留其他设置。名称已存在时核对原条目，不重复添加。[官方 MCP 配置说明](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
+
+```toml
+[mcp_servers.opensci]
+command = 'C:/Tools/Python/python.exe'
+args = ['-E', '-s', '-B', 'C:/OpenSci/scripts/hub_mcp.py', '--coordinator-root', 'C:/OpenSci-Data', '--policy', 'C:/OpenSci-Data/config/mcp.policy.local.json']
+cwd = 'C:/OpenSci'
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+enabled = true
+```
+
+把程序和路径换成第 1 步确认的值。macOS/Linux 要把所有路径（包括 `cwd`）换成本机绝对路径；可复用 [mcp.desktop.example.toml](config/mcp.desktop.example.toml)。
+
+重启本机客户端/服务，开始新对话。Codex CLI 中执行 `codex mcp list`，进入 Codex 后用 `/mcp` 查看连接。桌面宿主如提供“Settings → MCP servers”，可在该处添加相同 STDIO 程序/参数并重启。然后完成下方统一验收；列表中有配置不等于已经读取成功，本机配置也不会自动接通云端对话。
+
+#### 可选：安装 OpenSci Study 插件
+
+仅用于支持 OpenAI 插件格式的客户端。仓库根目录包含 `plugin.json`、`mcp.json`、图标和服务源码，`.agents/plugins/marketplace.json` 指向该目录。宿主环境需能以 `python` 启动 Python；需要使用 Python 完整路径时，采用上面的直接 MCP。
+
+Windows 按 Windows+R 输入 `%LOCALAPPDATA%`，在打开位置创建 `OpenSci` 文件夹，把软件的 `config/plugin.connection.example.json` 复制进去并命名为 `connection.json`。macOS/Linux 的 OpenSci 入口脚本读取 `~/.config/opensci/connection.json`；也可在宿主进程用 `OPENSCI_CONNECTION_FILE` 指定绝对路径。填写实际值：
+
+```json
+{"schema_version":1,"coordinator_root":"C:/OpenSci-Data","policy":"C:/OpenSci-Data/config/mcp.policy.local.json"}
+```
+
+保存 UTF-8，避免额外 `.txt` 后缀。由操作者维护，放在插件缓存之外；缺失或无效时插件停止启动。兼容的 Codex CLI 可执行 `codex plugin marketplace add yanboyang97/OpenSci`，再在所装版本支持时执行 `codex plugin add opensci-study@opensci`；兼容桌面市场也可从仓库选择并安装 **OpenSci Study**。没有对应命令/界面时用直接 MCP，并参考[当前插件指南](https://developers.openai.com/plugins/build/plugins)。安装后开启新对话。GitHub 下载不表示已经上架公共目录或配置了托管服务。
+
+<a id="claude-desktop"></a>
+### 第 2B 步：Claude Desktop 添加本机 MCP
+
+1. 安装并登录对应系统的 Claude Desktop。进入应用的 **Settings → Developer → Edit Config**。Windows 文件为 `%APPDATA%\Claude\claude_desktop_config.json`，macOS 为 `~/Library/Application Support/Claude/claude_desktop_config.json`。Linux beta 使用应用实际打开的文件，不猜测其保存位置。受管理设置隐藏入口时，请管理员确认，或使用被允许安装的 Claude Code。[官方本机服务教程](https://modelcontextprotocol.io/docs/develop/connect-local-servers)
+2. 备份文件，把下面的 `opensci-study` 合并到已有 `mcpServers` 中，保留其他条目。空文件可使用完整示例。策略路径使用为此客户端单独准备的那一份。
 
 ```json
 {
-  "schema_version": 1,
-  "coordinator_root": "C:/OpenSci-Data",
-  "policy": "C:/OpenSci-Data/config/mcp.policy.local.json"
+  "mcpServers": {
+    "opensci-study": {
+      "command": "C:/Tools/Python/python.exe",
+      "args": ["-E", "-s", "-B", "C:/OpenSci/scripts/hub_mcp.py", "--coordinator-root", "C:/OpenSci-Data", "--policy", "C:/OpenSci-Data/config/mcp.policy.local.json"]
+    }
+  }
 }
 ```
 
-保存为 UTF-8，确认文件没有多出 `.txt` 后缀。此文件不保存密钥，不放在插件缓存中；缺少或无效时插件拒绝启动。Linux 的对应位置是 `~/.config/opensci/connection.json`；有特殊存放需要时，可在宿主进程用 `OPENSCI_CONNECTION_FILE` 指定绝对路径。
+3. 所有路径都换成第 1 步实际值；macOS/Linux 使用本机 Python、软件、记录和策略绝对路径。Windows 的 JSON 路径可使用正斜线，不加入注释或末尾多余逗号。完全退出并重开 Claude Desktop，在 **Connectors / Manage connectors** 和 Developer 状态中检查 `opensci-study`。
+4. 开始对话，按需启用这个连接器，再做统一验收。OpenSci ZIP 不是 Claude 的 `.mcpb` 桌面扩展，不从扩展安装器导入；这份本机配置也不会单独连接 Claude 网页或手机端。
 
-### 第 3 步：在助手中安装并使用
+<a id="claude-code"></a>
+### 第 2C 步：Claude Code 注册本机启动命令
 
-公开仓库根目录就是插件根目录，包含 `plugin.json`、`mcp.json`、服务器源码和图标。支持插件市场的客户端可执行 `codex plugin marketplace add yanboyang97/OpenSci`，再在桌面插件目录安装 **OpenSci Study**。Python 必须能在宿主环境中以 `python` 启动；若你只能使用 Python 的完整路径，按 [直接 MCP 配置](docs/PLUGINS.md#direct-mcp-installation)接入。该页面提供可填写路径的完整配置样例。
+在能够访问记录的环境安装并登录 Claude Code。Windows PowerShell 使用以下命令，路径换成自己的实际值：
 
-安装后开始一个新对话，请助手“读取已选 OpenSci 课题的概览”。随后可请它讨论研究问题，并明确要求保存结论。保存成功会返回回执与课题修订号；只有聊天回答而没有保存回执时，不要假定记录已经更新。出现 `selection_required` 表示还未选课题，返回第 1 步处理。
+```powershell
+claude mcp add --transport stdio --scope user opensci-study -- C:/Tools/Python/python.exe -E -s -B C:/OpenSci/scripts/hub_mcp.py --coordinator-root C:/OpenSci-Data --policy C:/OpenSci-Data/config/mcp.policy.local.json
+claude mcp get opensci-study
+```
 
-### 可选：从普通 Chat 访问课题
+macOS/Linux 使用：
 
-普通 Chat 用户自行配置官方 Secure MCP Tunnel 和私有 MCP 连接。从官方发行页下载客户端，生成本机 stdio profile；以 `config/chat.example.json` 建立自己的 `chat.local.json`，填写经过核验的客户端摘要、profile、组织标识及私有 PID/健康/日志位置，创建必要目录。双击 `Start-Study-Chat.cmd`，在隐藏本机输入中填写仅有 Tunnels Read＋Use 权限的密钥，保持电脑和窗口运行。不同用户使用自己的组织、隧道和凭据。
+```bash
+claude mcp add --transport stdio --scope user opensci-study -- /usr/bin/python3 -E -s -B /home/yourname/OpenSci/scripts/hub_mcp.py --coordinator-root /home/yourname/OpenSci-Data --policy /home/yourname/OpenSci-Data/config/mcp.policy.local.json
+claude mcp get opensci-study
+```
 
-GitHub 发布提供可下载、自部署的运行包、插件包和 MCP 包，不等于已上架 OpenAI 公共插件目录。该目录对本地 MCP 发布另有平台资格和审核要求。当前实现用于私有单用户，不把个人隧道公开为多用户服务。完整步骤见 [Plugins and MCP](docs/PLUGINS.md)，数据去向见 [Privacy](PRIVACY.md)。
+替换第 1 步的全部路径和此客户端专用策略；带空格的路径用引号包为一个参数。`--scope user` 表示只为本用户注册，不发布项目配置；`--` 将 Claude 的参数与 OpenSci 的参数隔开。启动 Claude Code，用 `/mcp` 检查，再完成统一验收。以后移除这项注册可用 `claude mcp remove opensci-study --scope user`，不会删除 OpenSci 记录。[Claude Code MCP 命令说明](https://code.claude.com/docs/en/mcp)
+
+<a id="ordinary-chat"></a>
+### 第 2D 步：ChatGPT 连接自己的私有隧道
+
+浏览器里的 ChatGPT 不能直接启动本机 Python。需要在 OpenSci 所在电脑运行官方 Secure MCP Tunnel 客户端，并使用单独选好课题的策略。准备目标 Platform 组织与 ChatGPT 工作区的访问权限：创建隧道需要 **Tunnels Read + Manage**，运行密钥及连接操作者需要 **Read + Use**；隧道除所属组织外，还要关联目标 ChatGPT 工作区。[官方隧道设置](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels)
+
+#### 生成隧道启动配置
+
+打开 [Platform 隧道设置](https://platform.openai.com/settings/organization/tunnels)，创建或选择自己的私有隧道，记下 `tunnel_id` 和组织编号。从该页或其指向的官方发行页下载对应操作系统的客户端，保存在选定目录，核对官方来源及提供的校验信息，并查看 `help quickstart`。OpenSci 不附带分发该客户端。
+
+Windows 示例将客户端放在 `C:\Tools\tunnel-client\tunnel-client.exe`：
+
+```powershell
+& 'C:\Tools\tunnel-client\tunnel-client.exe' help quickstart
+& 'C:\Tools\tunnel-client\tunnel-client.exe' init --sample sample_mcp_stdio_local --profile opensci-chat --tunnel-id YOUR_TUNNEL_ID --mcp-command 'C:/Tools/Python/python.exe -E -s -B C:/OpenSci/scripts/hub_mcp.py --coordinator-root C:/OpenSci-Data --policy C:/OpenSci-Data/config/mcp.policy.local.json'
+```
+
+替换隧道编号和全部路径；路径有空格时按客户端帮助保留必要引号。记下生成结果中的 **profile 实际绝对文件路径**。profile 是告诉隧道如何启动 OpenSci 的本机配置，不要假定生成文件必定叫 `chat.local.yaml`。
+
+macOS/Linux 用官方本机客户端的绝对路径执行同样的 `init` 参数，并换成本机 Python、服务、记录、策略路径；`--mcp-command` 的内容仍作为一整段带引号的命令。若初始化要求凭据，按下方临时进程环境方式在本机输入，不把密钥原文放进命令历史或 profile。
+
+#### Windows 启动
+
+把软件 `config/chat.example.json` 复制为软件 `config/chat.local.json`，填写：
+
+| 字段 | 如何填写 |
+| --- | --- |
+| `client` | 下载的程序绝对路径 |
+| `client_sha256` | 核对下载来源后，用 `Get-FileHash -Algorithm SHA256` 取得的程序摘要 |
+| `profile` | 刚生成的实际 profile 路径 |
+| `organization_id` | 目标 Platform 组织编号 |
+| `pid_file`、`health_file`、`log_file` | 私有目录中的独立文件，如 `C:/OpenSci-Data/connection/`；先创建父目录 |
+
+示例程序的完整摘要命令为 `(Get-FileHash -LiteralPath 'C:\Tools\tunnel-client\tunnel-client.exe' -Algorithm SHA256).Hash.ToLowerInvariant()`，把返回值复制到 `client_sha256`。
+
+查看所装客户端的帮助，核对支持 `Start-Study-Chat.ps1` 使用的参数，尤其是 `--profile-file`、`--mcp.stdio-send-initialized-notification` 以及 PID/健康/日志参数。版本不兼容时不要绕过启动器检查。
+
+先用 `doctor --profile opensci-chat --explain` 检查 profile。需要运行密钥时，以下 PowerShell 写法隐藏输入，并在退出时清除临时环境变量：
+
+```powershell
+if (Test-Path Env:CONTROL_PLANE_API_KEY) { throw 'Use a fresh terminal without an existing tunnel key.' }
+$OpenSciSecret = Read-Host 'Tunnel runtime key' -AsSecureString
+try {
+    $env:CONTROL_PLANE_API_KEY = [System.Net.NetworkCredential]::new('', $OpenSciSecret).Password
+    & 'C:\Tools\tunnel-client\tunnel-client.exe' doctor --profile opensci-chat --explain
+} finally {
+    Remove-Item Env:CONTROL_PLANE_API_KEY -ErrorAction SilentlyContinue
+    $OpenSciSecret.Dispose()
+}
+```
+
+若初始化也需要密钥，把审阅过的 `init` 命令放在同一 `try` 内、`doctor` 之前执行。然后双击 `Start-Study-Chat.cmd`，在隐藏提示中输入权限受限的运行密钥，保持窗口打开。启动器只启动一个客户端，正常退出后清除它设置的临时密钥。在 `health_file` 写出的本机健康地址查看就绪状态。
+
+#### macOS/Linux 启动
+
+打开交互式 **Bash** 终端，当前是其他 shell 时先输入 `bash`。下例假设本机客户端为 `/home/yourname/Tools/tunnel-client`，执行前替换路径和编号：
+
+```bash
+if [ -n "${CONTROL_PLANE_API_KEY+x}" ]; then
+  printf '%s\n' 'Use a fresh terminal without an existing tunnel key.'
+else
+  read -r -s -p 'Tunnel runtime key: ' CONTROL_PLANE_API_KEY
+  printf '\n'
+  export CONTROL_PLANE_API_KEY
+  trap 'unset CONTROL_PLANE_API_KEY' EXIT
+  if /home/yourname/Tools/tunnel-client doctor --profile opensci-chat --explain; then
+    /home/yourname/Tools/tunnel-client run --profile opensci-chat --control-plane.organization-id YOUR_ORGANIZATION_ID --mcp.stdio-send-initialized-notification
+  fi
+  unset CONTROL_PLANE_API_KEY
+  trap - EXIT
+fi
+```
+
+先核对所装客户端帮助，只有 `doctor` 成功才继续运行。若 `init` 需要密钥，在 `export` 之后、`doctor` 之前执行审阅过的初始化。一个隧道只运行一个客户端，保持终端和电脑不休眠，结束时 Ctrl+C 停止。中断后确认密钥变量已清除，或关闭这个专用终端。
+
+#### 加入 ChatGPT，完成一次实际工具调用
+
+在 ChatGPT **Plugins** 中选择 **+ → Add custom MCP server**，把 **Connection** 设为 **Tunnel**，选中或粘贴同一隧道编号，完成所需认证和风险确认，创建私有插件；工作区策略可能限制此入口。[自定义 MCP 设置说明](https://developers.openai.com/api/docs/guides/custom-mcp-server)
+
+发现工具时保持隧道健康。在新对话中启用/选择插件，再完成下面验收。找不到隧道时核对工作区关联及 Read + Use 权限。电脑休眠或客户端停止会使实时调用不可用，但不会清除已保存课题。服务更新后刷新插件工具。当前连接用于私有单用户，不作为共享托管服务发布。
+
+<a id="connection-acceptance"></a>
+### 第 3 步：在任何客户端完成读取、保存与恢复验收
+
+1. 请助手：“先读取 OpenSci 连接能力，解析已选课题，再读概览，告诉我课题编号和目标，暂时不要保存。”对应工具为 `opensci_get_capabilities`、`opensci_resolve_study_link`、`opensci_get_study_brief`；助手按实际返回的工具参数调用。核对编号确实是你选的课题。
+2. 想测试保存时，再说：“把连接检查完成、下一步检查已选论文记为进展，保留已有进展，并返回已提交回执。”提交前检查拟保存的完整进展快照；结构化进展会替换上一份快照，聊天答复本身不是保存。
+3. 核对 `committed: true`，保留请求编号/修订号，再读概览确认。只读策略会按设计拒绝第 2 步。写入超时时，保持同一连接身份查询原请求，按[回执恢复](#save-recovery)处理，不因丢失响应另造替代写入。
+
+| 情况 | 最小检查步骤 |
+| --- | --- |
+| 没有 OpenSci 工具 | 核对本机客户端/宿主、完整服务目录、程序和路径、JSON/TOML 格式并重启 |
+| `selection_required` | 停止连接，在它实际使用的策略中选择课题，再启动 |
+| 读到错误课题 | 立即停止并纠正策略选择，先不要保存 |
+| 能读但不能保存 | 核对 `allow_write`、课题和该操作授权，不扩大其他权限 |
+| 不允许远程分析 | 确实需要时才核对 `allow_remote_checks` 和现有执行端设置 |
+| 隧道健康但 ChatGPT 找不到 | 核对组织/工作区关联、连接权限及隧道编号 |
+| Word 或浏览器工作不可用 | MCP 不附带这些软件或桌面控制，分别完成对应设置 |
+
+切换课题时先停止该客户端/服务和隧道，按第 1 步选择新课题，再启动。撤销选择时，在停止状态把 `--study-id STUDY-001` 换成 `--clear`。策略在进程启动时确定，编辑运行中的文件不会重新加载权限；移除客户端连接也不会删除课题记录。
+
+### 已有远程电脑的接入
+
+已经配置远程协调器时，可用 [mcp.remote.example.toml](config/mcp.remote.example.toml)，由服务端强制固定 SSH 命令。无法向协调器发起入站 SSH 时，按现有[SSH 反向连接说明](docs/STUDY_CONNECTION.md#remote-access-when-the-coordinator-is-a-local-computer)设置。回环网关不是 HTTP MCP 地址，不能公开网关或 Zotero 端口。新建账号、主机密钥和远程部署属于另一项工作，不由选择上面的客户端自动完成。
 
 ## 进阶：工作区与命令
 
@@ -272,6 +452,7 @@ GitHub 发布提供可下载、自部署的运行包、插件包和 MCP 包，�
 
 文档使用 `C:\OpenSci` 和 `/home/researcher/OpenSci` 作为示例路径。真实账号、SSH 别名和工具路径以忽略的本地配置为准。不要把开发副本启用为同一课题的第二个协调端。
 
+<a id="git-prerequisites"></a>
 ### 建立源码基线
 
 如果尚未建立 Git 基线，由操作者确认真实提交姓名、邮箱和仓库来源，在项目范围配置身份，审查待提交内容，再创建首个提交。不要提交本机配置、凭据、正式记录和实验产物，也不要擅自假定操作者身份。
@@ -335,10 +516,15 @@ Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-
 ```text
 python -B scripts/hub.py --coordinator-root C:/OpenSci-Data show --study STUDY-001
 python -B scripts/hub.py --coordinator-root C:/OpenSci-Data history --study STUDY-001 --limit 20
-python -B scripts/hub.py --coordinator-root C:/OpenSci-Data brief --study STUDY-001
+python -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data brief --study STUDY-001
 ```
 
-涉及源码的检查点先审查、验证、提交并核对同一来源。普通讨论或文献研究可直接用菜单 11 或 `save_progress` 保存，不以 Git 为前提。普通文字笔记可通过操作服务的 `note` 写入，不探测开发工作区；`checkpoint` 校验涉及源码的阶段变更。结束前记录完成事项、未决问题、下一步及原运行状态，生成研究简报用于交接。简报有时间戳，命令输出 JSON，不会自动保存文件、发送内容或查询节点的实时状态；需要文件时由操作者明确保存输出。
+上面的 `hub_command.py brief` 与菜单 10 一样，包含保存的结构化讨论进展，适合讨论交接。另一个命令 `hub.py brief` 显示检查点笔记（`checkpoint_note`）、阶段建议和运行信息，不包含菜单 11 保存的进展。概览是带时间戳的已保存快照，不会自动保存为文件、发送到另一段对话或查询节点实时状态；需要文件时明确保存输出。
+
+<a id="saved-progress"></a>
+涉及源码的检查点先审查、验证、提交并核对同一来源。普通讨论或文献研究可直接用菜单 11 或 `save_progress` 保存，不以 Git 为前提。每次保存替换当前摘要和全部五个列表，应先读旧内容并保留仍然有效的部分；菜单中每个列表只接受一项文字，留空会清空该列表。需要保留多项独立条目时，通过已连接助手或操作服务提交结构化列表。普通文字笔记可通过 `note` 写入，不探测开发工作区；`checkpoint` 校验涉及源码的阶段变更。
+
+概览出现 `has_more: true`，表示部分完整字段因篇幅限制未显示。可在软件目录运行 `python -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data show --study STUDY-001` 读取完整记录，其中 `project.project.progress.content` 是当前进展；Windows 用户通过前面的命令辅助函数传入这些参数。也可让已连接助手按 `detail_refs` 的修订号调用 `opensci_get_study_detail`。需要找回较早进展时，用上面的 `history` 命令找到修订号，再让助手读取该修订的 `field: progress`，按 `next_offset` 继续读取，直到它为 null。核对恢复内容后再保存为新版本，不直接修改历史文件。结束前用概览及必要细节交接当前进展，并核对原运行编号和状态。
 
 ### 自动化请求与回执
 
@@ -364,62 +550,318 @@ python -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data receipt --st
 
 操作服务提供 `init`、`note`、`checkpoint`、`select_agent`、`select_compute`、`attach` 等操作；内部 `observe` 只供运行监测使用。完整字段契约见 [INTEGRATION.md](INTEGRATION.md)。附加材料先放在 `coordination/imports/`，用可信的原始 SHA-256 关联；任务先于其批准与运行登记。
 
+<a id="source-study"></a>
+### 创建时登记研究源码
+
+需要源码依据的检查点或实验，应使用创建时已登记源码的新课题。保留原讨论课题，当前没有为已有课题追加或替换研究目录的受支持操作。先完成[源码准备](#git-prerequisites)：研究目录必须位于协调端这台电脑、能够访问、已有经过审查的 Git 提交且没有未提交改动；普通文件夹不能建立源码依据。
+
+把以下内容另存为 UTF-8 文件 `C:\OpenSci\config\source-study.local.json`。换成未使用的课题编号和请求编号、自己的研究目标，并把 `C:/Research/MyStudy` 改成真实研究仓库路径。`host_id: local` 表示协调端本机，`additional` 保持空列表以使用当前支持的单仓库流程，`binding: null` 表示暂不关联助手原生项目。
+
+```json
+{
+  "schema_version": 1,
+  "request_id": "STUDY-CODE-001-INIT-001",
+  "study_id": "STUDY-CODE-001",
+  "expected_revision": 0,
+  "operation": "create_study",
+  "arguments": {
+    "goal": "Test the reviewed research method",
+    "research_workspace": {"primary": {"host_id": "local", "path": "C:/Research/MyStudy"}, "additional": []},
+    "binding": null
+  }
+}
+```
+
+先在 PowerShell 加载[命令辅助函数](#command-context)，再在同一窗口执行：
+
+```powershell
+Invoke-OpenSci -Arguments @('scripts/hub_command.py', '--coordinator-root', 'C:/OpenSci-Data', 'execute', '--request', 'config/source-study.local.json')
+Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Data', 'show', '--study', 'STUDY-CODE-001')
+```
+
+成功时回执显示 `committed: true`，记录中的 `research_workspace.primary.path` 是实际研究目录，`anchor.commit` 对应已审查的 Git 提交。保留请求文件和回执；结果未知时按[保存恢复](#save-recovery)处理。创建记录不会自动配置开发工作区、执行节点或批准实验，后续源码操作仍须满足相应前提。
+
 <a id="literature-workspace"></a>
-## 文献工作台
+## 文献工作台：从第一篇论文到论文引用
 
-### 设置与权限
+本教程带你完成“找到论文 → 决定是否入库 → 阅读并留下依据 → 按需分析 → 插入真实引用”。Zotero 保存文献、附件和个人笔记；OpenSci 保存课题采用过哪些材料、筛选理由和处理结果。检索先产生候选，确认收集后才写入文献库。
 
-保留 Zotero 自身数据和附件备份。在 `config/literature.local.json` 中配置个人文献库实例、检索方向、来源、授权范围、有限预算及执行节点。先执行连接检查，再在明确授权的试用集合中核验操作。不要直接修改 Zotero 数据库或存储布局；原笔记和批注必须保留。
+第一次使用先完成[连接和读取](#literature-first-paper)，随后按需进入[检索入库](#literature-search)、[阅读整理](#literature-evidence)、[分析任务](#literature-analysis)、[论文引用](#literature-writing)和[恢复](#literature-recovery)。每一步完成后都可以停下。
 
-Zotero Local API 仅使用回环地址。凭据通过环境引用或经同意的 Windows 凭据引用提供，不放进 JSON、文档和聊天。网页机构权限、API 权限和全文权益分别判断。当前全局授权与限制持续生效，课题固定设置不能保留已撤销权限或扩大预算。
+### 开始前准备
 
-菜单接收 `capabilities` 或已审阅的结构化请求文件路径；自然语言理解由获授权的聊天助手完成，菜单本身没有内置自然语言模型或可视化设置编辑器。将请求保存为如 `config/command.local.json` 后，在菜单 **9** 输入该路径；相对路径始终从 OpenSci 根目录解析。此入口只接受 `literature.*` 操作，其他请求使用操作服务。文献请求沿用操作服务封装，`arguments` 只包含 `payload`。设置通过受保护的本地配置文件或操作者的 `literature.config_update` 请求修改。
+先完成[零基础开始](#beginner-start)，建立一个课题。仅讨论和整理文献不要求 Git、远程电脑或付费模型服务。以下假设软件在 `C:\OpenSci`、记录在 `C:\OpenSci-Data`、课题编号为 `STUDY-001`；请全部换成自己的实际值。macOS/Linux 使用本机绝对路径和 Python 3.10+；Windows 启动器及原生 Word 操作需分别满足其环境条件。
 
-### 全部文献功能
+在保存记录的电脑上打开 Zotero 10，在“我的文库”中准备一篇已有论文和一个愿意试用的小集合，并保留 Zotero 与 OpenSci 各自的备份。当前不支持群组文库。需要通过助手操作时先完成[助手接入](#assistant-setup)；也可以直接使用下面的请求文件步骤。
 
-| 功能正式名称 | 操作 | 用法与边界 |
+<a id="literature-first-paper"></a>
+### 第 1 步：连接 Zotero，读到一篇已有论文
+
+1. 在 Zotero 的“设置 → 高级”中，启用“允许此计算机上的其他程序与 Zotero 通信”，并保持 Zotero 打开。这是本机连接，不是 Zotero 网站密码。[Zotero 本机接口说明](https://www.zotero.org/support/dev/web_api/v3/local_api)
+2. 打开 OpenSci 菜单，选 **9 Literature Workspace**，输入 `capabilities`。查看返回的 `result.zotero`，应有 `read: available`、`api_version: 3` 和 `instance_id`。复制实际 `instance_id`，它标识这份文献库。这里的 `read_only: true`、`committed: false` 是正常的只读检查结果；浏览器、Word、检索来源和模型仍可能显示未验证。
+3. **仅第一次配置时**，把软件中的 `config/literature.example.json` 复制到 `C:\OpenSci-Data\config\literature.local.json`。目标文件已存在时不要覆盖，按[设置更新](#literature-settings)处理。用文本编辑器打开副本，找到 `zotero` 对象，仅把这个对象替换为下列内容；将 `INSTANCE_FROM_CAPABILITIES` 换成上一步实际值，保留示例中的其他设置。保存为 UTF-8，文件名不要多出 `.txt`。
+
+```json
+{
+  "base_url": "http://127.0.0.1:23119",
+  "binding_id": "personal-library",
+  "instance_id": "INSTANCE_FROM_CAPABILITIES",
+  "user_id": null,
+  "credential_ref": null,
+  "allow_authorization_prompt": false,
+  "allowed_operations": []
+}
+```
+
+`personal-library` 是你为这个库起的固定名称；实例编号来自 Zotero。尚未核对个人条目返回的数字 `library.id` 时，`user_id` 保持 `null`。23119 端口只供本机使用，不转发到其他电脑。出现不同实例时，先对账，不能直接用新编号覆盖旧绑定。
+
+4. 按下面的请求方法，用 `literature.search_library` 搜索那篇论文题名中的词。在 `result.items` 中核对题名，复制对应 `key`（8 位大写字母或数字）。这是论文条目编号，不是 PDF 附件编号，也不是 DOI。
+5. 使用 `literature.get`，其 `payload` 为 `{"item_key":"ABCD1234"}`，将示例编号替换成实际值。返回预期题名的条目，就完成了第一次读取；此时不需要 Zotero 写入权限。
+
+#### 请求怎么提交，结果怎么看
+
+已经接入助手时，可以说：“读取已选课题，在我的本机 Zotero 文库中查找题名含 reusable food packaging 的论文，列出匹配题名和条目编号，先不要修改文库。”助手使用的仍是下列操作；需要变更时先核对它提出的目标。菜单本身没有自然语言模型或可视化设置编辑器。
+
+手动操作时，在 PowerShell 中进入软件目录，读取课题当前修订号：
+
+```powershell
+Set-Location -LiteralPath 'C:\OpenSci'
+$OpenSciPython = (Get-Content -LiteralPath '.\config\runtime.local.json' -Raw -Encoding UTF8 | ConvertFrom-Json).python
+& $OpenSciPython -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data show --study STUDY-001
+```
+
+把返回的 `cursor.revision` 整数填入 `expected_revision`。将下面完整请求保存为 `C:\OpenSci-Data\config\literature-request.local.json`，换成实际题名、课题编号和修订号：
+
+```json
+{
+  "schema_version": 1,
+  "request_id": "LIT-LOCAL-001",
+  "study_id": "STUDY-001",
+  "expected_revision": 1,
+  "operation": "literature.search_library",
+  "arguments": {"payload": {"query": "reusable food packaging", "limit": 10}}
+}
+```
+
+执行这个文件：
+
+```powershell
+& $OpenSciPython -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data execute --request C:/OpenSci-Data/config/literature-request.local.json
+```
+
+也可以在菜单 **9** 输入同一个**绝对文件路径**。菜单从记录目录解析相对路径，命令行从当前目录解析；使用绝对路径可避免两者差异。菜单 9 只接受 `literature.*` 请求。
+
+macOS/Linux 从软件目录调用本机 Python，例如 `/usr/bin/python3 -B scripts/hub_command.py --coordinator-root /home/researcher/OpenSci-Data ...`，将 `...` 换成上面的 `show` 或 `execute` 参数，记录目录和请求文件也换成本机实际绝对路径。用 `command -v python3` 查找 Python，并确认版本为 3.10+。
+
+下文只列操作名称及 `payload` 时，保留这六个外层字段，替换 `operation` 和 `arguments.payload` 内部对象。每个新动作使用新的 `request_id`，每次变更前重新读取课题修订号。保留原请求原文用于恢复，不把单独的 `payload` 当成完整请求提交。
+
+只读操作的数据在 `result` 中。变更操作返回提交回执及文献结果引用；需要看详细结果时，再提交一个 `literature.get` 只读请求，`payload` 为 `{"request_id":"THE_ORIGINAL_CHANGE_REQUEST_ID"}`，填入刚才变更的原请求编号。从详细结果中复制真实的 `run_id`、`snapshot_id`、`job_id` 或 `task_id` 供下一步使用。课题已提交回执只证明记下了这次操作；其中某篇论文或外部步骤仍可能处于部分完成、等待或失败状态。
+
+<a id="literature-settings"></a>
+### 第 2 步：选择权限，把论文关联到课题
+
+#### 已有设置如何更新
+
+把记录目录中的 `config/literature.local.json` 另存一份工作副本，记下原 `revision`，只修改需要的设置，再把 `revision` 加 1。通过操作者身份提交 `literature.config_update`；其 `payload` 包含 `expected_config_revision`（原配置修订号）和 `config`（**修改后的完整配置**，不是几个变更字段）。外层 `expected_revision` 仍是课题修订号，这两个编号不要混用。完成后读回结果和配置文件；编号过期就重新读取核对，不能直接覆盖。助手不能给自己增加这些权限。
+
+需要收集论文或添加笔记时，将 `allow_authorization_prompt` 设为 `true`，在 `allowed_operations` 中只选择需要的操作：`create` 用于新条目、笔记和附件，`update` 用于添加标签、集合归属。首次写入时 Zotero 会弹出本机授权对话框，由你选择是否允许。如明确希望在 Windows 保留授权，可设置 `credential_ref: "wincred:OpenSci/Zotero/personal"` 并同意保留；一次性授权不会持久保存。其他系统可使用本机提示或由操作者提供的环境变量引用。密钥原文不写进请求、配置或聊天。`delete` 与 `annotation` 是另外的权限，以下常规步骤不需要它们。
+
+如果要让助手为指定论文建立阅读快照，把空的 `grants` 对象替换为下面这种小范围授权，换成实际课题和条目编号：
+
+```json
+{
+  "STUDY-001": {
+    "operations": ["literature.bind_study", "literature.read", "literature.export"],
+    "item_keys": ["ABCD1234"],
+    "collection_keys": [],
+    "manuscript_paths": []
+  }
+}
+```
+
+这是 `grants` 的值，不是整个配置文件。只在同意相应工作时加入操作、条目、集合或稿件路径；MCP 策略也要允许写入。这里限制的是委托变更与快照目标，不能把不需认证的 Zotero 本机读取接口视为文库隔离机制。
+
+#### 关联并记录筛选理由
+
+使用 `literature.bind_study`：
+
+```json
+{
+  "config_mode": "inherit",
+  "collection_refs": [],
+  "item_refs": [{"binding_id": "personal-library", "item_key": "ABCD1234"}],
+  "item_links": {"ABCD1234": {"status": "included", "reason": "Relevant to the packaging question; full text still needs checking"}}
+}
+```
+
+`inherit` 让新任务采用当前研究设置；`pinned` 固定一份设置副本，二者都不能越过当前权限和预算。`included`、`excluded`、`undecided` 分别表示纳入、排除、待定，理由属于这个课题。后续绑定会替换本课题的条目/集合引用列表，请保留仍需使用的关联。读回结果，核对编号和理由。
+
+需要关联集合时，先取得它的 8 位编号，再把 `{"binding_id":"personal-library","collection_key":"COLL1234"}` 放进 `collection_refs`。下面的 Windows 只读命令列出前 20 个集合：
+
+```powershell
+(Invoke-RestMethod -Uri 'http://127.0.0.1:23119/api/users/0/collections?limit=20&start=0' -Headers @{'Zotero-API-Version'='3'; 'Zotero-Allowed-Request'='1'}) | Select-Object key, @{Name='name'; Expression={$_.data.name}}
+```
+
+macOS/Linux 使用 `curl -H 'Zotero-API-Version: 3' -H 'Zotero-Allowed-Request: 1' 'http://127.0.0.1:23119/api/users/0/collections?limit=20&start=0'`，核对每项 `key` 与 `data.name`。后续页把 `start` 换成 20、40 等。请求头适配 Zotero 10 的浏览器请求保护。[Zotero 10 本机接口变更](https://www.zotero.org/support/dev/zotero_10_for_developers)
+
+通过助手读取已绑定集合时，除集合编号外，还要明确授权其中**每篇实际读取的论文编号**；集合新增论文可能需要更新授权。集合改名不改变编号；集合被删除则需人工核对替代目标。
+
+<a id="literature-search"></a>
+### 第 3 步：检索、筛选，再决定入库
+
+#### 先检索一个来源
+
+先说明问题、日期/类型限制、来源和停止条件。例如：“在 PubMed 查找最多 10 篇可重复使用食品包装相关论文，先展示相关性、文献类型和缺失信息，不要入库。”使用 `literature.search`：
+
+```json
+{"intent":"Find evidence about reusable food packaging","queries":{"pubmed":"reusable food packaging"},"limit":10}
+```
+
+用 `literature.get` 读取详细结果，保留 `run_id`，核对每个来源的实际查询、返回范围、状态和候选，记下选中论文的 `candidate_id`。前 10 条只是一次有限检索，不代表完整系统综述。要接续同一检索，在请求中加入 `resume_run`，填前一次 `run_id`，保留原查询/设置并检查新范围。
+
+| 来源编号 | 需要准备什么 | 直接检索不可用时 |
 | --- | --- | --- |
-| 连接检查 | `literature.capabilities` | 检查已连接能力，未测试项目保持未验证 |
-| 文献记录查询 | `literature.get` | 读取课题关联、条目、操作或原生写作任务 |
-| 文献库检索 | `literature.search_library` | 检索本地库或派生索引，说明索引时间 |
-| 文献检索 | `literature.search` | 按来源保留查询、窗口与覆盖；`resume_run` 接续原检索 |
-| 引文导入 | `literature.search_import` | 读取原生 RIS/BibTeX 导出，生成候选记录 |
-| 文献收集 | `literature.collect` | 将明确选择的候选收集到指定集合，逐项报告结果 |
-| 全文获取 | `literature.fetch_fulltext` | 针对一个条目尝试已授权公开 URL 或 PMC 路径 |
-| 文献整理 | `literature.organize` | 管理明确选择的集合、标签、笔记和批注 |
-| 课题文献关联 | `literature.bind_study` | 绑定集合、条目与筛选理由，不改动其他课题的筛选 |
-| 证据快照 | `literature.read` | 按发现、常规或深入层级冻结材料与提取覆盖 |
-| 文献分析 | `literature.analyze` | 为证据矩阵或模型分析准备有界任务 |
-| 分析任务派发 | `literature.job_dispatch` | 经明确远程授权向固定执行端派发 |
-| 分析结果导入 | `literature.job_import` | 核对原任务及材料绑定后导入结果 |
-| 分析状态查询 | `literature.job_status` | 读本地状态；显式刷新才联系执行端 |
-| 分析任务控制 | `literature.job_pause`、`job_resume`、`job_cancel` | 区分控制请求已记录与实际生效状态 |
-| 参考文献导出 | `literature.export` | 导出固定材料的书目及 LaTeX/Quarto 示例 |
-| 引用写作 | `literature.cite` | 维护引用映射，或在实际原生 Word 插件会话中完成指定动作 |
-| 文献变更预览 | `literature.preview_change` | 展示变更前内容、影响、摘要和恢复方式 |
-| 文献变更应用 | `literature.apply_change` | 操作者确认固定预览摘要后应用，拒绝过期对象 |
-| 文献操作对账 | `literature.reconcile` | 使用原请求编号和原调用范围核对不确定外部效果 |
-| 文献设置管理 | `literature.config_update` | 操作者按配置修订号更新完整设置 |
+| `pubmed` | 能访问 PubMed 的文献信息接口 | 保留错误，恢复网络后继续原定检索 |
+| `web_of_science` | 获授权的 Starter API 凭据 | 在网站人工筛选，导出原生引文 |
+| `scopus` | 获授权的 Scopus API 凭据 | 在网站筛选后导出 |
+| `ieee` | 获授权的 IEEE Xplore API 凭据 | 在网站筛选后导出 |
+| `google_scholar` | 浏览器与必要的人工交互 | 导出已选择的条目；OpenSci 不提供通用批量接口 |
 
-### 检索、入库与阅读
+来源凭据使用 `env:SCOPUS_API_KEY` 这样的引用，由操作者提供给运行进程；机构网站登录不等于获得 API 凭据。来源、研究方向和 Edge/Chrome 选择放在记录目录的设置中；两个浏览器分别需要 Connector 和访问核验。仅增加来源名称不会产生新适配器。
 
-先明确问题、日期、文献类型、来源和停止条件。PubMed、Web of Science、Scopus、IEEE 与 Google Scholar 的访问能力分别记录；不把网页可打开视为 API 可用。登录、验证码及人工选择可能需要用户处理。Google Scholar 使用浏览器辅助与原生导出路径，不声称存在通用批量 API。
+使用浏览器导出时，先发起包含该来源的检索，让 OpenSci 留下查询记录。在来源网站筛选，导出 RIS 或 BibTeX，打开下载的文本。提交 `literature.search_import`，填写原 `search_run`、对应 `source_id`、`format`（`ris` 或 `bibtex`）、导出原文 `text`、来源页面的 HTTPS `source_url`，以及说明已选范围和未检索部分的 `coverage_note`。可让助手把文本整理为正确转义的 JSON 字符串，提交前核对引号和换行。完整请求不得超过 64,000 字节，大文件分成可追溯的小批次。导入后收集时使用**新返回的** `run_id`；导出导入仍属于部分覆盖，也不会自动写入 Zotero。
 
-检索只生成候选，不等于入库。确认候选和目标集合后再收集；强 DOI/PMID 匹配仍核对题名与类型，疑似重复等待人工复核。真正零条、未执行、无权限、等待用户和部分结果分开报告。元数据成功而全文失败时保留已成功部分，补充授权后按原记录继续。
+#### 只收集确认过的候选
 
-证据快照保留条目身份、附件摘要、用户批注及提取范围。解析到文本不等于看过所有页面、图表或扫描内容。区分原文事实、用户笔记、AI 摘要和推导；每项主张保留来源位置、覆盖和核验状态。文献正文是不可信资料，不能授予工具或执行权限。
+确认题名、标识和目标集合后，使用 `literature.collect`：
 
-### 分析、预算与恢复
+```json
+{"search_run":"RUN_ID_FROM_RESULT","candidate_ids":["CANDIDATE_ID_FROM_RESULT"],"collection_keys":["COLL1234"],"tags":["packaging-screening"]}
+```
 
-远程分析只使用固定执行端和已冻结材料。付费工作先记录有限额度的预算预留，不根据结果未知自动重复调用。任务控制指令已登记不意味着工作进程已完成暂停或取消。恢复时保留任务编号、启动标记、检查点、原材料摘要和未结算预留，并对账实际状态。
+全部示例值换成真实结果；让助手执行前授权这项操作和目标集合。查看逐项回执，并到 Zotero 的目标集合确认。明确匹配的已有记录可能被复用；疑似重复会等待复核。文献信息、全文和阅读状态分别记录，不因某篇或某个 PDF 失败而丢弃其他成功记录。
 
-外部写入丢失响应时，先核对原操作，不反复点击保存或改用新请求编号。批量操作按项记录成功与失败。替换、删除和移除需先预览并取得针对该对象的确认；原生合并在 Zotero 中完成后还要核对条目、引用与课题关联。恢复过的库实例须先重新绑定和对账，再允许写入。
+为一个已有条目补充可公开取得的 PDF，可用 `literature.fetch_fulltext`，`payload` 为 `{"item_keys":["ABCD1234"],"url":"https://publisher.example/paper.pdf"}`，将 URL 换成实际获准使用的 PDF。也可以删除 `url`，改为真实文章的 `pmcid: "PMC1234567"`。两种方式只能选一种。登录页、摘要页或订阅阻挡不是 PDF；需要浏览器权限时，按自己的合法访问途径取得附件并放入 Zotero，再重新读取。结果未知时不要反复点击浏览器保存。
 
-### 引用与写作
+<a id="literature-evidence"></a>
+### 第 4 步：阅读、做笔记、核对证据
 
-LaTeX/BibTeX 与 Quarto 使用稳定映射和固定书目材料，实际编译工具链需单独验证。Word 使用用户实际打开并观察到的原生 Zotero 插件会话；保存恢复副本，核对目标文档、版本和选区，再完成指定动作。仅文本匹配不能证明原生引用域正确，也不能代替整篇文档核对。
+对选中的论文使用 `literature.read`：
 
-完整参数、外部效果日志、凭据范围和恢复条件见 [LITERATURE.md](LITERATURE.md)。
+```json
+{"level":"regular","item_keys":["ABCD1234"],"index":true}
+```
+
+这一步把材料保存为 OpenSci 的证据快照，本身不调用模型写摘要，也不在 Zotero 中自动划线。读回结果，保留 `snapshot_id`，先看材料覆盖和失败项再下结论。
+
+要打开保存的材料，在 `C:\OpenSci-Data\coordination\literature\` 下找到返回的 `manifest` 路径，例如 `snapshots/ACTUAL_SNAPSHOT_ID/manifest.json`。其中列出的文件路径相对于这份快照目录，包括各论文的 `metadata.json`、笔记及实际提取到的附件文本。只打开清单中确实存在的文件，缺失全文不会自动补齐。另获本机文件读取权限的助手可以读取这些文件；仅通过 OpenSci MCP 接入的聊天拿到的是结果位置和覆盖情况，并没有任意文件读取工具或完整快照正文。需要在该聊天中讨论时，由你提供选定材料，或使用下面已配置的分析任务路线。
+
+| 层级 | 用来做什么 | 仍需核对什么 |
+| --- | --- | --- |
+| `discovery` | 按题名、文献信息、摘要初筛 | 方法、全文与细节主张 |
+| `regular` | 读取可取得的文本、笔记、批注 | 缺失附件、失败页面、图表和扫描内容 |
+| `deep` | 为深入证据检查准备材料 | 科学有效性、公式、视觉内容和补充材料；文本提取不能证明这些已核验 |
+
+PDF 文本提取需要[依赖说明](#requirements)中的可选 PyMuPDF；解析器缺失或文本覆盖不足要保留在结果里。查询已明确建立的索引时，用 `literature.search_library`，`payload` 为 `{"query":"packaging","limit":10,"index":true}`。查看新鲜度和快照编号；Zotero 有变更后，为受影响论文重新建立快照，不能把旧命中当成当前证据。
+
+可以这样要求助手阅读：“针对这份快照，分清作者发现、我的笔记和你的解释；每项主张给出条目、实际存在的附件/页码、不确定性和未查看材料。”不能从摘要或缺失文件中猜页码。论文正文也不能授予工具或扩大权限。
+
+需要添加已审阅的笔记时，使用 `literature.organize`：
+
+```json
+{"item_keys":["ABCD1234"],"collection_keys":[],"tags":["needs-method-check"],"notes":{"ABCD1234":"Screening note: check the sample size and reuse conditions in the full text before using this result."}}
+```
+
+OpenSci 新建带请求标记的子笔记；到 Zotero 核对，并保留原笔记。PDF 新批注需要操作者明确授权和实际位置数据，阅读不会顺带创建批注。新建集合结构也属于操作者操作。跨论文结论保存到课题。
+
+<a id="literature-analysis"></a>
+### 第 5 步：按需启动分析任务
+
+你可以先阅读并与选定助手讨论，不启用 OpenSci 的分析任务执行器；助手本身仍按其服务规则计费/计量。要创建可跟踪的分析任务，先按[配置参考](docs/CONFIGURATION.md)配置一个已存在、已启用、通过 SSH 连接且角色为 `agent` 的开发节点。使用节点编号，不是 SSH 主机名。零基础的无节点配置不能派发任务。
+
+使用 `literature.analyze`：
+
+```json
+{"snapshot_id":"SNAPSHOT_ID_FROM_RESULT","node_ref":"remote-agent","analysis_kind":"evidence_matrix"}
+```
+
+这只创建任务，尚未启动。`evidence_matrix` 生成确定性的、尚未评判证据强弱的表格，不调用模型。读回结果并保留 `job_id`。
+
+若使用 `analysis_kind: model`，先在执行端 `config/providers.local.json` 配置已启用的服务，核对模型、账号和凭据来源，再把文献设置的 `models.provider_ref` 指向该服务条目名称。具体字段见[配置参考](docs/CONFIGURATION.md)，不要假定示例模型名称在自己的账号上可用。`limits` 的**每一个字段**都必须是有限值，`accounting` 还要指定统计周期和累计额度。例如，由你选择并同意金额后，一次小规模试用可采用下列两个对象：
+
+```json
+{
+  "limits":{"max_requests":1,"max_tokens":4000,"max_cost_usd":1.0,"concurrency":1,"node_concurrency":1,"model_concurrency":1,"study_concurrency":1},
+  "accounting":{"period_id":"trial-01","max_requests":1,"max_tokens":4000,"max_cost_usd":1.0}
+}
+```
+
+这只是设置片段，不是完整配置或价格承诺；按第 2 步应用。额度缺失时模型任务停在 `waiting_budget`，不要为了消除提示直接提高预算。费用记录是估计，不是服务商账单。
+
+| 下一步 | 操作和 `payload` | 应检查的结果 |
+| --- | --- | --- |
+| 启动已准备任务 | `literature.job_dispatch`，`{"job_id":"JOB_ID_FROM_RESULT"}` | 固定执行端接受原任务 |
+| 不联系执行端，只查已记录状态 | `literature.job_status`，同一任务编号 | 本地状态，可能尚未更新 |
+| 联系执行端查状态 | `literature.job_status`，另加 `"refresh":true` | 当前执行端响应，尚不等于正式导入结果 |
+| 登记分析结果 | `literature.job_import`，任务编号 | 核对后的结果关联到原任务/课题 |
+| 暂停、恢复、取消 | `literature.job_pause`、`literature.job_resume`、`literature.job_cancel`，任务编号 | 工作进程确认，而不只是“已登记控制请求” |
+
+派发、导入、刷新状态需要可信启动策略允许远程检查。已审阅的命令行请求在 `execute` **之前**加入 `--allow-remote-check`；MCP 则由操作者停止连接后开启策略中的 `allow_remote_checks`，再重启。普通本地阅读保持默认权限。超时后先核对原任务和回执，不新建替代任务猜测结果；未知付费调用会保留预算预留，直到对账完成。
+
+<a id="literature-writing"></a>
+### 第 6 步：在论文中使用真实引用
+
+#### LaTeX / BibTeX 与 Quarto
+
+这类工具把文本稿件和书目文件变成排版后的论文。使用 `literature.export`，`payload` 为 `{"snapshot_id":"SNAPSHOT_ID_FROM_RESULT","manuscript_id":"paper-01"}`。同一篇稿件后续保持相同 `manuscript_id`，核对结果中的 `entry_count`、`citation_map` 和引用键冲突。
+
+文件位于 `C:\OpenSci-Data\coordination\literature\exports\paper-01\`：`references.bib`、`sample.tex`、`sample.qmd`。对照 Zotero 检查题名和作者。已有固定引用键保持稳定，映射记录它们对应的真实条目。在 `C:\OpenSci-Data\manuscript\` 下创建工作目录，如 `manuscript/paper-01/`，把需要的示例和书目复制进去。按下文引用示例操作时，将工作稿件命名为 `draft.tex` 或 `draft.qmd`。
+
+在引用位置放一个只出现一次的标记，如 `OPENSCI_CITE_HERE_01`，保存并关闭其他编辑器。Windows 用下面命令取得已保存文件的 SHA-256（用来确认文件没有在操作间被改动）：
+
+```powershell
+(Get-FileHash -LiteralPath 'C:\OpenSci-Data\manuscript\paper-01\draft.tex' -Algorithm SHA256).Hash.ToLowerInvariant()
+```
+
+macOS 用 `shasum -a 256 /absolute/path/to/draft.tex`，Linux 用 `sha256sum /absolute/path/to/draft.tex`，路径换成自己的稿件，复制返回的 64 位摘要。提交 `literature.cite`：
+
+```json
+{"manuscript_id":"paper-01","path":"manuscript/paper-01/draft.tex","expected_sha256":"SAVED_FILE_SHA256","format":"latex","item_refs":[{"binding_id":"personal-library","item_key":"ABCD1234"}],"marker":"OPENSCI_CITE_HERE_01"}
+```
+
+Quarto 使用 `.qmd` 路径和 `format: quarto`。助手还需要该精确稿件路径的授权。标记必须只出现一次，文件摘要仍需匹配；结果给出新摘要和恢复副本。再次导出后，把对应 `references.bib` 更新到稿件旁。
+
+已安装所用排版工具后，在工作稿件目录打开终端。LaTeX 示例依次执行 `pdflatex sample.tex`、`bibtex sample`、再执行两次 `pdflatex sample.tex`；Quarto 执行 `quarto render sample.qmd`。重命名过稿件就换成实际文件名。打开生成的 PDF/HTML，处理缺失引用。使用哪一种格式就验证哪一种；导出结果的 `not_compiled` 不代表已经编译通过。
+
+#### Word 与 Zotero 插件
+
+1. 在具备 Word 和 Zotero Word 插件的本机桌面，先在记录目录中创建 `manuscript` 文件夹（如尚不存在），将副本保存为 `C:\OpenSci-Data\manuscript\draft.docx`。在已有引用域之外放置一次 `OPENSCI_CITE_HERE_01`，保存并按上面的方式计算摘要。
+2. 用文本示例的字段提交 `literature.cite`，但改为 `path: manuscript/draft.docx`、`format: word`，加入 `phase: prepare`，填写真实条目。读取返回任务并保留 `task_id`；`waiting_local` 表示仍需在 Word 中操作。
+3. 你或获授权的桌面助手必须看到实际文档路径和窗口。只选中标记，用 Zotero 的 **Add/Edit Citation**（添加/编辑引文）选择指定真实论文并保存。遇到未保存/并发修改、焦点不清或插件缺失时停止；不能用普通文字冒充动态引用，也不解除引用域。[Zotero Word 插件说明](https://www.zotero.org/support/word_processor_plugin_usage)
+4. 重新计算**保存后文件的新摘要**。提交新的 `literature.cite` 请求，保留原稿件、路径、条目和标记，加入原 `task_id`，把 `phase` 改为 `verify`，`expected_sha256` 改为新摘要。返回 `succeeded` 才表示已保存的引用结构和改动范围通过检查。
+5. 在副本中测试重新打开、通过 Zotero 编辑引用。书目、刷新或样式变化分别准备和验证独立任务，使用 `native_action: bibliography`、`refresh` 或 `style`；书目/刷新可使用空标记，样式使用已安装样式的 Zotero URL。不要把这些变化合并到一次插入任务中。插件实际操作验收与文件结构验证分别记录。
+
+OpenSci 本身不会打开 Word 或代替用户点击插件。这个流程依赖真实本机桌面会话；连接 ChatGPT、Claude 或 Codex 不会自动授予桌面控制，也不能证明所有操作系统的原生 Word 集成都已验收。
+
+<a id="literature-recovery"></a>
+### 第 7 步：遇到问题时恢复，保留已完成部分
+
+| 看到的情况 | 接下来做什么 |
+| --- | --- |
+| 首次检查显示 `waiting_local`、`local_api_disabled`、`unsupported_version` | 打开 Zotero 10、检查本机通信设置，再做只读检查 |
+| `binding_required` / `instance_changed` | 核对实际个人文库；恢复或迁移后先对账身份，再重新绑定 |
+| `forbidden` / `authorization_required` | 核对课题选择、助手授权、写入类型和 Zotero 提示，不扩大无关权限 |
+| 零条结果与 `permission_denied`、`waiting_user`、`partial` | 区分没有结果和访问未完成；保留来源失败范围，完成获准的浏览器步骤 |
+| 文献信息已保存，PDF 或文本缺失 | 保留条目，解决访问/解析覆盖问题，仅补取或重读缺失部分 |
+| `version_conflict` | 重新读取发生变化的课题、Zotero 条目或稿件，核对后再提交新请求 |
+| 响应丢失或 `outcome_unknown` | 通过原调用身份查询原请求，不能假定外部写入没有发生 |
+| `waiting_budget` 或控制请求待确认 | 核对原任务的预算预留或工作进程确认状态，再决定后续动作 |
+
+已完成但部分失败的 `collect`、`organize`、`fetch_fulltext`，通过原调用身份和原课题提交 `literature.reconcile`，`payload` 为 `{"original_request_id":"ORIGINAL_REQUEST_ID"}`。它保留已核实对象并对账不确定操作。若命令本身还没有课题回执，先按[保存恢复](#save-recovery)核对原请求。
+
+替换字段/笔记、移除关系或删除对象，先做 `literature.preview_change`。例如 `{"kind":"items","item_key":"ABCD1234","change":{"action":"update","fields":{"title":"Reviewed corrected title"}}}` 返回旧内容、影响、`preview_id` 和 `digest`。人类检查具体变更后，操作者才以 `{"preview_id":"PREVIEW_ID_FROM_RESULT","confirmed_digest":"DIGEST_FROM_PREVIEW"}` 提交 `literature.apply_change`；期间有人手动修改对象，预览就会失效。重复条目的原生合并在 Zotero 中完成，随后核对存续编号、引用和课题关联。
+
+OpenSci 备份包含自己的回执、快照和稿件，不包含 Zotero 外部数据库、原始附件、浏览器资料或凭据。按自己的 Zotero 备份方案分别备份恢复，先在隔离位置做恢复演练，核对文库身份、引用和未结束任务后再启用唯一协调器。阅读教程或安装源码不代表完成实际部署验收；真实来源权限、浏览器 Connector、PDF/视觉材料覆盖、模型限制、Word/排版工具和独立恢复仍要在使用环境中验证。完整参数见 [LITERATURE.md](LITERATURE.md)。
 
 ## 证据评审与实验流程
 
@@ -443,11 +885,11 @@ LaTeX/BibTeX 与 Quarto 使用稳定映射和固定书目材料，实际编译�
 
 助手接入使用 MCP 标准输入输出接口，提供课题、回执、事件和文献读取；受保护策略明确允许时才提供写入工具。默认只读，固定助手角色和允许课题范围。读当前记录 → 提交已授权请求 → 核对回执 → 读取事件，是一致的操作顺序。聊天内容不会自动变成正式记录，聊天赞同不构成人工实验批准。
 
-运行监测读取 `config/observer.local.json` 中固定的本地或只读挂载来源，不自行建立 SSH。它核对原任务、批准、节点、时间、序号和产物，保留已有终态，在冲突时要求对账。新鲜度过期显示 stale，来源缺失显示 unavailable，结构或绑定错误显示 invalid，启动或清理异常需要 reconciliation；这些状态都不能授权重跑。
+运行监测读取记录目录中的 `C:/OpenSci-Data/config/observer.local.json`，其中登记固定的本地或只读挂载来源，不自行建立 SSH。它核对原任务、批准、节点、时间、序号和产物，保留已有终态，在冲突时要求对账。新鲜度过期显示 stale，来源缺失显示 unavailable，结构或绑定错误显示 invalid，启动或清理异常需要 reconciliation；这些状态都不能授权重跑。在软件目录运行以下命令，`--workspace` 和 `--sources` 均按实际记录目录填写，工具不会自动读取启动器的 `studies.local.json`。
 
 ```text
-python -B scripts/observe_runs.py --workspace . --sources config/observer.local.json
-python -B scripts/observe_runs.py --workspace . --sources config/observer.local.json --watch --interval 30
+python -B scripts/observe_runs.py --workspace C:/OpenSci-Data --sources C:/OpenSci-Data/config/observer.local.json
+python -B scripts/observe_runs.py --workspace C:/OpenSci-Data --sources C:/OpenSci-Data/config/observer.local.json --watch --interval 30
 ```
 
 第二条命令在前台持续运行。需要常驻时，由明确配置的服务管理器托管；安装包不会自动启用服务。关闭桌面后的持续运行依赖实际服务部署和验收。助手接入不读取聊天数据库，也不自动向关闭的聊天推送消息。
@@ -456,19 +898,24 @@ python -B scripts/observe_runs.py --workspace . --sources config/observer.local.
 
 ## 配置与本机工具
 
-| 文件 | 用途 |
-| --- | --- |
-| `config/runtime.local.json` | Windows 已安装 Python、Git、PowerShell 的绝对路径 |
-| `config/hub.local.json` | 协调端节点目录与默认开发工作区 |
-| `config/providers.local.json` | 执行节点的模型供应商配置，使用时明确传入 |
-| `config/literature.local.json` | 个人库绑定、来源、授权、方向和费用限制 |
-| `config/command.local.json` | 准备执行的单次请求，不是服务开关 |
-| `config/mcp.policy.local.json` | 助手接入允许的课题与操作 |
-| `config/observer.local.json` | 运行监测允许读取的运行来源 |
-| `config/device.local.json` | 资源编号在本设备的绝对路径 |
-| `coordination/resources.json` | 稳定资源身份、版本和文件摘要 |
-| `environments/*.local.json` | 在实际执行环境采集的记录 |
-| `tools/claude-launcher/machine.local.psd1` | 本副本 Claude 可执行文件和凭据引用 |
+下表路径相对于注明的位置。“软件目录”指示例中的 `C:\OpenSci`，“记录目录”指 `C:\OpenSci-Data`。样例文件随软件分发，本地设置应复制到对应组件实际读取的位置。
+
+| 文件 | 放在哪里／如何指定 | 用途 |
+| --- | --- | --- |
+| `config/runtime.local.json` | 软件目录 | Windows 已安装 Python、Git、PowerShell 的绝对路径 |
+| `config/studies.local.json` | 软件目录 | 启动器选择的记录目录 |
+| `config/hub.local.json` | 记录目录；也可用 `--config` 明确指定 | 协调端节点目录与默认开发工作区 |
+| `config/providers.local.json` | 执行任务的节点；评审用 `--config` 指定，文献工作进程从所选工作区读取 | 模型供应商配置 |
+| `config/literature.local.json` | 记录目录 | 个人库绑定、来源、授权、方向和费用限制 |
+| `config/command.local.json` | `--request` 指定的位置；本手册命令行示例放在软件目录 | 准备执行的单次请求，不是服务开关 |
+| `config/mcp.policy.local.json` | 本手册放在记录目录，以 `--policy` 指定 | 助手接入允许的课题与操作 |
+| `config/observer.local.json` | 本手册放在记录目录，以 `--sources` 指定 | 运行监测允许读取的运行来源 |
+| `config/device.local.json` | 接受核验的设备，以 `--device` 指定 | 资源编号在本设备的绝对路径 |
+| `coordination/resources.json` | `verify_resources.py --manifest` 指定的位置 | 稳定资源身份、版本和文件摘要 |
+| `environments/*.local.json` | `capture_environment.py --out` 指定的实际保存位置 | 在实际执行环境采集的记录 |
+| `tools/claude-launcher/machine.local.psd1` | 软件目录 | 本副本 Claude 可执行文件和凭据引用 |
+
+备份、运行监测和维护计划的 `--workspace` 应明确指向记录目录，不能在软件目录里用 `.` 代替；这些工具不跟随启动器的记录位置设置。运行脚本仍从软件目录使用[命令辅助函数](#command-context)。
 
 示例文件定义格式，不代表服务已开通。所有路径按实际设备填写，不能将 `~` 或占位符当作绝对路径。节点配置中的能力值是声明，不是实时监测。现有课题会保留工作区配置快照；修改账号、目录、解释器等绑定时使用明确维护流程，不覆盖历史记录。
 
@@ -482,24 +929,33 @@ Claude Code 开发启动器需要 Windows、PowerShell 7 与原生 `claude.exe`�
 
 变更前停止所有记录写入者和自动保存，包括已启用的助手接入与运行监测；核对原运行编号。实验可能仍在独立节点运行，但备份期间不应更新本地正式记录。
 
-尚无 Git 基线时，先保留发行包、本地配置和快捷方式重建信息。这只能保存基础部署，不能声称完整课题备份。源码与记录合并备份需要 Git 根目录及干净提交。独立协调端可用 `backup_project.py backup --state-only` 备份课题状态，无需 Git；运行软件和外部研究文件另行保存。
+入门安装把记录放在 `C:\OpenSci-Data`，软件放在 `C:\OpenSci`。下面用 `--state-only` 备份独立记录目录，无需 Git；工具不会读取 `studies.local.json` 帮你寻找记录。先在文件资源管理器创建受控的外部目录 `C:\OpenSci-Backups`，它应位于软件和记录目录之外，并使用尚未存在的压缩包文件名。
 
 ```text
-python -B scripts/backup_project.py backup --workspace . --output C:/OpenSci-Backups/OpenSci-backup-001.zip --quiesced
-python -B scripts/backup_project.py verify --archive C:/OpenSci-Backups/OpenSci-backup-001.zip --expected-sha256 TRUSTED_SHA256
+python -B scripts/backup_project.py backup --workspace C:/OpenSci-Data --output C:/OpenSci-Backups/OpenSci-backup-001.zip --quiesced --state-only
+python -B scripts/backup_project.py verify --archive C:/OpenSci-Backups/OpenSci-backup-001.zip --expected-sha256 REPLACE_WITH_TRUSTED_SHA256
 ```
 
-先创建受控的外部输出目录，使用新文件名，将工具输出摘要另存到可信位置。`--quiesced` 是操作者对停写的声明，不会代为停止服务。备份工具不自动加密，也不能清除已经混入历史的秘密。
+第一条成功后应显示压缩包路径和 `scope: coordinator_state`。把输出中的 `sha256` 值另存到可信位置，再用它替换第二条命令的 `REPLACE_WITH_TRUSTED_SHA256`；核验成功显示 `verified: true`。失败时保留错误和原备份，不能仅凭 ZIP 文件存在就判定成功。`--quiesced` 是操作者对停写的声明，不会代为停止服务。备份工具不自动加密，也不能清除已经混入历史的秘密。
 
-备份包含可达源码历史、指定正式记录与不可变快照、列入范围的本地配置、文献状态和稿件。未提交源码、Git 配置、外部批准与运行产物、数据模型、LFS 对象、凭据、软件环境、ACL、服务及本机运行映射等按具体收集范围单独保存。派生的文献 SQLite 索引可重建；Zotero 原库与附件仍需独立管理。准确范围以 [BACKUP_AND_MIGRATION.md](BACKUP_AND_MIGRATION.md) 和备份工具清单为准。
+状态备份包含所选记录目录内的指定正式记录、不可变历史、列入范围的本地配置、文献状态和稿件。运行软件及其本地配置、外部研究仓库和其他外部材料另行保存。只有源码与记录确实位于同一个干净 Git 根目录时，才使用合并备份：将 `--workspace` 换成那个根目录，去掉 `--state-only`，并事先审查和提交源码、另存未提交工作；它不会自动包含另一个 `C:\OpenSci-Data`。
+
+合并备份还包含可达源码历史。未提交源码、Git 配置、外部批准与运行产物、数据模型、LFS 对象、凭据、软件环境、ACL、服务及本机运行映射等按具体收集范围单独保存。派生的文献 SQLite 索引可重建；Zotero 原库与附件仍需独立管理。准确范围以 [BACKUP_AND_MIGRATION.md](BACKUP_AND_MIGRATION.md) 和备份工具清单为准。
 
 ### 恢复到新目录
 
 ```text
-python -B scripts/backup_project.py restore --archive C:/OpenSci-Backups/OpenSci-backup-001.zip --expected-sha256 TRUSTED_SHA256 --destination C:/OpenSci-Recovery-001
+python -B scripts/backup_project.py restore --archive C:/OpenSci-Backups/OpenSci-backup-001.zip --expected-sha256 REPLACE_WITH_TRUSTED_SHA256 --destination C:/OpenSci-Recovery-001
 ```
 
-目标必须尚不存在，恢复的项目位于目标下的 `workspace`。保持原写入者停止，核对记录与引用、Git 来源、身份、运行路径、环境、资源、服务账户和权限，再明确交接唯一写入权。分别评价材料完整性、历史完整性、原运行可追溯性和科学可复现性；恢复文件不等于恢复进程。
+目标必须尚不存在，摘要使用前面独立保存的可信值。成功返回 `restored: true`、新目录下的 `workspace` 路径及 `writable_coordinator_activated: false`，表示尚未启用新的写入者。保持原写入者停止，先读取恢复结果：
+
+```text
+python -B scripts/hub.py --coordinator-root C:/OpenSci-Recovery-001/workspace list
+python -B scripts/hub.py --coordinator-root C:/OpenSci-Recovery-001/workspace history --study STUDY-001 --limit 20
+```
+
+换成自己的课题编号，核对目标、当前进展、修订号和历史是否与备份时一致。状态备份不含 Git 源码；合并备份恢复的 Git 处于分离 HEAD 状态，后续分支由操作者选择。核对记录与引用、适用的 Git 来源、身份、运行路径、环境、资源、服务账户和权限，再明确交接唯一写入权。分别评价材料完整性、历史完整性、原运行可追溯性和科学可复现性；恢复文件不等于恢复进程。
 
 ### 维护计划
 
@@ -507,7 +963,7 @@ python -B scripts/backup_project.py restore --archive C:/OpenSci-Backups/OpenSci
 
 源码绑定更新使用 `upgrade`；源码不变而工作区迁移使用 `relocate`；恢复计划字段使用 `rollback --to-revision`。先生成外部预检计划，核对课题、修订号、摘要、源码、目标配置和原运行，再以可信计划摘要应用。计划一小时失效；材料或配置变化后重新预检。`--quiesced --backup-saved --runs-reconciled` 是实际完成这些工作的声明，不是工具自动执行的动作。
 
-涉及远程探测时，授权后在预检与应用子命令都明确加入 `--allow-remote-check`。具体模板见 [docs/UPGRADE_GUIDE.md](docs/UPGRADE_GUIDE.md)。计划恢复生成更高修订号并保留后来的证据、批准、引用和运行；不会删除事实，也不会撤销 Zotero 写入或 Word 编辑。
+维护命令的 `--workspace` 指向记录目录，入门示例为 `C:/OpenSci-Data`，恢复验收时则换成恢复出的 `workspace` 路径；它不读取 `studies.local.json`。涉及远程探测时，授权后在预检与应用子命令都明确加入 `--allow-remote-check`。具体模板见 [docs/UPGRADE_GUIDE.md](docs/UPGRADE_GUIDE.md)。计划恢复生成更高修订号并保留后来的证据、批准、引用和运行；不会删除事实，也不会撤销 Zotero 写入或 Word 编辑。
 
 ### 容量与持续维护
 
@@ -578,16 +1034,38 @@ python -B verify_delivery.py
 
 | 现象 | 先检查什么 | 正确处理 |
 | --- | --- | --- |
-| 源码操作提示缺少基线 | 是否配置研究源码及干净 Git 提交 | 讨论和文献可继续；仅为需要源码的步骤建立已核对来源 |
+| 源码操作提示缺少基线 | 是否在创建课题时登记研究源码及干净 Git 提交 | 保留原讨论课题，按[源码课题示例](#source-study)新建；当前不支持给原课题追加或替换研究目录 |
 | 运行路径失效 | 本地配置与实际工具位置 | 更新本副本绑定后复核入口，不盲改全局 PATH |
-| 修订号冲突 | 当前课题修订号与请求 | 重新读记录；已执行结果先查原回执 |
-| 操作结果未知 | 原请求编号、内容与角色 | 查询回执并用相同请求恢复，不换编号重试 |
+| 修订号冲突 | 当前课题修订号与请求 | 按[保存恢复](#save-recovery)读取新记录，核对差异后再准备新请求 |
+| 操作结果未知 | 原请求编号、内容与角色 | 按[保存恢复](#save-recovery)查询原回执，不换编号猜测重试 |
 | 工作区不匹配 | 账号、目录、源码提交及 origin | 核对实际差异，必要时制定维护计划 |
 | 心跳过期或状态缺失 | 原节点、进程、日志与运行编号 | 保留最后事实并对账，不推断已停止或自动重跑 |
 | 文献部分成功 | 每来源或每条目的实际状态 | 保留成功项，只在恢复条件明确后继续 |
 | 文献库实例变化 | 恢复或合并操作、原绑定 | 重新绑定并对账外部效果和引用 |
 | 模型或全文不可用 | 当前服务、访问权限和预算 | 如实报告，等待明确授权，不自动换供应商 |
 | 记录或历史损坏 | 原始字节、可信摘要与备份 | 保留现场，明确人工恢复，不能重算摘要掩盖损坏 |
+
+<a id="save-recovery"></a>
+### 保存失败后如何继续
+
+1. 保留课题编号、原 `request_id`、完整请求或菜单输入和错误信息。在结果明确前，先停止继续保存。
+2. 如果原操作来自本机菜单或操作者命令行，用**相同 Windows 账户**打开 PowerShell，加载[命令辅助函数](#command-context)，再执行下面两条命令。把 `STUDY-001` 和 `STUDY-001-NOTE-001` 换成原操作显示的真实编号。
+
+```powershell
+Invoke-OpenSci -Arguments @('scripts/hub_command.py', '--coordinator-root', 'C:/OpenSci-Data', 'receipt', '--study', 'STUDY-001', '--request-id', 'STUDY-001-NOTE-001')
+Invoke-OpenSci -Arguments @('scripts/hub_command.py', '--coordinator-root', 'C:/OpenSci-Data', 'show', '--study', 'STUDY-001')
+```
+
+如果原保存来自已连接助手，回到**同一个受保护连接**，要求它用原 `study_id` 和 `request_id` 调用 `opensci_get_receipt`，再读取当前课题。本机命令不能冒充私有连接身份。只有原操作确实以本机命令行的 agent 角色执行时，才在 `receipt` 前添加 `--agent`；它不能取回其他身份的回执。
+
+| 看到的结果 | 下一步 |
+| --- | --- |
+| 回执为 `committed: true` | 已经保存。核对回执修订号和当前记录，后面可能已有新保存；不要换新编号重复执行。 |
+| 回执查询成功，返回 `committed: false` 且没有错误 | 经核验的历史中没有该编号的已提交回执。确认原操作已停止后，只能用相同编号、完整原内容和相同调用身份重试；命令行使用原 `execute --request` 文件。菜单或请求文件若已不能提供完整原请求，交由操作者核对，不直接重做菜单 11，因为它会生成新编号。 |
+| 查询报错、`committed: null`、`request_conflict` 或历史损坏 | 结果仍未明确。保留文件和返回信息，交由操作者处理；改编号、改身份或改历史不能解决问题。 |
+| 保存明确返回 `revision_conflict` 且 `committed: false` | 此次请求被拒绝。读取 `show` 中的 `cursor.revision`（当前修订号）和 `project.project.progress.content`（当前进展），与草稿对照并保留新增内容，再用新编号和当前 `expected_revision` 提交经过核对的新请求。菜单用户先看 10，再重新填写 11。 |
+
+重试或核对后的新保存都要取得已提交回执，再读回结果。如果涉及文献外部写入，还需保留文献操作／任务编号并按[文献恢复说明](#literature-workspace)对账；没有课题回执不能证明 Zotero 等外部操作没有发生。
 
 **课题**是持续研究目标的记录容器；**任务**是固定输入和限制的工作定义；**运行**是一次实际尝试。**修订号**标识课题记录更新；**源码提交**标识代码；**格式标记**供验证器读取；它们不能互相替代。
 
@@ -611,7 +1089,7 @@ OpenSci Study 插件与课题 MCP 服务可在选定课题中读取和保存结�
 
 软件目录 `runtime_root`、唯一记录目录 `coordinator_root`、每课题的可选 `research_workspace` 分别管理。比如安装在 `C:/OpenSci`，记录保存在 `C:/OpenSci-Data`。在 `config/studies.local.json` 配置记录目录，或向启动器传入 `-CoordinatorRoot`。先用菜单 2 建立课题，再用菜单 10 读取、菜单 11 保存。没有 Git 或执行节点也可开展讨论和文献工作；需要源码依据的检查点和实验会明确阻止。多份仓库的实验来源验证尚未实现，不能以单仓库验证代替。
 
-`save_progress` 使用原操作服务的请求编号与期望修订号，参数为 `arguments.progress`。内容必须有 `summary`、`decisions`、`hypotheses`、`evidence_refs`、`open_questions`、`next_steps` 六项；后五项为文本列表。摘要上限 16000 UTF-8 字节，每列表最多 64 项、每项最多 4000 字节，整个进展对象最多 48000 字节，请求最多 64000 字节。来源由受保护入口填写，模型不能自行补身份。证据引用不表示已读取文件。较早进展保留在不可变历史中，完整聊天仍保留在原生应用。
+`save_progress` 使用原操作服务的请求编号与期望修订号，参数为 `arguments.progress`。内容必须有 `summary`、`decisions`、`hypotheses`、`evidence_refs`、`open_questions`、`next_steps` 六项；后五项为文本列表。每次保存替换完整当前进展，不会自动追加摘要或保留传入空列表的旧条目；先读完整现状，把仍需保留的内容一起提交。摘要上限 16000 UTF-8 字节，每列表最多 64 项、每项最多 4000 字节，整个进展对象最多 48000 字节，请求最多 64000 字节。来源由受保护入口填写，模型不能自行补身份。证据引用不表示已读取文件。较早进展保留在不可变历史中，读取方法见[进展与历史](#saved-progress)，完整聊天仍保留在原生应用。
 
 普通 Chat 选择 **OpenSci Study** 后，可以说：“保持普通 Chat，读取当前课题概览，区分事实与假设，只加载有关细节，不启动 Work。”保存时说：“把这些结论和下一步保存到同一课题，先读最新修订号，返回已提交回执；超时保留原编号和内容。”本机或远程 Work 重新读取同一课题即可接续；它不会自动获得完整聊天、本机文件权限、云端附件或运行中的进程。
 

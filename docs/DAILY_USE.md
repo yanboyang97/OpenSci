@@ -36,6 +36,35 @@ For automation, save a request with a new ID and execute it using the [Operation
 Invoke-OpenSci -Arguments @('scripts/hub_command.py', '--coordinator-root', 'C:/OpenSci-Data', 'execute', '--request', 'config/command.local.json')
 ```
 
+<a id="source-study"></a>
+### Create a Study with research source
+
+Use this when a checkpoint or experiment needs a recorded source version. Keep the existing discussion Study: its research folder cannot currently be added or replaced through a supported operation. First complete the [Git prerequisites](GETTING_STARTED.md#git-prerequisites). The research folder must be an accessible, clean Git repository on the Coordinator, with a reviewed commit; a plain folder does not establish source provenance.
+
+Save the following as a new UTF-8 file, `C:\OpenSci\config\source-study.local.json`. Choose an unused Study ID and request ID, enter your research goal, and replace `C:/Research/MyStudy` with the actual research repository path. `host_id: local` means this Coordinator computer; keep `additional` empty for the supported single-repository workflow. `binding: null` leaves assistant project links unset.
+
+```json
+{
+  "schema_version": 1,
+  "request_id": "STUDY-CODE-001-INIT-001",
+  "study_id": "STUDY-CODE-001",
+  "expected_revision": 0,
+  "operation": "create_study",
+  "arguments": {
+    "goal": "Test the reviewed research method",
+    "research_workspace": {"primary": {"host_id": "local", "path": "C:/Research/MyStudy"}, "additional": []},
+    "binding": null
+  }
+}
+```
+
+```powershell
+Invoke-OpenSci -Arguments @('scripts/hub_command.py', '--coordinator-root', 'C:/OpenSci-Data', 'execute', '--request', 'config/source-study.local.json')
+Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Data', 'show', '--study', 'STUDY-CODE-001')
+```
+
+Success means a receipt with `committed: true` and a record whose `research_workspace.primary.path` is your source folder and whose `anchor.commit` is its reviewed Git commit. Preserve the request and receipt. If the result is unknown, use [save recovery](TROUBLESHOOTING.md#save-recovery). Creating the record does not configure Development Workspaces or Execution Nodes, or authorize experiments; those prerequisites still apply before source-dependent work.
+
 ## Inspecting and resuming
 
 After creation, `show`, `history` and `brief` read coordinator records without checking live nodes. `resume` for a source-free Study reads saved progress without a remote probe. Source-backed resume probes the selected Development Workspace using the SSH alias in coordinator `config/hub.local.json` (`opensci-dev` is only an example). A successful listing does not establish remote readiness.
@@ -43,12 +72,12 @@ After creation, `show`, `history` and `brief` read coordinator records without c
 ```powershell
 Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Data', 'show', '--study', 'STUDY-001')
 Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Data', 'history', '--study', 'STUDY-001', '--limit', '20')
-Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Data', 'brief', '--study', 'STUDY-001')
+Invoke-OpenSci -Arguments @('scripts/hub_command.py', '--coordinator-root', 'C:/OpenSci-Data', 'brief', '--study', 'STUDY-001')
 # Remote check; use after the SSH development workspace is ready.
 Invoke-OpenSci -Arguments @('scripts/hub.py', '--coordinator-root', 'C:/OpenSci-Data', 'resume', '--study', 'STUDY-001')
 ```
 
-On continuation, inspect the goal and phase, latest progress note, Development Workspace binding, source commit, missing material and all registered run IDs. Preserve IDs after a disconnect and reconcile the actual node before creating replacement work or resubmitting anything.
+On continuation, inspect the goal and phase, saved discussion progress, checkpoint note, Development Workspace binding, source commit, missing material and all registered run IDs. The `hub_command.py brief` command above matches **10 Study Overview** and includes structured discussion progress. The separate `hub.py brief` summarizes checkpoints and runs and omits that progress; see [Research Brief](../RESEARCH_BRIEF.md). Preserve IDs after a disconnect and reconcile the actual node before creating replacement work or resubmitting anything.
 
 ## Recording progress
 
@@ -56,7 +85,10 @@ Menu phases are **Evidence**, **Plan review**, **Implementation**, **Awaiting ap
 
 Select **8 Record Progress** to record a phase and notes after reviewing and committing source changes. The Operation Service checks source/workspace consistency and uses the latest study revision. The menu asks before a remote check. Resolve configuration or source discrepancies before retrying a failed transition.
 
-Use **10 Study Overview** and **11 Save Discussion Progress** for source-free research discussion. The `save_progress` operation records summary, decisions, hypotheses, evidence references, questions and next steps. See [Chat and Work continuation](STUDY_CONNECTION.md).
+<a id="saved-progress"></a>
+Use **10 Study Overview** and **11 Save Discussion Progress** for source-free research discussion. Each `save_progress` **replaces** the current summary and all five lists: decisions, hypotheses, evidence references, open questions and next steps. Read the current progress first and carry forward everything still needed; blank menu list entries become empty lists. The menu accepts one text item per list; use the structured request through a connected assistant or the [Operation Service](STUDY_CONNECTION.md) when separate multiple items are needed.
+
+If the overview says `has_more: true`, it has omitted whole fields to fit its size limit. Use the full `hub_command.py show` command below and find `project.project.progress.content`, or ask the connected assistant to follow every `detail_refs` entry using `opensci_get_study_detail` at the returned revision. Earlier saved progress remains in history: use `hub.py history` above to find its revision, then ask the assistant to read `field: progress` at that revision, following `next_offset` until it is null. Review any recovered content before saving it as a new current version; do not edit history files.
 
 For automation, `operation: note` records text without probing the Development Workspace, while `checkpoint` validates source-related phase changes. Read the revision, prepare a unique request and verify the receipt. Prepare the request file below with actual values; an unchanged example is not a ready request.
 
@@ -76,7 +108,7 @@ The later execution workflow is evidence/protocol → review → fixed source/en
 
 ## Before finishing a session
 
-Save and review source changes, record completed work, unresolved questions and next steps, reconcile run IDs and last known states, then generate a brief for handover. A brief is a dated local snapshot and is not automatically sent to a desktop, phone or another conversation.
+Save and review source changes, record completed work, unresolved questions and next steps, reconcile run IDs and last known states, then use **Study Overview** or `hub_command.py brief` for discussion handover. Follow its detail references if `has_more` is true. A brief is a dated local snapshot and is not automatically sent to a desktop, phone or another conversation.
 
 ## Literature work
 

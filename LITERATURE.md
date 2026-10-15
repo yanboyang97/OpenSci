@@ -1,6 +1,6 @@
 # Literature Workspace Reference
 
-OpenSci **1.0.0**. Literature Workspace connects literature search, a personal Zotero library, evidence snapshots, bounded analysis and citation writing. The [daily guide](docs/LITERATURE.md) explains the workflow; this reference lists exact operations and integration limits.
+OpenSci **1.0.1**. Literature Workspace connects literature search, a personal Zotero library, evidence snapshots, bounded analysis and citation writing. The [daily guide](docs/LITERATURE.md) explains the workflow; this reference lists exact operations and integration limits.
 
 
 ## Ownership and deployment
@@ -21,7 +21,7 @@ The existing coordinator remains the only study writer. Its local Windows contex
 
 ## Protected configuration
 
-Create operator-owned `config/literature.local.json` from [the example](config/literature.example.json), or apply `literature.config_update` through the coordinator. Keep it out of source distribution. `config_update` requires the current revision and a complete validated configuration at revision + 1. Existing library rebinds stop for migration and reconciliation. A capability probe can run before binding and before creating a Study. Study mutations require an existing Study and the relevant grants; discussion and literature Studies do not require Git.
+Create operator-owned `config/literature.local.json` in the **records directory** from [the example](config/literature.example.json), or apply `literature.config_update` through the coordinator. Keep it out of source distribution. `config_update` requires the current revision and a complete validated configuration at revision + 1. Existing library rebinds stop for migration and reconciliation. A capability probe can run before binding and before creating a Study. Study mutations require an existing Study and the relevant grants; discussion and literature Studies do not require Git.
 
 Research directions are user-defined. The distributed example leaves them empty and supplies five source definitions. Add the topics and authorized sources needed for your work. Stable IDs survive renaming. Adding a source name does not implement an adapter.
 
@@ -64,10 +64,10 @@ CLI, menu option 9 and MCP use `CommandService`. Commands have the usual `schema
 }
 ```
 
-Save a reviewed request as `config/command.local.json` and use:
+Save a reviewed request as `C:/OpenSci-Data/config/literature-request.local.json` and use its absolute path from the software directory (or enter that same absolute path in menu option 9):
 
 ```text
-python -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data execute --request config/command.local.json
+python -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data execute --request C:/OpenSci-Data/config/literature-request.local.json
 python -B scripts/hub_command.py --coordinator-root C:/OpenSci-Data receipt --study STUDY-001 --request-id STUDY-001-LIT-001
 ```
 

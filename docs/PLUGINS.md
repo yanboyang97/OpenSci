@@ -2,33 +2,36 @@
 
 [Handbook](../DOCUMENTATION.md) · [Requirements](INSTALLATION.md)
 
-**OpenSci Study** is the distributable assistant plugin. **Study MCP Server** is its bundled local server, implemented by `scripts/hub_mcp.py`. Both use the same Operation Service and protected coordinator. Installation includes no Study records, keys, personal library data, organization IDs or hosted connection.
+Connect an assistant so it can read your Study Overview and save progress when you ask. This tutorial covers **ChatGPT, Codex, Claude Desktop and Claude Code**. MCP is the connection protocol; OpenSci's local server is `scripts/hub_mcp.py`. The **OpenSci Study** plugin packages that server for compatible plugin hosts. Neither installation method creates your Study or supplies an account, tunnel or credentials.
 
-MCP is the connection protocol that lets an assistant use OpenSci's tools. A plugin packages that connection for a supported client. First finish [Getting Started](GETTING_STARTED.md) and create a Study. If you want to use your phone to continue a computer task, follow [Research from Your Phone](MOBILE_RESEARCH.md); return here to connect that computer's assistant to the Study.
+## Choose your route
 
-## Choose a connection
-
-| Use | Connection | Required setup |
+| Where you want to work | Windows | macOS / Linux |
 | --- | --- | --- |
-| Local Work or a local MCP client | OpenSci Study plugin, or direct stdio MCP | Python 3.10+, local coordinator and protected policy |
-| Ordinary Chat | Your own private Secure MCP Tunnel and custom MCP connection | Eligible account, your tunnel, authorized workspace and restricted key |
-| Remote Work | Restricted SSH command or authenticated loopback gateway inside SSH | Operator-managed accounts, host keys, selected Study and per-connection token |
+| ChatGPT in a browser | Private Secure MCP Tunnel; supplied Windows launcher | Official tunnel client on the computer with OpenSci; terminal launch |
+| Codex on your computer | Direct local MCP or compatible OpenSci plugin | Same MCP settings with native Python and paths |
+| Claude Desktop | Local MCP configuration | macOS local MCP; Linux desktop is currently beta, use its Developer settings when available |
+| Claude Code | Local stdio MCP from the Windows terminal | Same CLI with native Python and paths |
 
-These packages are distributed through GitHub. They are not automatically listed in OpenAI's universal directory. Public directory submission of local MCP plugins requires the platform's partner eligibility and review; see [desktop-only submissions](https://developers.openai.com/plugins/deploy/desktop-only). Do not publish a personal tunnel as a shared service. OpenSci currently provides a private single-user connection, not a multi-user hosted service.
+These are connection routes, not a claim that every operating system's full research workflow has passed acceptance. Claude's current desktop availability is documented in its [installation guide](https://support.claude.com/en/articles/10065433-install-claude-desktop). For each client, use the computer/process that can actually access the records. Windows paths do not work inside WSL or a cloud container. Keep Zotero on the coordinator's computer; never forward its local port. For phone task continuation see [Research from Your Phone](MOBILE_RESEARCH.md).
 
-## Prepare the protected policy
+<a id="connection-prerequisites"></a>
+## 1. Prepare one selected Study
 
-Complete [first setup](GETTING_STARTED.md). Copy `config/mcp.unselected.example.json` to `COORDINATOR/config/mcp.policy.local.json`. Replace `connection_id` with a new local identifier. It is an identity label, not a credential. An unselected policy has `studies: []`, `allow_write: false` and no native project context.
+First complete [Getting Started](GETTING_STARTED.md), create a Study and confirm that you can read its Overview locally. You need Python 3.10+ and the full OpenSci software folder. Direct MCP needs no MCP SDK or extra Python package. Have these four values ready:
 
-For the beginner Windows setup, `COORDINATOR` means `C:\OpenSci-Data`. Use File Explorer to copy the file, then Notepad to replace the placeholder connection name with one such as `opensci-desktop-01`. Use a different name for each connection and retain it when recovering that connection's requests.
+| Value | Beginner Windows example | Where to find your value |
+| --- | --- | --- |
+| Python executable | `C:/Tools/Python/python.exe` | `python` in software `config/runtime.local.json`; macOS/Linux: `command -v python3`, then check its version |
+| Software folder | `C:/OpenSci` | Folder containing `scripts/hub_mcp.py` |
+| Records folder | `C:/OpenSci-Data` | Your selected folder containing `config/hub.local.json` and saved Studies |
+| Study ID | `STUDY-001` | ID shown after creating/listing your Study |
 
-After creating the intended Study, stop its connection and run the operator command below from the installation directory. Replace the example paths and ID:
+On macOS use your own paths, for example `/Users/yourname/OpenSci` and `/Users/yourname/OpenSci-Data`; on Linux, `/home/yourname/OpenSci` and `/home/yourname/OpenSci-Data`. Replace `yourname` and every sample path with a real absolute path. In JSON/TOML arguments do not use `~` or shell variables: they are not automatically expanded.
 
-```text
-python -E -s -B scripts/select_study_connection.py --coordinator-root C:/OpenSci-Data --policy C:/OpenSci-Data/config/mcp.policy.local.json --study-id YOUR-STUDY --connection-stopped
-```
+Copy software `config/mcp.unselected.example.json` to records `config/mcp.policy.local.json`. Open the copy in a text editor and replace `connection_id` with a unique label, such as `opensci-codex-01`. Keep the other fields unchanged for now. This label is not a password. When connecting a second client, make a **separate policy file and connection ID**, for example `mcp.claude.local.json` / `opensci-claude-01`, and use that path in its commands. All clients can point to the same authoritative records folder; do not copy the Study to each client.
 
-If you configured an absolute Python path during first setup, use this PowerShell version from the software folder instead:
+Stop the connection before selecting its Study. On first setup it is not running yet. In PowerShell:
 
 ```powershell
 Set-Location -LiteralPath 'C:\OpenSci'
@@ -36,32 +39,52 @@ $OpenSciPython = (Get-Content -LiteralPath '.\config\runtime.local.json' -Raw -E
 & $OpenSciPython -E -s -B scripts/select_study_connection.py --coordinator-root C:/OpenSci-Data --policy C:/OpenSci-Data/config/mcp.policy.local.json --study-id STUDY-001 --connection-stopped
 ```
 
-Replace `STUDY-001` with the ID you created. `Study selected.` confirms the saved selection. On first setup no connection is running yet; for an existing connection, disable it in the assistant and stop its tunnel launcher before changing the selection.
+On macOS/Linux, run from your software folder, substituting actual paths:
 
-This selects the Study and enables its permitted agent writes. If only reading is wanted, keep `allow_write: false` in the protected file before starting. Use `--clear` instead of `--study-id YOUR-STUDY` to revoke the selection while stopped. Restart after every policy change. The process does not reload grants from edits made while it runs.
+```bash
+/usr/bin/python3 -E -s -B scripts/select_study_connection.py --coordinator-root /home/yourname/OpenSci-Data --policy /home/yourname/OpenSci-Data/config/mcp.policy.local.json --study-id STUDY-001 --connection-stopped
+```
 
-## Install the OpenSci Study plugin
-
-The repository root is the plugin root: `plugin.json`, `mcp.json`, the Python server and assets are bundled together. The marketplace at `.agents/plugins/marketplace.json` points to that root. Python must be available as `python` in the host's execution environment; use direct MCP below when an absolute interpreter path is needed.
-
-Create an operator-owned connection file from `config/plugin.connection.example.json`:
-
-- Windows: `%LOCALAPPDATA%/OpenSci/connection.json`.
-- Linux: `~/.config/opensci/connection.json`.
-- Alternative: set the host process's `OPENSCI_CONNECTION_FILE` to an absolute path.
-
-Set `coordinator_root` and `policy` to the existing absolute paths. Protect this file and the policy from unauthorized edits. Keep them outside the plugin cache so an update cannot replace them. The plugin refuses to start when this file is missing or invalid.
-
-On Windows, press Windows+R, enter `%LOCALAPPDATA%`, and open it. Create an `OpenSci` folder there, copy `config/plugin.connection.example.json` into it, and rename the copy to `connection.json`. Open it in Notepad. Its two sample paths already match the beginner setup; change them only if you used different folders. Save as UTF-8 and make sure the filename does not end in `.json.txt`.
-
-In a client that supports local marketplaces, add the repository as a marketplace with `codex plugin marketplace add yanboyang97/OpenSci`, or open its local checkout and select the OpenSci marketplace in the desktop plugin browser. Install **OpenSci Study** and start a new conversation. In Codex CLI 0.162.1+, installation is also available as `codex plugin add opensci-study@opensci`. Consult the current [plugin packaging and marketplace guide](https://developers.openai.com/plugins/build/plugins) if the host presents a different installation UI.
-
-The downloadable plugin ZIP has its manifest at the archive root and contains the same audited server source. Installing a plugin does not create a coordinator or grant access.
+`Study selected.` confirms selection. This also enables permitted agent writes. For a read-only connection, set `allow_write` back to `false` in the policy before launch. Leave `allow_remote_checks` false for the first read. The identity/context fields remain unknown unless you have a trusted host binding; a model's name is not proof of project identity.
 
 <a id="direct-mcp-installation"></a>
-## Direct MCP installation
+## 2A. Codex: connect the local server
 
-No MCP SDK or extra Python package is required. Merge the following server entry into a client that supports stdio MCP, substituting actual paths. Do not replace unrelated client settings.
+Use either the direct connection here or the plugin route below for a given client, so you do not accidentally expose duplicate tools with different identities.
+
+Codex keeps MCP entries in `~/.codex/config.toml` by default (`%USERPROFILE%\.codex\config.toml` on Windows). If you configured a different Codex home, use its active file. Back up the file and merge **only** the following table, preserving other settings. If the name already exists, review that entry rather than adding a duplicate. [Official MCP configuration](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
+
+```toml
+[mcp_servers.opensci]
+command = 'C:/Tools/Python/python.exe'
+args = ['-E', '-s', '-B', 'C:/OpenSci/scripts/hub_mcp.py', '--coordinator-root', 'C:/OpenSci-Data', '--policy', 'C:/OpenSci-Data/config/mcp.policy.local.json']
+cwd = 'C:/OpenSci'
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+enabled = true
+```
+
+Replace the executable and paths with step 1's values. On macOS/Linux change all paths, including `cwd`, to native absolute paths. The reusable template is [mcp.desktop.example.toml](../config/mcp.desktop.example.toml).
+
+Restart the local client/server and start a new conversation. In Codex CLI run `codex mcp list`, then `/mcp` inside Codex to inspect the active connection. A desktop host exposing **Settings → MCP servers** can add the same STDIO command/arguments and restart it there. Complete the common acceptance steps below; a listed configuration alone does not prove a successful read. Local configuration does not automatically connect a hosted/cloud chat.
+
+### Optional: install the OpenSci Study plugin
+
+Use this only in a client supporting OpenAI's plugin format. The repository root contains `plugin.json`, `mcp.json`, assets and the server; `.agents/plugins/marketplace.json` points to that root. Python must be launchable as `python` in the host environment. If you need an absolute Python path, use direct MCP instead.
+
+Copy `config/plugin.connection.example.json` into a new `OpenSci/connection.json` under `%LOCALAPPDATA%` on Windows. Press Windows+R and enter `%LOCALAPPDATA%` to open that location. On macOS/Linux the OpenSci entry script uses `~/.config/opensci/connection.json`; alternatively set `OPENSCI_CONNECTION_FILE` to an absolute file path in the host process. Edit only your actual values:
+
+```json
+{"schema_version":1,"coordinator_root":"C:/OpenSci-Data","policy":"C:/OpenSci-Data/config/mcp.policy.local.json"}
+```
+
+Save UTF-8 without an extra `.txt` suffix. Keep this operator-owned file outside plugin caches; missing or invalid settings stop the plugin. In a compatible Codex CLI use `codex plugin marketplace add yanboyang97/OpenSci`, then `codex plugin add opensci-study@opensci` if supported by that installed version. A compatible desktop marketplace can select and install **OpenSci Study** from the repository. If the command/UI is unavailable, use direct MCP above and consult the [current plugin guide](https://developers.openai.com/plugins/build/plugins). Start a new conversation after installation. The GitHub download does not imply a public directory listing or provision a hosted service.
+
+<a id="claude-desktop"></a>
+## 2B. Claude Desktop: add the local MCP entry
+
+1. Install/sign in to Claude Desktop for your operating system. Open the app's **Settings → Developer → Edit Config**. On Windows the file is `%APPDATA%\Claude\claude_desktop_config.json`; on macOS it is `~/Library/Application Support/Claude/claude_desktop_config.json`. On Linux beta use the file opened by the app, avoiding a guessed configuration location. If managed settings hide this control, ask your administrator or use an allowed Claude Code installation. [Official local-server tutorial](https://modelcontextprotocol.io/docs/develop/connect-local-servers)
+2. Back up the file. Merge the `opensci-study` entry below into its existing `mcpServers` object, preserving other entries. For an empty file, the whole example is valid. Use the separate policy you prepared for this client.
 
 ```json
 {
@@ -74,21 +97,127 @@ No MCP SDK or extra Python package is required. Merge the following server entry
 }
 ```
 
-For TOML clients use `config/mcp.desktop.example.toml`. On Linux substitute `/usr/bin/python3` and Linux paths. The standalone MCP archive includes the runtime and documentation so imports resolve without installation into global Python.
+3. Substitute all paths from step 1; on macOS/Linux use the absolute Python path and native software/records/policy paths. JSON strings can use forward slashes on Windows. Do not add comments or trailing commas. Fully quit/reopen Claude Desktop, then inspect **Connectors / Manage connectors** and Developer status for `opensci-study`.
+4. Start a conversation, enable this connector if needed, and perform the acceptance steps below. OpenSci's ZIP is not a Claude `.mcpb` desktop extension, so do not import it through an extension installer. The local entry does not by itself connect Claude's website/mobile app.
 
-After connecting, read capabilities and resolve the selected Study, then read its Overview. Unselected access returns `selection_required` and denies Study reads and writes. A write-enabled policy exposes `opensci_execute_command`; it does not expose experiment approval, submission, cancellation or arbitrary shell execution. Save only on the user's instruction and retain the committed receipt. On timeout query the original request ID through the same connection identity.
+<a id="claude-code"></a>
+## 2C. Claude Code: register a stdio command
+
+Install/sign in to Claude Code in the environment that can access your records. In Windows PowerShell, with your actual paths:
+
+```powershell
+claude mcp add --transport stdio --scope user opensci-study -- C:/Tools/Python/python.exe -E -s -B C:/OpenSci/scripts/hub_mcp.py --coordinator-root C:/OpenSci-Data --policy C:/OpenSci-Data/config/mcp.policy.local.json
+claude mcp get opensci-study
+```
+
+For macOS/Linux:
+
+```bash
+claude mcp add --transport stdio --scope user opensci-study -- /usr/bin/python3 -E -s -B /home/yourname/OpenSci/scripts/hub_mcp.py --coordinator-root /home/yourname/OpenSci-Data --policy /home/yourname/OpenSci-Data/config/mcp.policy.local.json
+claude mcp get opensci-study
+```
+
+Substitute step 1's paths and this client's separate policy. Quote any path containing spaces as one argument. `--scope user` registers for your user; it does not publish a project setting. The `--` separates Claude's options from OpenSci's arguments. Start Claude Code, use `/mcp` to inspect connection status, then perform the common acceptance. To remove this registration later, run `claude mcp remove opensci-study --scope user`; saved OpenSci records remain. [Claude Code MCP commands](https://code.claude.com/docs/en/mcp)
 
 <a id="ordinary-chat"></a>
-## Connect ordinary Chat
+## 2D. ChatGPT: connect your private tunnel
 
-Follow the official [Secure MCP Tunnel setup](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels) using your own organization and authorized ChatGPT workspace. Download the official client separately; OpenSci does not redistribute it. Use its `init` command to generate a stdio profile for the absolute Python/server/coordinator/policy command above, and use `doctor` to check that profile. Keep the profile private.
+ChatGPT in a browser cannot launch your local Python command directly. Run the official Secure MCP Tunnel client on the computer holding OpenSci, using a separate selected policy. You need access to the intended Platform organization and ChatGPT workspace. Creating a tunnel requires **Tunnels Read + Manage**; the runtime key and connector operator need **Read + Use**. Associate the tunnel with the target ChatGPT workspace as well as its owning organization. [Official tunnel setup](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels)
 
-On Windows copy `config/chat.example.json` to `config/chat.local.json`. Set the verified client path and SHA-256, generated profile path, your organization ID, and PID/health/log locations in a new private connection directory. Create those parent directories first. Confirm the installed client's help supports the launcher's options. Run `Start-Study-Chat.cmd`; enter a restricted **Tunnels Read + Use** key in its hidden local prompt. Do not paste the key into a chat or save it in the profile. Renew it before the expiry you chose. The launcher stores the key only in its process environment and removes it on normal exit.
+### Prepare the tunnel profile
 
-Keep one client per tunnel running. Add your tunnel as a private custom MCP connection in the account's plugin settings, restrict it to the intended workspace and refresh its tools after server updates. Keep the computer awake and the connection window open. Stopping the connection preserves saved records but makes live reads and saves unavailable. Linux users can run the official client directly under its documented credential handling.
+Open [Platform tunnel settings](https://platform.openai.com/settings/organization/tunnels), create/select your private tunnel, and record its `tunnel_id` and organization ID. Download the official client for your OS from that page or its linked release. Keep the binary in a chosen folder. Confirm its published provenance/checksum where supplied and inspect `help quickstart`; OpenSci does not redistribute this client.
 
-This publication provides the code and setup instructions. It does not provision a tunnel or register another user's account. The [Study connection reference](STUDY_CONNECTION.md) covers scoped tools, structured progress, native project links and receipt recovery.
+For a Windows example client at `C:\Tools\tunnel-client\tunnel-client.exe`, run:
 
-## Remote access
+```powershell
+& 'C:\Tools\tunnel-client\tunnel-client.exe' help quickstart
+& 'C:\Tools\tunnel-client\tunnel-client.exe' init --sample sample_mcp_stdio_local --profile opensci-chat --tunnel-id YOUR_TUNNEL_ID --mcp-command 'C:/Tools/Python/python.exe -E -s -B C:/OpenSci/scripts/hub_mcp.py --coordinator-root C:/OpenSci-Data --policy C:/OpenSci-Data/config/mcp.policy.local.json'
+```
 
-Use `config/mcp.remote.example.toml` only after provisioning a server-enforced fixed SSH command. If inbound SSH to the coordinator is unavailable, `scripts/study_remote.py` supports a token-authenticated loopback gateway carried inside an operator-managed SSH reverse forward. Follow [remote connection setup](STUDY_CONNECTION.md#remote-access-when-the-coordinator-is-a-local-computer). Never expose its port or Zotero's local API to the public internet. The gateway is not an HTTP MCP endpoint.
+Replace the tunnel ID and all paths; if a path contains spaces, preserve the quoting required by the client's help. Note the generated profile's **actual absolute file path** from its output. The profile is the local file telling the tunnel how to start OpenSci; do not assume it is named `chat.local.yaml`.
+
+For macOS/Linux, use the official native binary's absolute path with the same `init` options and your native Python/server/records/policy paths. The `--mcp-command` value remains one quoted command string. If initialization requests credentials, supply them locally using the protected process-environment method below; never put a literal key in command history or the profile.
+
+### Start on Windows
+
+Copy software `config/chat.example.json` to software `config/chat.local.json`. Fill in:
+
+| Field | Value to use |
+| --- | --- |
+| `client` | Absolute path to the downloaded executable |
+| `client_sha256` | Its SHA-256 from `Get-FileHash -Algorithm SHA256` after checking the download's provenance |
+| `profile` | Actual generated profile path |
+| `organization_id` | Your intended Platform organization ID |
+| `pid_file`, `health_file`, `log_file` | Separate files in a private directory, e.g. `C:/OpenSci-Data/connection/`; create the directory first |
+
+For the example executable, copy the hash returned by `(Get-FileHash -LiteralPath 'C:\Tools\tunnel-client\tunnel-client.exe' -Algorithm SHA256).Hash.ToLowerInvariant()` into `client_sha256`.
+
+Inspect the installed client's help for the flags used by `Start-Study-Chat.ps1`, especially `--profile-file`, `--mcp.stdio-send-initialized-notification`, and PID/health/log flags. Do not bypass the launcher's checks if the client version is incompatible.
+
+To diagnose a profile, run `doctor --profile opensci-chat --explain`. If it needs the runtime key, this PowerShell pattern keeps entry hidden and clears the temporary environment on exit:
+
+```powershell
+if (Test-Path Env:CONTROL_PLANE_API_KEY) { throw 'Use a fresh terminal without an existing tunnel key.' }
+$OpenSciSecret = Read-Host 'Tunnel runtime key' -AsSecureString
+try {
+    $env:CONTROL_PLANE_API_KEY = [System.Net.NetworkCredential]::new('', $OpenSciSecret).Password
+    & 'C:\Tools\tunnel-client\tunnel-client.exe' doctor --profile opensci-chat --explain
+} finally {
+    Remove-Item Env:CONTROL_PLANE_API_KEY -ErrorAction SilentlyContinue
+    $OpenSciSecret.Dispose()
+}
+```
+
+If initialization also requires the key, run the reviewed `init` command inside the same `try` block before `doctor`. Then double-click `Start-Study-Chat.cmd`; enter your restricted runtime key at its hidden prompt. The launcher starts one client and removes its own temporary key on normal exit. Keep the window open. Inspect readiness at the local health address written to your configured `health_file`.
+
+### Start on macOS/Linux
+
+Use an interactive **Bash** terminal (enter `bash` first if your current shell differs). Replace paths and IDs in this example; the native binary is assumed here to be `/home/yourname/Tools/tunnel-client`:
+
+```bash
+if [ -n "${CONTROL_PLANE_API_KEY+x}" ]; then
+  printf '%s\n' 'Use a fresh terminal without an existing tunnel key.'
+else
+  read -r -s -p 'Tunnel runtime key: ' CONTROL_PLANE_API_KEY
+  printf '\n'
+  export CONTROL_PLANE_API_KEY
+  trap 'unset CONTROL_PLANE_API_KEY' EXIT
+  if /home/yourname/Tools/tunnel-client doctor --profile opensci-chat --explain; then
+    /home/yourname/Tools/tunnel-client run --profile opensci-chat --control-plane.organization-id YOUR_ORGANIZATION_ID --mcp.stdio-send-initialized-notification
+  fi
+  unset CONTROL_PLANE_API_KEY
+  trap - EXIT
+fi
+```
+
+Check the installed client's help before launch; only continue after `doctor` succeeds. If `init` requires the key, run the reviewed initialization after `export` and before `doctor`. Use one client per tunnel, keep the terminal and computer awake, and stop with Ctrl+C when finished. Confirm the key has been unset or close this dedicated terminal after interruption.
+
+### Add it to ChatGPT and make a real tool call
+
+In ChatGPT **Plugins**, choose **+ → Add custom MCP server**, set **Connection: Tunnel**, select/paste the same tunnel ID, complete the required authentication and disclosure, and create the private plugin. Workspace policy may control access. [Custom MCP setup](https://developers.openai.com/api/docs/guides/custom-mcp-server)
+
+Keep the tunnel healthy during discovery. In a new chat enable/select the plugin, then perform the acceptance steps below. If the tunnel is missing, check the workspace association and Read + Use permission. A computer going to sleep or a stopped client makes live calls unavailable but does not erase saved Study records. Refresh the plugin's tools after server updates. This is a private single-user connection, not a shared hosted service.
+
+<a id="connection-acceptance"></a>
+## 3. Verify, save and recover in any client
+
+1. Ask: “Read OpenSci's connection capabilities, resolve the selected Study, then read its Overview. Tell me the Study ID and goal. Do not save anything yet.” The tools are `opensci_get_capabilities`, `opensci_resolve_study_link` and `opensci_get_study_brief`; the assistant should use the schema it receives. Check that the ID matches your intended Study.
+2. If you want to test saving, ask: “Save this as a progress note: connection check completed; next step is to review the selected papers. Preserve the existing progress and report the committed receipt.” Inspect the proposed complete progress snapshot before saving; structured progress replaces the previous snapshot. A chat reply alone is not a save.
+3. Verify `committed: true`, retain the request ID/revision, and read the Overview back. A read-only policy deliberately refuses step 2. If a write times out, query the original request through the same connection identity; follow [receipt recovery](TROUBLESHOOTING.md#save-recovery). Do not create a replacement write merely because the response was lost.
+
+| Symptom | Smallest useful check |
+| --- | --- |
+| No OpenSci tools | Confirm the correct local client/host, full server folder, executable/path spelling, valid JSON/TOML and restart |
+| `selection_required` | Stop the connection, select the Study in its actual policy, then restart |
+| Overview is for the wrong Study | Stop immediately and correct the selected policy; do not save |
+| Read works but save is refused | Check `allow_write`, selected Study and operation-specific grants; do not broaden unrelated access |
+| Remote analysis is refused | Only when needed, review `allow_remote_checks` and the existing executor setup |
+| Tunnel is healthy but ChatGPT cannot discover it | Check organization/workspace association, connector permissions and chosen tunnel ID |
+| Native Word/browser work is unavailable | MCP access does not supply those apps or desktop control; complete their own setup |
+
+To switch Studies, stop this client/server and tunnel, rerun step 1 for the new Study, and restart. To revoke selection, replace `--study-id STUDY-001` with `--clear` while stopped. Policies are fixed when a process starts; editing a running process's file does not reload its permissions. Removing a client entry does not delete the records.
+
+## Existing remote computers
+
+For an already provisioned remote coordinator use [mcp.remote.example.toml](../config/mcp.remote.example.toml) with a server-enforced fixed SSH command. If inbound SSH is unavailable, follow the existing [SSH reverse connection guide](STUDY_CONNECTION.md#remote-access-when-the-coordinator-is-a-local-computer). The loopback gateway is not an HTTP MCP endpoint. Do not publish it or Zotero's port. Setting up new accounts, host keys and remote deployment is separate from choosing one of the clients above.

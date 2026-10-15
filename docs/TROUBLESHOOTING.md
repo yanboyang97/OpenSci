@@ -6,7 +6,7 @@ Identify whether the failure concerns the launcher, source, study record, receip
 
 | Symptom | Cause and action |
 | --- | --- |
-| A source-dependent operation reports missing provenance | Discussion and literature remain available. Register a reviewed Git research workspace before the requested checkpoint or experiment. |
+| A source-dependent operation reports missing provenance | Discussion and literature remain available. Existing Studies cannot add or replace their research folder through a supported operation; keep the old Study and use [Create a Study with research source](DAILY_USE.md#source-study) for source-dependent work. |
 | Scripts are disabled in PowerShell | Use `Start-OpenSci.cmd` or the explicit child-process command in Getting Started; do not change global policy. |
 | No enabled Execution Node | Configure an execution-role node before selecting one; choosing a Development Workspace does not create it. |
 | read_only:true with committed:false | Normal read-only response; inspect the individual capability states. |
@@ -22,8 +22,8 @@ Identify whether the failure concerns the launcher, source, study record, receip
 | Development Workspace configuration differs | Inspect the complete binding and use lifecycle migration. |
 | Host unavailable / account mismatch / real path mismatch | Check the approved backend binding and host identity. |
 | Remote check required | Use the option in the parser position for that tool. |
-| revision conflict / stale revision | Re-read and reassess instead of overwriting newer state. |
-| outcome_unknown / committed:null | Recover the original receipt with unchanged request and identity. |
+| revision conflict / stale revision | Follow [Recover a save](#save-recovery), read the current record and review changes before preparing a new request. |
+| outcome_unknown / committed:null | Follow [Recover a save](#save-recovery) with the original request and caller identity. |
 | resync_required | Fetch a full snapshot and restart from its cursor. |
 | Lock conflict | Establish ownership and process state first. |
 | Lifecycle plan invalid / expired | Re-run preflight; do not alter the old digest. |
@@ -31,6 +31,28 @@ Identify whether the failure concerns the launcher, source, study record, receip
 | Record or backup size limit | Preserve state and review storage organization. |
 
 Wording can differ by entry point. Report the complete error code/text rather than only “it does not open”. Exclude API keys, tokens, credential-bearing origin URLs and private environment-variable values.
+
+<a id="save-recovery"></a>
+## Recover a save
+
+1. Keep the Study ID, original `request_id`, complete request or menu inputs, and error. Stop further save attempts until the result is clear.
+2. For a save made in the local menu or operator command line, open PowerShell **under the same Windows account**, load the [command helper](GETTING_STARTED.md#command-context), and run the following with the original IDs. The examples use `STUDY-001` and `STUDY-001-NOTE-001`; copy your real values from the failed operation.
+
+```powershell
+Invoke-OpenSci -Arguments @('scripts/hub_command.py', '--coordinator-root', 'C:/OpenSci-Data', 'receipt', '--study', 'STUDY-001', '--request-id', 'STUDY-001-NOTE-001')
+Invoke-OpenSci -Arguments @('scripts/hub_command.py', '--coordinator-root', 'C:/OpenSci-Data', 'show', '--study', 'STUDY-001')
+```
+
+For a save made by a connected assistant, return to **the same protected connection** and ask it to query `opensci_get_receipt` with the original `study_id` and `request_id`, then read the current Study. A local CLI call cannot impersonate a private connection. Add `--agent` before `receipt` only if the original operation actually used the local CLI agent role; it does not recover another identity's receipt.
+
+| Result | Next action |
+| --- | --- |
+| Receipt has `committed: true` | It was saved. Compare the receipt's revision and the current record; later saves may already exist. Do not send it again as a new request. |
+| Receipt query succeeds with `committed: false` and no error | No committed receipt was found for that ID in the verified history. Once the original attempt has stopped, retry only the identical saved request, with the same ID, contents and caller context. For a CLI request, use the original `execute --request` file. If the menu/request no longer preserves the complete original request, ask an operator to reconcile it; simply repeating menu 11 creates a new ID. |
+| Query errors, `committed: null`, `request_conflict`, or damaged history | The result remains unresolved. Preserve the files and response for operator review; changing IDs, identities or history does not resolve it. |
+| Save explicitly returns `revision_conflict` with `committed: false` | That request was rejected. Read `show`: the current revision is `cursor.revision` and progress is `project.project.progress.content`. Compare with your draft, retain newer content, then prepare a new deliberate request with a new ID and the current `expected_revision`. In the menu, read option 10 before a new option 11 save. |
+
+After a retry or reviewed new save, require a committed receipt and read the result back. For unknown literature effects, also preserve the literature operation/job IDs and follow the [literature recovery procedure](LITERATURE.md); a missing Study receipt alone does not prove that an external write did not happen.
 
 ## Run disconnection procedure
 
