@@ -27,6 +27,8 @@ OpenSci 以 Python 为基础，通过 MCP（让 AI 助手调用外部工具的�
 - **让课题有连续的记忆。** 保存目标、已知事实、假设、证据、未解决的问题和下一步，减少反复向助手交代背景。
 - **让阅读留下依据。** 将检索、筛选、阅读和引用连接起来，区分论文原文、你的批注与 AI 的推断。
 - **让方案经得起追问。** 让已配置的模型审阅同一组材料，记录不同意见，帮助你判断还缺少什么证据。
+- **减少重复连接操作。** Windows 可选择加密记住隧道密钥并在登录后后台连接；窗口关闭后仍可继续使用。
+- **持续更新，保留自己的工作。** 升级入口先检查文件冲突并备份，再更新软件；手册提供完整备份和故障恢复步骤。
 - **让工作过程可回看。** 将代码、任务、批准和结果关联起来；保存课题历史，并按需备份和恢复。
 
 例如，你可以先建立“可重复使用包装”课题，逐步整理相关文献、记录争议、比较研究方案，最后把选定证据带入文稿。每一步都可以单独开始，再逐渐接入更多工具。
@@ -78,6 +80,8 @@ OpenSci runs on Python and uses MCP—the Model Context Protocol—to let assist
 - **Keep a study's working memory.** Save goals, facts, hypotheses, evidence, open questions and next steps, so you spend less time rebuilding context.
 - **Keep the evidence behind your reading.** Connect discovery, screening, reading and citation while distinguishing source text, your annotations and AI inferences.
 - **Give research plans a closer review.** Ask configured models to examine the same materials, retain their disagreements and identify missing evidence.
+- **Spend less time reconnecting.** On Windows, optionally store an encrypted tunnel key and connect in the background after sign-in, without an open console.
+- **Keep your work through updates.** The update entry checks file conflicts and creates a backup before changing software; the handbook covers independent backups and interrupted-update recovery.
 - **Keep a history you can revisit.** Link code, tasks, approvals and results; preserve Study history and use backup and recovery when needed.
 
 For example, start a Study on reusable packaging, gather relevant papers, record disagreements, compare proposed methods and carry the selected evidence into a manuscript. Begin with one step and add tools as you need them.

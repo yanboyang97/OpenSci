@@ -116,7 +116,7 @@ def run_review(plan, packet, folder, demo=False, call_fn=None):
     with contextlib.suppress(OSError):
         snapshot.chmod(0o400)
     atomic_write(folder/"packet.md", packet)
-    if plan['pipeline_version'] in ('1.5.0', '1.6.0', '1.7.0-rc.1', '1.0.0', '1.0.1'):
+    if plan['pipeline_version'] in ('1.5.0', '1.6.0', '1.7.0-rc.1', '1.0.0', '1.0.1', '1.1.0'):
         atomic_write(folder/'rules.snapshot.md', RULES.encode('utf-8'))
     # Preserve the complete decision form; no generated field grants approval.
     atomic_write(folder/"HUMAN_DECISION.md", (ROOT/"coordination/templates/HUMAN_DECISION.md").read_bytes())

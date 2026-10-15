@@ -13,7 +13,7 @@ import sys
 import tempfile
 from datetime import datetime, timezone
 
-VERSION = "1.0.1"
+VERSION = "1.1.0"
 ID_PATTERN = r"[A-Z][A-Z0-9-]{2,47}"
 
 def stamp():

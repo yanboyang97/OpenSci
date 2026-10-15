@@ -1,6 +1,6 @@
 # Literature Workspace Reference
 
-OpenSci **1.0.1**. Literature Workspace connects literature search, a personal Zotero library, evidence snapshots, bounded analysis and citation writing. The [daily guide](docs/LITERATURE.md) explains the workflow; this reference lists exact operations and integration limits.
+OpenSci **1.1.0**. Literature Workspace connects literature search, a personal Zotero library, evidence snapshots, bounded analysis and citation writing. The [daily guide](docs/LITERATURE.md) explains the workflow; this reference lists exact operations and integration limits.
 
 
 ## Ownership and deployment

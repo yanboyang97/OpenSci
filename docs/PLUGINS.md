@@ -169,7 +169,34 @@ try {
 }
 ```
 
-If initialization also requires the key, run the reviewed `init` command inside the same `try` block before `doctor`. Then double-click `Start-Study-Chat.cmd`; enter your restricted runtime key at its hidden prompt. The launcher starts one client and removes its own temporary key on normal exit. Keep the window open. Inspect readiness at the local health address written to your configured `health_file`.
+If initialization also requires the key, run the reviewed `init` command inside the same `try` block before `doctor`. For one-time use, double-click `Start-Study-Chat.cmd` and enter the restricted key at its hidden prompt; keep that window open. For saved-key background use, follow the optional Windows steps below. Inspect readiness at the local health address written to your configured `health_file`.
+
+<a id="optional-remember-the-key-and-connect-in-the-background-windows"></a>
+### Optional: remember the key and connect in the background (Windows)
+
+OpenSci 1.1.0 adds an optional saved-key mode. The existing one-time prompt remains available. This key connects the tunnel; it is separate from keys used to call a model. Windows DPAPI (the Windows facility for encrypting data for your signed-in account) encrypts the key on this computer. OpenSci never generates a real OpenAI key locally or extends its expiry.
+
+1. Complete the tunnel profile and `config/chat.local.json` setup above. Stop the old tunnel window with **Ctrl+C**. Keep only one client for this tunnel.
+2. Open the official [Platform tunnel settings](https://platform.openai.com/settings/organization/tunnels) and follow [OpenAI's runtime-key guidance](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels). Select the same organization as your tunnel. Create a dedicated restricted API key with **Tunnels Read + Use** only. Select a long expiry that the account permits, or no expiry only if that option is actually available. Keep the organization and ChatGPT workspace association unchanged. If the permission or expiry option is unavailable, ask the organization administrator; do not substitute a broad model/admin key.
+3. In File Explorer open your OpenSci installation folder and double-click **Manage-Study-Connection.cmd**. Enter **1**. A small Windows form opens. Paste the new key into its masked field once. Do not paste it into a conversation, a command, or a JSON file. Record the platform expiry in the optional `YYYY-MM-DD` field; a blank field does not remove platform expiry.
+4. Leave **Start automatically after I sign in to Windows** checked if desired. Click **Save encrypted and connect**. The key is saved under `%LOCALAPPDATA%\OpenSci\connections\<connection-id>\credential.dpapi`; the form never saves a plaintext key. The private folder is restricted to your Windows account and SYSTEM. The optional sign-in entry is named `OpenSciStudy-<connection-id>` in your user's Windows Run settings; it contains paths, never the key.
+5. In the connection menu enter **2 Status**. Wait briefly and check `stored_key: true`, `worker_running: true`, `client_running: true`, and `ready: true`. With auto-start selected, `start_at_sign_in` is also true. Finally ask the ChatGPT connection to read your selected Study Overview. A healthy client alone does not prove the ChatGPT tool call works.
+6. Close the setup/menu window. The background process continues. On subsequent Windows sign-in it starts automatically if selected; otherwise double-click **Start-Study-Chat.cmd** to start it without re-entering the key. This is a per-user background process, not a system service: the computer must remain awake and online, and the user must remain signed in. Locking the screen is different from signing out. A sleeping/offline computer cannot serve live requests.
+
+The background worker supplies the decrypted key only to the tunnel child's process environment. It checks the client checksum and binds the stored credential to the configuration path, organization, client hash and profile hash. Ordinary OpenSci updates at the same installation path retain these settings. Changing the client or profile requires reviewing the new values and saving the key again. The client handles transient network reconnection; if the client exits, the worker tries at most five launches, with increasing delays, then reports `attention_required`.
+
+| Need | Action in Manage-Study-Connection.cmd |
+| --- | --- |
+| Closed the menu/window accidentally | Check **2 Status**; a saved-key worker keeps running. Use **3 Start** if stopped. No new tunnel or Study is needed. |
+| Stop now before backup/update | **4 Stop**. Wait until worker/client are false. The sign-in preference stays saved. |
+| Replace an expired/revoked key | Create a new restricted key in the same organization, then **1** to save it. Test the connection, then revoke the superseded key in Platform. |
+| Disable automatic sign-in launch | **5**. Use **4** too if you want to stop the current connection. |
+| Return to one-time input | **6** stops, disables startup and removes this stored key. Revoke it separately in Platform if no longer needed. |
+| Readiness stays false | Check internet access, account permission, actual key expiry and the configured local tunnel log. Do not enable raw HTTP logging or share secret-bearing logs. |
+| Restored onto another PC/account | Recreate the restricted key or securely obtain it from your password manager and run setup again. A copied DPAPI file is not a portable key backup. |
+
+If a save was interrupted, reconnect with the same connection identity and query the original request receipt before retrying. Do not create a new request ID merely because the window closed. This Windows feature does not install a Linux service or change another assistant's credentials.
+
 
 ### Start on macOS/Linux
 

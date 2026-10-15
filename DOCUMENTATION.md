@@ -2,7 +2,7 @@
 
 Use this handbook to install OpenSci, create a Study and choose the tools you want to connect. A **Study** is the saved record of one research question: its goal, evidence, decisions and next steps. You can begin without writing code or configuring a server.
 
-This handbook covers OpenSci **1.0.1**, revised **2026-10-15**. For an introduction to the project's benefits and integrations, read the [project README](README.md#english).
+This handbook covers OpenSci **1.1.0**, revised **2026-10-15**. For an introduction to the project's benefits and integrations, read the [project README](README.md#english). Windows users can optionally [remember a tunnel key and connect in the background](docs/PLUGINS.md#optional-remember-the-key-and-connect-in-the-background-windows). Before every upgrade, follow the [backup checklist](BACKUP_AND_MIGRATION.md#before-every-upgrade-full-folder-backup) and [update procedure](UPDATING.md).
 
 Open [OpenSci-Manual.html](OpenSci-Manual.html) in the project root to read and search the English documentation offline. The files below are the maintained sources; the HTML is generated from them and should not be edited separately.
 

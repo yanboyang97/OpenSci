@@ -1,6 +1,6 @@
 # OpenSci Feature Catalog
 
-OpenSci **1.0.1** organizes research work around a study: its question, evidence, decisions, source code and recorded results. The names below are the official names used in menus and documentation. File paths and API identifiers are stable technical interfaces; they are not additional product names.
+OpenSci **1.1.0** organizes research work around a study: its question, evidence, decisions, source code and recorded results. The names below are the official names used in menus and documentation. File paths and API identifiers are stable technical interfaces; they are not additional product names.
 
 ## Research workflow
 
@@ -69,6 +69,8 @@ Source adapters, browser access, full-text rights, native writing applications a
 | Claude Development Launcher | Start an explicitly selected Windows Claude Code provider with this copy's local configuration | [Claude Development Launcher](CLAUDE_LAUNCHER.md) |
 | Experiment Tracking | Upload verified completed-run artifacts to an explicitly configured MLflow service | [Execution guide](IMPLEMENTATION.md) |
 | Workflow Scheduling | Invoke the fixed execution workflow through an explicitly configured Prefect worker | [Execution guide](IMPLEMENTATION.md) |
+| Background Study Connection | Optional Windows DPAPI key storage, hidden worker, status/stop controls and per-user sign-in startup | `Manage-Study-Connection.cmd` |
+| Runtime Update and Full-folder Backup | Check/download releases, preview changes, back up selected folders, preserve local data/configuration and recover interrupted updates | `Update-OpenSci.cmd`, [Update guide](UPDATING.md) |
 | Package Verification | Check distributed file names and hashes | `verify_delivery.py` |
 | Documentation Builder | Generate and check separate English and Chinese offline handbooks | `tools/build_docs.py` |
 

@@ -31,7 +31,7 @@
 
 # OpenSci 用户与维护手册
 
-适用版本：**OpenSci 1.0.1**。文档日期：**2026-10-15**。
+适用版本：**OpenSci 1.1.0**。文档日期：**2026-10-15**。
 
 这本手册从第一次安装开始，说明在哪里操作、需要填写什么、完成后会看到什么。先做完下面的入门流程，再选择需要的文献、助手或手机功能。项目的整体介绍见 [README](README.md#chinese)。打开 `OpenSci-Manual.zh-CN.html` 可离线阅读和搜索，英文版为 `OpenSci-Manual.html`。
 
@@ -44,7 +44,7 @@
 
 ### 第 1 步：分开存放软件和研究记录
 
-打开 [OpenSci 下载页](https://github.com/yanboyang97/OpenSci/releases)，展开 1.0.1 版本下的 **Assets（下载文件）**，选择完整运行包 **OpenSci-1.0.1.zip**。带 Plugin 或 MCP 名称的包用于后续助手接入。把运行包解压到一个新文件夹。本手册用 `C:\OpenSci` 举例；打开后应能看到 `Start-OpenSci.cmd`、`config` 和 `scripts`。如果它们还在下一层文件夹内，以那一层作为安装目录。
+打开 [OpenSci 下载页](https://github.com/yanboyang97/OpenSci/releases)，展开 1.1.0 版本下的 **Assets（下载文件）**，选择完整运行包 **OpenSci-1.1.0.zip**。带 Plugin 或 MCP 名称的包用于后续助手接入。把运行包解压到一个新文件夹。本手册用 `C:\OpenSci` 举例；打开后应能看到 `Start-OpenSci.cmd`、`config` 和 `scripts`。如果它们还在下一层文件夹内，以那一层作为安装目录。
 
 另建 `C:\OpenSci-Data` 保存研究记录，再在其中新建 `config` 文件夹。没有 C 盘写入权限时，可以选其他可写位置，并把后文的路径一致替换。已有课题目录应继续保留，不要覆盖。
 
@@ -391,7 +391,7 @@ try {
 }
 ```
 
-若初始化也需要密钥，把审阅过的 `init` 命令放在同一 `try` 内、`doctor` 之前执行。然后双击 `Start-Study-Chat.cmd`，在隐藏提示中输入权限受限的运行密钥，保持窗口打开。启动器只启动一个客户端，正常退出后清除它设置的临时密钥。在 `health_file` 写出的本机健康地址查看就绪状态。
+若初始化也需要密钥，把审阅过的 `init` 命令放在同一 `try` 内、`doctor` 之前执行。单次使用时双击 `Start-Study-Chat.cmd`，在隐藏提示中输入受限运行密钥并保持窗口打开；若希望记住密钥并在后台连接，请按下面的可选配置操作。在 `health_file` 写出的本机健康地址查看就绪状态。
 
 #### macOS/Linux 启动
 
@@ -422,6 +422,26 @@ fi
 发现工具时保持隧道健康。在新对话中启用/选择插件，再完成下面验收。找不到隧道时核对工作区关联及 Read + Use 权限。电脑休眠或客户端停止会使实时调用不可用，但不会清除已保存课题。服务更新后刷新插件工具。当前连接用于私有单用户，不作为共享托管服务发布。
 
 <a id="connection-acceptance"></a>
+### 可选：加密记住密钥，登录后在后台连接（Windows）
+
+OpenSci 1.1.0 新增此可选方式；原来的单次输入方式仍可使用。这里的 API Key（服务访问密钥）用于连接隧道，与调用模型的密钥分开。Windows DPAPI 是 Windows 为当前登录账户加密数据的功能。OpenSci 不在本机生成有效的 OpenAI 密钥，也不能延长平台设置的有效期。
+
+1. 先完成上面的隧道和 `config/chat.local.json` 设置。旧连接窗口中按 **Ctrl+C** 停止连接，同一隧道只保留一个客户端。
+2. 打开 [OpenAI 隧道设置](https://platform.openai.com/settings/organization/tunnels)，在隧道所属组织中，按[官方说明](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels)创建一把专用的受限密钥，仅授予 **Tunnels Read + Use（读取和使用隧道）**。选择账户允许的较长有效期；只有平台确实提供时才能选择不过期。没有相应权限或选项时联系组织管理员，不要用权限更大的模型或管理员密钥替代。
+3. 在文件资源管理器打开 OpenSci 安装目录，双击 **Manage-Study-Connection.cmd**，输入 **1**。把密钥粘贴到弹出窗口的密码输入框中，只需这一次。不要发到聊天、命令或 JSON 文件里。可在有效期栏填写平台显示的到期日，格式为 `2027-10-15`；不填并不代表密钥不会过期。
+4. 如果希望登录 Windows 后自动连接，勾选 **Start automatically after I sign in to Windows**，再点 **Save encrypted and connect（加密保存并连接）**。密钥密文保存在 `%LOCALAPPDATA%\OpenSci\connections\<连接编号>\credential.dpapi`，文件夹仅授予当前账户和 Windows 系统账户权限。自启动条目仅包含程序路径，没有密钥。
+5. 回到管理菜单，输入 **2 Status（状态）**。稍等后应看到 `stored_key`、`worker_running`、`client_running`、`ready` 都是 `true`；选择自动启动时 `start_at_sign_in` 也应为 `true`。随后请 ChatGPT 读取已选课题的概览，确认真实工具调用成功。仅显示连接健康还不等于整个 ChatGPT 接入已经通过。
+6. 现在可以关闭设置和菜单窗口，连接仍在后台运行。以后登录 Windows 会按选项自动启动；未勾选时，双击 **Start-Study-Chat.cmd** 也无需再次输入密钥。电脑必须保持联网、唤醒且账户处于登录状态。锁屏不等于退出登录；关机、退出登录或休眠后不能继续提供实时服务。
+
+管理菜单 **3** 启动、**4** 停止当前连接、**5** 取消登录自启动、**6** 停止并取消自启动且删除本地保存的密钥。**4** 不取消下次登录时启动的设置，**5** 不停止已经在运行的连接。密钥到期或被撤销时，在平台创建新的受限密钥，再通过 **1** 替换，验证成功后撤销旧密钥。
+
+误关菜单窗口时先看 **2**，仍在运行就无需重开连接；已停止则用 **3**。不要因此重建隧道或课题。保存时断线且没有成功回执，应恢复同一连接并查询原请求回执，确认后再决定是否重试，不要直接换请求编号重复提交。
+
+软件会核验客户端摘要，并把密钥绑定到当前配置路径、组织、客户端摘要和连接配置文件摘要。原位置升级 OpenSci 会保留这些设置；更换客户端、连接配置文件或安装位置后，需要核对并重新保存密钥。临时网络恢复由官方客户端处理；客户端退出后，后台程序最多尝试启动五次，之后标记 `attention_required`，请检查网络、权限、有效期和本机日志。不要启用原始 HTTP 日志或公开分享包含秘密的日志。
+
+同一 Windows 账户下的其他程序以及被入侵的管理员账户仍可能取得密钥，系统加密不是账户内部的隔离边界。密文文件通常不能直接搬到另一台电脑或另一 Windows 账户使用，应通过密码管理器的安全恢复方式或重新签发密钥恢复连接。此功能不安装系统服务，也不会为 Linux 自动安装常驻服务。
+
+
 ### 第 3 步：在任何客户端完成读取、保存与恢复验收
 
 1. 请助手：“先读取 OpenSci 连接能力，解析已选课题，再读概览，告诉我课题编号和目标，暂时不要保存。”对应工具为 `opensci_get_capabilities`、`opensci_resolve_study_link`、`opensci_get_study_brief`；助手按实际返回的工具参数调用。核对编号确实是你选的课题。
@@ -923,6 +943,71 @@ Windows 选择 Python 的顺序是显式 `-Python`、本地运行配置、PATH �
 
 Claude Code 开发启动器需要 Windows、PowerShell 7 与原生 `claude.exe`。打开项目根目录的 `Start-ClaudeCode.cmd`，在开发启动器菜单选择 Setup 创建本副本映射；已有文件不会覆盖。`-ClaudeProvider deepseek` 或 `kimi` 明确选择供应商。检查与凭据管理只作用于相应本地配置，不改变个人 Profile、其他安装副本或研究执行授权。模型名称和端点以配置文件为准，配置声明不代表服务已验证。Windows 交互开发与自动证据评审的供应商配置各自独立。
 
+## 每次升级前：完整备份与安全升级
+
+**每次升级前，都应备份自己的全部数据并核验备份。** 保留一份在独立设备或加密备份服务上的副本；同一磁盘上的另一个文件夹不能防范磁盘损坏。备份中可能包含私人研究和配置，不能放入公开仓库或问题反馈中。
+
+### 第 1 步：列出需要备份的全部位置
+
+| 内容 | 如何找到与保存 |
+| --- | --- |
+| OpenSci 软件及本机配置 | 包含 `Start-OpenSci.cmd` 的整个安装文件夹，尤其是 `config`、本机启动文件和连接配置 |
+| 课题、历史、证据、回执 | 用记事本打开 `config/studies.local.json`，找到 `coordinator_root` 指向的目录并完整备份；旧部署没有该文件时核对实际记录位置，可能与软件同目录 |
+| 研究代码、未提交修改、论文、数据集、模型、稿件和结果 | 逐项列出课题使用的外部文件夹；OpenSci 中保存一个文件路径不等于备份了该文件。服务器上的数据要在所属设备另行备份 |
+| 加密隧道密钥 | 按 Windows+R，输入 `%LOCALAPPDATA%\OpenSci\connections`。升级菜单会自动纳入现有目录并复制密文，不解密。换电脑或账户时通常需要重新签发密钥或使用密码管理器的恢复方法 |
+| 其他凭据与应用设置 | 按各应用支持的方式备份密码管理器、Codex/Claude 设置、SSH、模型供应商及浏览器配置。自动备份不会扫描整个用户目录或导出系统凭据库 |
+| Zotero 原库和附件 | 在 Zotero 设置/首选项的“高级→文件和文件夹”查看数据目录；关闭 Zotero 后按[官方备份说明](https://www.zotero.org/support/zotero_data)完整备份，并单独纳入外置链接附件。文献列表导出和同步不能替代完整备份 |
+
+### 第 2 步：停止写入并生成备份
+
+先完成保存并保留回执。在 **Manage-Study-Connection.cmd → 4** 停止隧道，关闭其他助手连接、OpenSci 菜单、监测程序、导入和相关编辑器。复制 Zotero 库之前先关闭 Zotero。不要仅为备份而取消独立运行的计算任务；记录原运行编号，并按对应系统备份结果。
+
+在软件和所有数据目录之外创建一个私人备份文件夹，例如 `D:\OpenSci-Backups`。双击 **Update-OpenSci.cmd**，选择 **4**，填写这个已存在文件夹的完整路径。核对显示的软件和课题目录，逐个添加需要纳入的外部文件夹，空行表示结束。确认确实停止写入后输入 **STOPPED**。
+
+程序会创建新的受限目录、`backup.zip` 和 `receipt.json`；输出 `verified: true` 表示归档内的文件清单和摘要已核验。完整目录备份包括所选目录中的普通文件和空目录，以及未提交代码和本机配置；它会拒绝符号链接、目录联接及变化中的输入，不会悄悄忽略。总上限为 20 GiB 文件内容和 100,000 个 ZIP 条目，超出时使用经过验证的专用备份工具。空间不足、文件不可读或备份失败时不要继续升级。
+
+ZIP **没有额外加密**。把它和回执复制到独立的加密设备或受权限保护的加密备份服务，并另外保存回执中的 SHA-256（文件指纹），用于确认副本未变化。Windows 目录权限会限制本机访问，但复制到别处后要重新核对访问权限。
+
+### 第 3 步：验证独立副本并演练恢复
+
+打开 PowerShell，先输入 `Set-Location -LiteralPath 'C:\OpenSci'`，把路径换成自己的安装目录。使用已配置的 Python；下面示例中 `C:\Tools\Python\python.exe` 要替换为 `config/runtime.local.json` 的 `python` 值，备份路径换成真实路径，`TRUSTED_BACKUP_SHA256` 换成原回执里的摘要：
+
+```powershell
+& 'C:\Tools\Python\python.exe' -B scripts/update_runtime.py verify-backup --archive 'D:\OpenSci-Backups\backup.zip' --sha256 TRUSTED_BACKUP_SHA256
+& 'C:\Tools\Python\python.exe' -B scripts/update_runtime.py restore-backup --archive 'D:\OpenSci-Backups\backup.zip' --sha256 TRUSTED_BACKUP_SHA256 --destination 'D:\OpenSci-Recovery-Check'
+```
+
+恢复目标必须尚不存在。恢复目录中有 `runtime`、`coordinator` 和可能的 `extra-N`，原路径记录在归档的 `backup-manifest.json` 中。检查代表性的课题、稿件和附件；Zotero 恢复应按 Zotero 自己的流程在隔离位置验证。程序不会自动启动连接或把恢复副本设为第二个协调端。
+
+这不是整机镜像：原文件权限、Windows 注册表和自启动设置、已安装软件、运行中进程以及跨账户可用的凭据不会由 ZIP 恢复。正式切换前须逐项重新配置和验证。记录备份范围、独立副本、可信摘要及恢复演练是否成功；未演练的恢复不能当作已经验证。
+
+### 第 4 步：通过升级入口更新软件
+
+1. 从 1.1.0 开始，在现有安装目录双击 **Update-OpenSci.cmd**。**1** 检查版本，**2** 下载并准备最新稳定版，**3** 使用已经下载的完整运行包。只从[官方发行页](https://github.com/yanboyang97/OpenSci/releases)获取文件；检查更新不会上传课题或本机设置。
+2. 选择安装及数据目录以外的备份父目录，核对默认备份位置并补充外部文件夹。程序核验 ZIP、文件清单和各文件摘要，生成 `plan.json`。用记事本查看 `changes` 中列出的软件文件；`before`、`after` 是变更前后指纹。此时尚未修改安装。
+3. 遇到“本地软件文件已修改/丢失”或“新文件与现有文件冲突”时停止，保留自定义内容并审查，不要为继续升级而删除自己的文件。软件只更新清单内的发行文件，保留 `.local.*` 配置、课题数据、额外用户文件和加密凭据；已退役的旧文件也不自动删除。
+4. 完成独立备份后输入 **BACKED UP**。菜单会停止它管理的后台连接；手动停止其余写入者，然后输入 **STOPPED**，最后输入 **UPDATE** 执行已查看的清单。这些确认词是操作者声明，程序不能自动识别所有外部写入程序。
+5. 替换前程序还会生成并核验本地完整备份。每个软件文件替换前再次核对指纹，保留原文件权限，并写入 `transaction.json` 记录进度。安装目录中保留的 `.opensci-update.lock` 是空闲时不工作的并发锁，不含用户数据。
+6. 看到 `updated: true` 后核对版本、读取原课题概览；需要连接时重新打开 **Start-Study-Chat.cmd**。保存的密钥与登录启动偏好不变。升级不自动创建课题、迁移记录格式或启动实验。确认真实研究工作正常后再安排旧备份的保留周期。
+
+### 首次从 1.0.1 升级到 1.1.0
+
+旧版没有升级入口。先从 [1.1.0 发行页](https://github.com/yanboyang97/OpenSci/releases/tag/v1.1.0)下载 `OpenSci-1.1.0.zip` 和 `SHA256SUMS.txt`。在 Windows 开始菜单搜索 PowerShell 并打开，执行下面第一条命令，把 ZIP 路径换成实际下载位置，核对输出与校验文件中对应 ZIP 的摘要一致：
+
+```powershell
+Get-FileHash -LiteralPath 'C:\Users\YOURNAME\Downloads\OpenSci-1.1.0.zip' -Algorithm SHA256
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'C:\Downloads\OpenSci-1.1.0\Update-OpenSci.ps1' -RuntimeRoot 'C:\OpenSci'
+```
+
+核对通过后，在资源管理器对 ZIP 右键选择“全部解压”，解压到新文件夹。再执行第二条命令：第一个路径换成解压后 `Update-OpenSci.ps1` 的实际位置，`-RuntimeRoot` 后填**已有安装目录**。执行策略设置只作用于这个进程，不修改全局设置。选择 **4** 可先做备份，再重新运行选择 **3**，填写原 ZIP 和可信摘要并按上面的流程升级。不要直接把 ZIP 覆盖解压到旧安装。升级完成前保留解压出来的完整新版副本。
+
+### 更新失败或断电后的恢复
+
+保持写入停止，不要直接重做 Apply 或删除事务记录。安装里的入口打不开时，用解压出来的完整新版入口并指定原安装目录，选择 **5**，填写失败更新的 `transaction.json` 完整路径。状态为 `applying` 或 `recovery_required` 的事务可从已验证备份恢复原软件；中断后被人修改的文件会报冲突，需人工审查。恢复只撤回本次软件替换、删除本次新增且字节未再变化的软件文件，保留最新课题和配置，不会把旧数据盖回来。它不是对已完成升级的一键降级工具。
+
+看到 `recovered: true` 后，检查原故障、核验旧安装，再用新目录重新生成升级计划。需要恢复数据时，采用上面的“恢复到全新目录”流程，不覆盖仍有更新记录的协调端。Windows 本机流程应在实际环境验证；Linux 可使用同一个 Python 入口，但不会自动获得 Windows 的加密保存和自启动能力。
+
+
 ## 备份、迁移与恢复
 
 ### 保存完整状态
@@ -1095,7 +1180,7 @@ OpenSci Study 插件与课题 MCP 服务可在选定课题中读取和保存结�
 
 ### 连接和工具
 
-通过账户支持的私有 Secure MCP Tunnel 与自定义 MCP 应用连接普通 Chat。本地仍是有界 stdio 服务，没有任意命令、文件代理或公共 HTTP 入口。Windows 双击 `Start-Study-Chat.cmd` 可运行 `Start-Study-Chat.ps1`，它检查官方客户端摘要和已有进程，并在本机隐藏输入中接收仅有 Tunnels Read＋Use 权限的密钥。密钥仅保留在进程及子进程环境中，正常退出时清除，不写入文件或聊天。启动器不安装服务、计划任务、自动启动或秘密持久化。保持电脑及连接窗口开启；根据自己选择的有效期及时更新受限密钥。离线时快照仍可阅读，但草稿不能宣称已实时保存。
+普通 Chat 通过私有 Secure MCP Tunnel 接入。默认单次输入模式需要保持连接窗口开启；Windows 用户也可以选择上文介绍的“加密记住密钥，登录后在后台连接”。后台模式将密钥以 Windows 当前账户加密方式存储，可按选择在登录后启动，不安装系统服务。保持电脑联网、唤醒并登录；平台密钥有效期仍然生效。离线快照不是实时保存成功的证明。
 
 连接健康状态只表示传输就绪，不代表模型活动、订阅使用或计费用量。无法可靠归因的用量保持未知。
 

@@ -9,7 +9,7 @@ The steps below use Windows. Linux users can use the short section near the end 
 <a id="deployment"></a>
 ## 1. Put the software and records in separate folders
 
-Open the [OpenSci downloads page](https://github.com/yanboyang97/OpenSci/releases), expand **Assets** for version 1.0.1, and download **OpenSci-1.0.1.zip**, the runtime package. The Plugin and MCP packages are for assistant integration later. Extract the runtime archive into a new folder. This guide uses `C:\OpenSci`; the folder should contain `Start-OpenSci.cmd`, `config`, `scripts` and this handbook. If those files are inside a second nested folder, that inner folder is the installation folder.
+Open the [OpenSci downloads page](https://github.com/yanboyang97/OpenSci/releases), expand **Assets** for version 1.1.0, and download **OpenSci-1.1.0.zip**, the runtime package. The Plugin and MCP packages are for assistant integration later. Extract the runtime archive into a new folder. This guide uses `C:\OpenSci`; the folder should contain `Start-OpenSci.cmd`, `config`, `scripts` and this handbook. If those files are inside a second nested folder, that inner folder is the installation folder.
 
 Use a separate folder, `C:\OpenSci-Data`, for your research records. In File Explorer, create a `config` folder inside it. You can choose different writable locations; replace both example paths consistently throughout setup. Keep any existing records in place rather than overwriting them.
 

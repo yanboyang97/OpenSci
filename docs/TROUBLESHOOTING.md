@@ -79,3 +79,9 @@ Record the code version/commit, OS/Python version, entry and arguments, expected
 | Word waiting_local | Continue the prepared task in an observed native plugin session, then verify saved fields |
 
 See the [literature guide](LITERATURE.md). A successful local API probe does not establish Connector or model readiness.
+
+## Background connection and runtime updates
+
+Use [connection status and recovery](PLUGINS.md#optional-remember-the-key-and-connect-in-the-background-windows) for saved-key mode. Closing its menu does not stop the worker. `ready: false` is not a successful connection; check expiry, permissions, network and the local log. `attention_required` means the bounded worker stopped or exhausted its launch attempts. Stop and inspect before starting another client.
+
+For an update conflict, preserve the custom file and read `plan.json`; do not delete local data or refresh the old checksum manifest to force acceptance. For an interrupted update, keep writers stopped and use the saved `transaction.json` through [update recovery](../UPDATING.md#interrupted-update). A full-folder restore always requires a new destination. Verify the [complete backup checklist](../BACKUP_AND_MIGRATION.md#before-every-upgrade-full-folder-backup) before trying again.
