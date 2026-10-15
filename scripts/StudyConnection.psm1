@@ -172,8 +172,8 @@ function Stop-ConnectionBackground {
 }
 
 function Get-ProcessRecord {
-    param($Process)
-    @{ id=$Process.Id; started_utc=$Process.StartTime.ToUniversalTime().ToString('o'); path=$Process.Path }
+    param($Process,[string]$ExecutablePath=$Process.Path)
+    @{ id=$Process.Id; started_utc=$Process.StartTime.ToUniversalTime().ToString('o'); path=$ExecutablePath }
 }
 
 function Invoke-ConnectionWorker {
@@ -209,7 +209,9 @@ function Invoke-ConnectionWorker {
                 if ($null -eq $InteractiveKey) { $key.Dispose() }; $key=$null
             }
             $child.BeginOutputReadLine(); $child.BeginErrorReadLine()
-            $state.client=Get-ProcessRecord $child; $state.phase='running'; $state.updated_utc=[DateTime]::UtcNow.ToString('o')
+            # MainModule/Path can be unavailable just after launch. Bind the child to
+            # the verified executable we actually started, then recheck it when used.
+            $state.client=Get-ProcessRecord $child $Context.Config.client; $state.phase='running'; $state.updated_utc=[DateTime]::UtcNow.ToString('o')
             Write-ConnectionJson $Context.State $state
             while (-not $child.WaitForExit(1000)) { if (Test-Path -LiteralPath $Context.Stop) { break } }
             if (Test-Path -LiteralPath $Context.Stop) { break }
