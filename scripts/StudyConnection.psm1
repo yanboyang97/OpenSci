@@ -105,7 +105,8 @@ function Get-OwnedConnectionProcess {
     if ($null -eq $Record) { return $null }
     try {
         $process=Get-Process -Id ([int]$Record.id) -ErrorAction Stop
-        if ($process.StartTime.ToUniversalTime().ToString('o') -eq $Record.started_utc -and $process.Path -eq $Record.path) { return $process }
+        # PowerShell 7 can deserialize an ISO date as DateTime; 5.1 keeps a string.
+        if ($process.StartTime.ToUniversalTime().Ticks -eq ([DateTimeOffset]$Record.started_utc).UtcDateTime.Ticks -and $process.Path -eq $Record.path) { return $process }
     } catch { }
     return $null
 }
